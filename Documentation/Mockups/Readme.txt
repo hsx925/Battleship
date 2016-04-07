@@ -1,0 +1,1 @@
+All mockups and UI sketches has to be placed in this folder.

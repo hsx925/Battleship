@@ -1,0 +1,1 @@
+All diagrams (e.g UML) has to be placed in this folder in orignal format and as pdf.
