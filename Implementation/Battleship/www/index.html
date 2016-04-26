@@ -6,44 +6,136 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <!-- Include jQuery Mobile stylesheets -->
         <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-        <!-- Include the jQuery library -->
-        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-        <!-- Include the jQuery Mobile library -->
-        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <title>Battleship</title>
     </head>
     <body>
-    <div data-role="page" id="pageone">
-        <div data-role="header">
-            <h1>Insert Page Title Here</h1>
+    <!-- Main menu ###################################################################################-->
+
+    <div data-role="page" id="main-menu">
+
+        <div data-role="header"></div>
+
+        <div data-role="navbar">
+            <ul>
+                <li></li>
+                <li class="logo ui-btn-inline"></li>
+                <li><a class="playButtonMain ui-btn ui-btn-inline" href="#placeShips">PLAY</a></li>
+            </ul>
         </div>
 
         <div data-role="main" class="ui-content">
-            <p>Insert Content Here</p>
+
+            <div class="ui-grid-c">
+                <div class="ui-block-a">
+                    <div class="headlineMain">Choose your <br/>mode</div>
+                    <div class="ui-bar ui-bar-a blueButton mainButton">Single Player</div>
+                    <div class="ui-bar ui-bar-a blueButton mainButton">Bluetooth</div>
+                </div>
+                <div class="ui-block-b">
+                    <div class="headlineMain">Choose the <br/>difficutly level</div>
+                    <div class="ui-bar ui-bar-a blueButton mainButton">Easy</div>
+                    <div class="ui-bar ui-bar-a blueButton mainButton">Medium</div>
+                    <div class="ui-bar ui-bar-a blueButton mainButton">Hard</div>
+                </div>
+                <div class="ui-block-c">
+                    <div class="headlineMain">Choose how many <br/>ships you want</div>
+                    <div class="ui-bar ui-bar-a blueButton mainButton">Standard (1-4)</div>
+                    <div class="ui-bar ui-bar-a greyButton mainButton">Big Ships (2-5)</div>
+                    <div class="ui-bar ui-bar-a greyButton mainButton">Good-for-you</div>
+                    <div class="ui-bar ui-bar-a greyButton mainButton">One-Ship-Only</div>
+
+                </div>
+                <div class="ui-block-d">
+                    <div class="headlineMain">Choose your <br/>battlefield</div>
+                    <div class="ui-bar ui-bar-a blueButton mainButton">Standard (10x10)</div>
+                    <div class="ui-bar ui-bar-a greyButton mainButton">Easy (1x1)</div>
+                    <div class="ui-bar ui-bar-a greyButton mainButton">Evil (50x50)</div>
+
+                </div>
+            </div><!-- /grid-c -->
         </div>
 
-        <div data-role="footer">
-            <h1>Insert Footer Text Here</h1>
-        </div>
+        <div data-role="footer"></div>
+
     </div>
 
-    <div data-role="page" id="pagetwo">
-        <div data-role="header">
-            <h1>Insert Page Title Here</h1>
+    <!-- Place Ships ###################################################################################-->
+
+    <div data-role="page" id="placeShips">
+        <div data-role="navbar">
+            <ul>
+                <li class="logoSubSite logo ui-btn-inline"></li>
+                <li></li>
+                <li class="ad"> Place your ads here </li>
+            </ul>
+        </div>
+        <div data-role="header"></div>
+
+        <div data-role="main" class="ui-content">
+            <a class="playButtonMain ui-btn ui-btn-inline ui-block-c" href="#main-menu">FIGHT</a>
+        </div>
+
+        <div data-role="footer"></div>
+    </div>
+
+
+    <!-- WIN SCREEN ###################################################################################-->
+
+    <div data-role="page" id="won">
+
+        <div data-role="header"></div>
+
+        <div data-role="navbar">
+            <ul>
+                <li class="logoWinLoose logo ui-btn-inline"></li>
+                <li> </li>
+                <li></li>
+            </ul>
         </div>
 
         <div data-role="main" class="ui-content">
-            <p>Insert Content Here</p>
+            <p id="wonText">
+                YOU WON!
+            </p>
+            <div class="ui-grid-c">
+                <a class="playButtonMain winButton ui-btn ui-btn-inline" href="#main-menu">PLAY AGAIN</a>
+            </div>
         </div>
 
-        <div data-role="footer">
-            <h1>Insert Footer Text Here</h1>
-        </div>
+        <div data-role="footer"></div>
     </div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+
+
+    <!-- Loose SCREEN ###################################################################################-->
+
+    <div data-role="page" id="lost">
+
+        <div data-role="header"></div>
+
+        <div data-role="navbar">
+            <ul>
+                <li class="logoWinLoose logo ui-btn-inline"></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <p id="looseText">
+                You lost...
+            </p>
+            <div class="ui-grid-c">
+                <a class="playButtonMain winButton ui-btn ui-btn-inline" href="#main-menu">PLAY AGAIN</a>
+            </div>
+        </div>
+
+        <div data-role="footer"></div>
+    </div>
     </body>
 </html>

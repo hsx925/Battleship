@@ -1,3 +1,39 @@
+@font-face {
+    font-family: 'oswaldbold';
+    src: url('../font/oswald-bold-webfont.eot');
+    src: url('../font/oswald-bold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/oswald-bold-webfont.woff2') format('woff2'),
+    url('../font/oswald-bold-webfont.woff') format('woff'),
+    url('../font/oswald-bold-webfont.ttf') format('truetype'),
+    url('../font/oswald-bold-webfont.svg#oswaldbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'oswaldlight';
+    src: url('../font/oswald-light-webfont.eot');
+    src: url('../font/oswald-light-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/oswald-light-webfont.woff2') format('woff2'),
+    url('../font/oswald-light-webfont.woff') format('woff'),
+    url('../font/oswald-light-webfont.ttf') format('truetype'),
+    url('../font/oswald-light-webfont.svg#oswaldlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'oswaldregular';
+    src: url('../font/oswald-regular-webfont.eot');
+    src: url('../font/oswald-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/oswald-regular-webfont.woff2') format('woff2'),
+    url('../font/oswald-regular-webfont.woff') format('woff'),
+    url('../font/oswald-regular-webfont.ttf') format('truetype'),
+    url('../font/oswald-regular-webfont.svg#oswaldregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -27,25 +63,156 @@ body {
     width:100%;
 }
 
-h1 {
-    font-size:24px;
-    font-weight:normal;
-    margin:0px;
-    overflow:visible;
-    padding:0px;
-    text-align:center;
+/*main menu styles #############################*/
+
+#main-menu {
+    width: 100%;
+    background-image: url("../img/mainmenu_bg.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
 }
 
-@keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+.ui-header {
+    border: none !important;
+    background-color: #613100 !important;
+    min-height: 2em !important;
+    margin-bottom: 3%;
 }
- 
-@-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
-}
- 
 
+.playButtonMain {
+    background-color: #003062 !important;
+    width: 20%;
+    float: right;
+    position: relative;
+    margin-top: 3% !important;
+    margin-right: 20% !important;
+    color: white !important;
+
+}
+
+.logo {
+    background-image: url("../img/mainmenu_logo.png");
+    height: 50px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.headlineMain {
+    color: #003062;
+    font-size: 13px;
+    padding-left: 5%;
+    padding-bottom: 5%;
+    letter-spacing: 0.01em;
+    font-family: 'oswaldbold', sans-serif;
+}
+
+.mainButton {
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 10% 0 10% 8%;
+    margin: 1%;
+    color: white;
+    font-size: 13px;
+    text-transform: none;
+    font-family: 'oswaldlight', sans-serif;
+    letter-spacing: 0.06em;
+}
+
+.blueButton {
+    background-image: url("../img/mainmenue_blueButton.png");
+}
+
+.blueButton:hover {
+    background-image: url("../img/mainmenue_brownButton.png");
+}
+
+.greyButton {
+    background-image: url("../img/mainmenue_greyButton.png");
+    position: relative;
+    z-index: 0;
+}
+
+.questionMark {
+    background-image: url("../img/mainmenu_questionMarkButton.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    margin: -20% 0 0 70%;
+    z-index: 2;
+
+}
+
+.ui-bar-a {
+    background-color: white !important;
+    border: none !important;
+}
+
+.ui-content {
+    padding-bottom: 2%;
+    padding-top: 3%;
+}
+
+.ui-footer {
+    border: none !important;
+    background-color: #613100 !important;
+    min-height: 1.3em !important;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+/* STYLES place ships ################################*/
+
+.logoSubSite {
+    background-image: url("../img/battle_logo.png");
+    height: 20px;
+    margin: 3% !important;
+    width: 27.3% !important;
+}
+
+.ad {
+    background-color: lightgrey;
+    padding: 3.5% 3% !important;
+}
+
+#placeShips .ui-header {
+    min-height: 1em !important;
+}
+
+/* STYLES WIN / LOOSE */
+
+#won, #lost {
+    width: 100%;
+    background-image: url("../img/mainmenu_bg.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+}
+
+.logoWinLoose {
+
+    background-image: url("../img/winScreen_logo.png");
+    height: 25px;
+    margin-left: 5% !important;
+    width: 27.3% !important;
+}
+
+#wonText {
+    font-size: 65px;
+    color: #003062;
+    text-align: center;
+    margin: 6%;
+}
+
+.winButton {
+    margin-right: 3% !important;
+}
+
+#looseText {
+    font-size: 45px;
+    color: #003062;
+    text-align: center;
+    margin: 8%;
+}

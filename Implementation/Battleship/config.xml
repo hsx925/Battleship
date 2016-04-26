@@ -8,6 +8,7 @@
         Development Team
     </author>
     <content src="index.html" />
+    <preference name="Orientation" value="landscape" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
