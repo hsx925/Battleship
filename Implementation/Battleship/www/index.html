@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- Secure against XSS, extend when loading external files-->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; script-src 'self' https://code.jquery.com; style-src 'self' 'unsafe-inline' https://code.jquery.com; media-src *">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com https://code.jquery.com 'unsafe-eval'; script-src 'self' https://code.jquery.com; style-src 'self' 'unsafe-inline' https://code.jquery.com; media-src *">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -12,62 +12,61 @@
         <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/battlefield.js"></script>
         <title>Battleship</title>
     </head>
     <body>
-    <!-- Main menu ###################################################################################-->
+
+    <!-- Main menu #################################################################################################-->
 
     <div data-role="page" id="main-menu">
-
         <div data-role="header"></div>
-
         <div data-role="navbar">
             <ul>
                 <li></li>
                 <li class="logo ui-btn-inline"></li>
-                <li><a class="playButtonMain ui-btn ui-btn-inline" href="#placeShips">PLAY</a></li>
+                <li><a class="playButtonMain ui-btn ui-btn-inline" href="#placeships">PLAY</a></li>
             </ul>
         </div>
 
         <div data-role="main" class="ui-content">
-
             <div class="ui-grid-c">
                 <div class="ui-block-a">
                     <div class="headlineMain">Choose your <br/>mode</div>
-                    <div class="ui-bar ui-bar-a blueButton mainButton">Single Player</div>
-                    <div class="ui-bar ui-bar-a blueButton mainButton">Bluetooth</div>
+                    <div class="blueButton mainButton">Single Player</div>
+                    <div class="blueButton mainButton">Bluetooth</div>
                 </div>
                 <div class="ui-block-b">
                     <div class="headlineMain">Choose the <br/>difficutly level</div>
-                    <div class="ui-bar ui-bar-a blueButton mainButton">Easy</div>
-                    <div class="ui-bar ui-bar-a blueButton mainButton">Medium</div>
-                    <div class="ui-bar ui-bar-a blueButton mainButton">Hard</div>
+                    <div class="blueButton mainButton">Easy</div>
+                    <div class="blueButton mainButton">Medium</div>
+                    <div class="blueButton mainButton">Hard</div>
                 </div>
                 <div class="ui-block-c">
                     <div class="headlineMain">Choose how many <br/>ships you want</div>
-                    <div class="ui-bar ui-bar-a blueButton mainButton">Standard (1-4)</div>
-                    <div class="ui-bar ui-bar-a greyButton mainButton">Big Ships (2-5)</div>
-                    <div class="ui-bar ui-bar-a greyButton mainButton">Good-for-you</div>
-                    <div class="ui-bar ui-bar-a greyButton mainButton">One-Ship-Only</div>
-
+                    <div class="blueButton mainButton">Standard (1-4)</div>
+                    <div class="greyButton mainButton">Big Ships (2-5)</div>
+                    <div class="greyButton mainButton">Good-for-you</div>
+                    <div class="greyButton mainButton">One-Ship-Only</div>
                 </div>
                 <div class="ui-block-d">
                     <div class="headlineMain">Choose your <br/>battlefield</div>
-                    <div class="ui-bar ui-bar-a blueButton mainButton">Standard (10x10)</div>
-                    <div class="ui-bar ui-bar-a greyButton mainButton">Easy (1x1)</div>
-                    <div class="ui-bar ui-bar-a greyButton mainButton">Evil (50x50)</div>
-
+                    <div class="blueButton mainButton">Standard (10x10)</div>
+                    <div class="greyButton mainButton">Easy (1x1)</div>
+                    <div class="greyButton mainButton">Evil (50x50)</div>
                 </div>
             </div><!-- /grid-c -->
+            <div id="achievements"></div>
+            <div id="in-app"></div>
         </div>
 
         <div data-role="footer"></div>
 
     </div>
 
-    <!-- Place Ships ###################################################################################-->
+    <!-- Place Ships ##############################################################################################-->
 
-    <div data-role="page" id="placeShips">
+    <div data-role="page" id="placeships">
         <div data-role="navbar">
             <ul>
                 <li class="logoSubSite logo ui-btn-inline"></li>
@@ -78,7 +77,62 @@
         <div data-role="header"></div>
 
         <div data-role="main" class="ui-content">
-            <a class="playButtonMain ui-btn ui-btn-inline ui-block-c" href="#main-menu">FIGHT</a>
+            <div class="placeShipsContainer">
+                <div class="placeShipsContainerBF">
+                    <div class="battlefieldContainer">
+                        <div class="battlefieldHeadline">Place your ships</div>
+                        <div class="battlefield" id="placeShipsBattlefield"></div>
+                    </div>
+                </div>
+                <div class="placeShipsContainerShips">
+                    <div class="shipContainer">
+                        &nbsp;
+                    </div>
+                    <div class="shipControls">
+                        <div class="shipControl">Auto</div>
+                        <div class="shipControl">Rotate</div>
+                    </div>
+                    <a class="fightButton" href="#battle">Fight</a>
+
+                </div>
+            </div>
+            <!--<a class="playButtonMain ui-btn ui-btn-inline ui-block-c" href="#main-menu">FIGHT</a>-->
+        </div>
+
+        <div data-role="footer"></div>
+    </div>
+
+    <!-- Battle ###################################################################################################-->
+
+    <div data-role="page" id="battle">
+        <div data-role="navbar">
+            <ul>
+                <li class="logoSubSite logo ui-btn-inline"></li>
+                <li></li>
+                <li class="ad"> Place your ads here </li>
+            </ul>
+        </div>
+        <div data-role="header"></div>
+
+        <div data-role="main" class="ui-content">
+            <div class="battleContainer">
+                <div class="battleContainerUser">
+                    <div class="battlefieldContainer">
+                        <div><span class="battlefieldHeadline">Your ships</span><span class="battleTime">Time: 25s</span></div>
+                        <div class="battlefield" id="battleBattlefieldUser"></div>
+                    </div>
+                </div>
+                <div class="battleContainerControls">
+                    <a class="shootButton" href="#won">&nbsp;</a>
+                </div>
+                <div class="battleContainerEnemy">
+                    <div class="battlefieldContainer">
+                        <div class="battlefieldHeadline">Enemy ships</div>
+                        <div class="battlefield" id="battleBattlefieldEnemy"></div>
+                    </div>
+                </div>
+            </div>
+            <!--<a class="playButtonMain ui-btn ui-btn-inline ui-block-c" href="#main-menu">FIGHT</a>-->
         </div>
 
         <div data-role="footer"></div>
@@ -104,7 +158,7 @@
                 YOU WON!
             </p>
             <div class="ui-grid-c">
-                <a class="playButtonMain winButton ui-btn ui-btn-inline" href="#main-menu">PLAY AGAIN</a>
+                <a class="playButtonMain winLooseButton ui-btn ui-btn-inline" href="#main-menu">PLAY AGAIN</a>
             </div>
         </div>
 
@@ -131,7 +185,7 @@
                 You lost...
             </p>
             <div class="ui-grid-c">
-                <a class="playButtonMain winButton ui-btn ui-btn-inline" href="#main-menu">PLAY AGAIN</a>
+                <a class="playButtonMain winLooseButton ui-btn ui-btn-inline" href="#main-menu">PLAY AGAIN</a>
             </div>
         </div>
 
