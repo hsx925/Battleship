@@ -306,7 +306,7 @@ body {
 /* place ships  and battle page styles #########################################################################################*/
 
 
-#placeShips .ui-navbar, #battle .ui-navbar {
+#placeships .ui-navbar, #battle .ui-navbar {
     height: 13vh !important;
     width: 100%;
 }
@@ -328,17 +328,18 @@ body {
     float: right;
 }
 
-#placeShips .ui-header, #battle .ui-header {
+#placeships .ui-header, #battle .ui-header {
     height: 1.5em !important;
     max-height: 2vh !important;
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
+    marign-top: 0 !important;
 }
 
-#placeShips  .ui-content, #battle .ui-content {
+#placeships  .ui-content, #battle .ui-content {
     height: 75vh;
 }
 
-#placeShips .ui-footer, #battle .ui-footer {
+#placeships .ui-footer, #battle .ui-footer {
     height: 1.5em !important;
     max-height: 2vh !important;
 }
