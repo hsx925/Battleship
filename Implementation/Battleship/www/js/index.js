@@ -1,29 +1,36 @@
 
-var app = {
-    // Application Constructor
+var BATTLESHIP = BATTLESHIP || {};
+
+BATTLESHIP.app = {
+
     initialize: function() {
         this.bindEvents();
     },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
+
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        $(document).ready(this.onDocumentReady);
     },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
 
-        console.log('Received Event: ' + id);
+    onDocumentReady: function() {
+        // add listener and stuff which should be executed after DOM is complete
+        console.log('documentready');
+        BATTLESHIP.menuController.initialize();
+        BATTLESHIP.placeshipsController.initialize();
+        BATTLESHIP.battleController.initialize();
+        BATTLESHIP.winLooseController.initialize();
+
+        //TODO remove after implementing controller for placeships and battle pages
+        new BATTLESHIP.Battlefield($("#placeShipsBattlefield"), 10);
+        new BATTLESHIP.Battlefield($("#battleBattlefieldUser"), 10);
+        new BATTLESHIP.Battlefield($("#battleBattlefieldEnemy"), 20);
+    },
+
+    onDeviceReady: function() { //trigger after document ready ;)
+        // add stuff from cordova plugins
+        console.log('deviceready');
     }
+
 };
 
-app.initialize();
+BATTLESHIP.app.initialize();
