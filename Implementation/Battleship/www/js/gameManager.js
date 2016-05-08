@@ -1,28 +1,36 @@
 var BATTLESHIP = BATTLESHIP || {};
 
 BATTLESHIP.GameType = {
-    SINGLEPLAYER : "singleplayer",
-    NETWORKPLAYER : "networkplayer"
+    SINGLEPLAYER: "singleplayer",
+    NETWORKPLAYER: "networkplayer"
 }
 
-BATTLESHIP.DifficultyAI ={
-    EASY : "easy",
-    NORMAL : "normal",
-    HARD : "hard"
-}
+BATTLESHIP.DifficultyAI = {
+    EASY: "easy",
+    NORMAL: "normal",
+    HARD: "hard"
+};
 
 BATTLESHIP.FleetType = {
-    STANDARD : "standard",
-    BIGSHIPS : "bigships",
-    GOODFORYOU : "goodforyou",
-    ONESHIP : "oneship"
-}
+    STANDARD: "standard",
+    BIGSHIPS: "bigships",
+    GOODFORYOU: "goodforyou",
+    ONESHIP: "oneship"
+};
 
 BATTLESHIP.BattlefieldType = {
-    STANDARD : 10,
-    EASY : 1,
-    HARD : 20
-}
+    STANDARD: 10,
+    EASY: 5,
+    HARD: 20
+};
+
+BATTLESHIP.InAppPurchase = {
+    BIGSHIPS: false,
+    GFY: false,
+    OSO: false,
+    EASYFIELD: false,
+    EVILFIELD: false
+};
 
 BATTLESHIP.GameManager = function () {
     this.gameType = BATTLESHIP.GameType.SINGLEPLAYER;

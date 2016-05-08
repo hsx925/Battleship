@@ -2,17 +2,14 @@
 var BATTLESHIP = BATTLESHIP || {};
 
 BATTLESHIP.app = {
-
-    initialize: function() {
+    initialize: function () {
         this.bindEvents();
     },
-
-    bindEvents: function() {
+    bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         $(document).ready(this.onDocumentReady);
     },
-
-    onDocumentReady: function() {
+    onDocumentReady: function () {
         // add listener and stuff which should be executed after DOM is complete
         console.log('documentready');
         BATTLESHIP.menuController.initialize();
@@ -25,10 +22,9 @@ BATTLESHIP.app = {
         new BATTLESHIP.Battlefield($("#battleBattlefieldUser"), 10);
         new BATTLESHIP.Battlefield($("#battleBattlefieldEnemy"), 20);
     },
-
-    onDeviceReady: function() { //trigger after document ready ;)
+    onDeviceReady: function () { //trigger after document ready ;)
         // add stuff from cordova plugins
-        console.log('deviceready');
+        console.log('deviceready_test');
     }
 
 };

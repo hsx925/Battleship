@@ -2,10 +2,10 @@
     font-family: 'oswaldbold';
     src: url('../font/oswald-bold-webfont.eot');
     src: url('../font/oswald-bold-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/oswald-bold-webfont.woff2') format('woff2'),
-    url('../font/oswald-bold-webfont.woff') format('woff'),
-    url('../font/oswald-bold-webfont.ttf') format('truetype'),
-    url('../font/oswald-bold-webfont.svg#oswaldbold') format('svg');
+        url('../font/oswald-bold-webfont.woff2') format('woff2'),
+        url('../font/oswald-bold-webfont.woff') format('woff'),
+        url('../font/oswald-bold-webfont.ttf') format('truetype'),
+        url('../font/oswald-bold-webfont.svg#oswaldbold') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -14,10 +14,10 @@
     font-family: 'oswaldlight';
     src: url('../font/oswald-light-webfont.eot');
     src: url('../font/oswald-light-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/oswald-light-webfont.woff2') format('woff2'),
-    url('../font/oswald-light-webfont.woff') format('woff'),
-    url('../font/oswald-light-webfont.ttf') format('truetype'),
-    url('../font/oswald-light-webfont.svg#oswaldlight') format('svg');
+        url('../font/oswald-light-webfont.woff2') format('woff2'),
+        url('../font/oswald-light-webfont.woff') format('woff'),
+        url('../font/oswald-light-webfont.ttf') format('truetype'),
+        url('../font/oswald-light-webfont.svg#oswaldlight') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -26,10 +26,10 @@
     font-family: 'oswaldregular';
     src: url('../font/oswald-regular-webfont.eot');
     src: url('../font/oswald-regular-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/oswald-regular-webfont.woff2') format('woff2'),
-    url('../font/oswald-regular-webfont.woff') format('woff'),
-    url('../font/oswald-regular-webfont.ttf') format('truetype'),
-    url('../font/oswald-regular-webfont.svg#oswaldregular') format('svg');
+        url('../font/oswald-regular-webfont.woff2') format('woff2'),
+        url('../font/oswald-regular-webfont.woff') format('woff'),
+        url('../font/oswald-regular-webfont.ttf') format('truetype'),
+        url('../font/oswald-regular-webfont.svg#oswaldregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -52,7 +52,7 @@ body {
         left bottom,
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
-    );
+        );
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -142,6 +142,12 @@ body {
     color: white !important;
 }
 
+
+.playButtonMainGrey {
+    background-color: darkgrey !important;
+}
+
+
 .logo {
     background-image: url("../img/mainmenu_logo.png");
     height: 10vh;
@@ -157,6 +163,13 @@ body {
     padding-bottom: 5%;
     letter-spacing: 0.01em;
     font-family: 'oswaldbold', sans-serif;
+}
+
+.greyFont {
+    color: grey;
+}
+.hide {
+    display: none;
 }
 
 .mainButton {
@@ -175,12 +188,22 @@ body {
     background-image: url("../img/mainmenue_blueButton.png");
 }
 
+.brownButton {
+    background-image: url("../img/mainmenue_brownButton.png");
+}
+
 .blueButton:hover {
     background-image: url("../img/mainmenue_brownButton.png");
 }
 
-.greyButton {
+.greyButtonBuy {
     background-image: url("../img/mainmenue_greyButton.png");
+    position: relative;
+    z-index: 0;
+}
+
+.greyButton {
+    background-image: url("../img/mainmenue_greyButton_without.png");
     position: relative;
     z-index: 0;
 }
@@ -197,29 +220,83 @@ body {
 #achievements{
     background-image: url("../img/mainmenu_achievement_button.png");
     background-size: contain;
-    width: 100%;
-    height: 30px;
+    width: 5.5%;
+    height: 9vh;
     background-repeat: no-repeat;
     margin-right: 5%;
     position: absolute;
     bottom: 6%;
     left: 4%;
-    z-index: 3;
+    z-index: 6;
 
 }
 
-#in-app{
+#inApp{
     background-image: url("../img/mainmenu_in-app-purchase_button.png");
-    width: 75%;
-    height: 30px;
+    width: 9%;
+    height: 9vh;
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
+    z-index: 3;
     bottom: 6%;
     left: 10%;
 
 }
 
+.overlay {
+    background-color: rgba(255,255,255,0.95);
+    height: 50vh;
+    width: 80%;
+    margin: 0 auto;
+    color: #003062;
+    font-size: 10pt;
+    letter-spacing: 0.01em;
+    font-family: 'oswaldbold', sans-serif;
+    position: absolute;
+    z-index: 6;
+    text-align: center;
+    border: solid 8px #003062; /*#613100*/
+    left: 9.5%;
+    padding-top: 10%;
+    display: none;
+
+}
+
+#buyButtonOverlay > section {
+    display: none;
+}
+
+#buyButtonOverlay {
+    padding: 5% 5% 0 5%;
+    height: 60vh;
+    width: 70%;
+    left: 8.5%;
+
+
+}
+
+#buyButtonOverlay h1 {
+    margin-bottom: -5px;
+
+}
+
+.ui-grid-c {
+    z-index: 1;
+    position: relative;
+
+}
+
+.X {
+    float: right;
+    color: #613100;
+    font-size: 12pt;
+    position: fixed;
+    top: 14%;
+    left: 86%;
+    border: 2px solid #613100;
+    padding: 2px;
+}
 /*win loose page styles ############################################################################################*/
 
 #won, #lost {
