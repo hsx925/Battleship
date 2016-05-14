@@ -2,10 +2,10 @@
     font-family: 'oswaldbold';
     src: url('../font/oswald-bold-webfont.eot');
     src: url('../font/oswald-bold-webfont.eot?#iefix') format('embedded-opentype'),
-        url('../font/oswald-bold-webfont.woff2') format('woff2'),
-        url('../font/oswald-bold-webfont.woff') format('woff'),
-        url('../font/oswald-bold-webfont.ttf') format('truetype'),
-        url('../font/oswald-bold-webfont.svg#oswaldbold') format('svg');
+    url('../font/oswald-bold-webfont.woff2') format('woff2'),
+    url('../font/oswald-bold-webfont.woff') format('woff'),
+    url('../font/oswald-bold-webfont.ttf') format('truetype'),
+    url('../font/oswald-bold-webfont.svg#oswaldbold') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -14,10 +14,10 @@
     font-family: 'oswaldlight';
     src: url('../font/oswald-light-webfont.eot');
     src: url('../font/oswald-light-webfont.eot?#iefix') format('embedded-opentype'),
-        url('../font/oswald-light-webfont.woff2') format('woff2'),
-        url('../font/oswald-light-webfont.woff') format('woff'),
-        url('../font/oswald-light-webfont.ttf') format('truetype'),
-        url('../font/oswald-light-webfont.svg#oswaldlight') format('svg');
+    url('../font/oswald-light-webfont.woff2') format('woff2'),
+    url('../font/oswald-light-webfont.woff') format('woff'),
+    url('../font/oswald-light-webfont.ttf') format('truetype'),
+    url('../font/oswald-light-webfont.svg#oswaldlight') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -26,46 +26,46 @@
     font-family: 'oswaldregular';
     src: url('../font/oswald-regular-webfont.eot');
     src: url('../font/oswald-regular-webfont.eot?#iefix') format('embedded-opentype'),
-        url('../font/oswald-regular-webfont.woff2') format('woff2'),
-        url('../font/oswald-regular-webfont.woff') format('woff'),
-        url('../font/oswald-regular-webfont.ttf') format('truetype'),
-        url('../font/oswald-regular-webfont.svg#oswaldregular') format('svg');
+    url('../font/oswald-regular-webfont.woff2') format('woff2'),
+    url('../font/oswald-regular-webfont.woff') format('woff'),
+    url('../font/oswald-regular-webfont.ttf') format('truetype'),
+    url('../font/oswald-regular-webfont.svg#oswaldregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
 body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-        );
-    background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
-    height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
-    width:100%;
+    -webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color: #E4E4E4;
+    background-image: linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image: -webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image: -ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, #A7A7A7),
+            color-stop(0.51, #E4E4E4)
+    );
+    background-attachment: fixed;
+    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
+    width: 100%;
 }
 
 /*jQuery mobile styles ################################################################################################*/
 
-.ui-page{
+.ui-page {
     height: 100%;
     width: 100%;
 }
@@ -79,7 +79,7 @@ body {
     margin-bottom: 3vh;
 }
 
-.ui-navbar{
+.ui-navbar {
     height: 10vh !important;
     width: 100%;
 }
@@ -110,7 +110,7 @@ body {
     margin-bottom: 3vh;
 }
 
-#main-menu .ui-navbar{
+#main-menu .ui-navbar {
     height: 10vh !important;
     width: 100%;
 }
@@ -135,18 +135,27 @@ body {
 .playButtonMain {
     background-color: #003062 !important;
     height: 5vh;
-    width: 30%;
+    min-width: 30%;
     float: right;
     margin-bottom: 3vh !important;
     margin-right: 20% !important;
     color: white !important;
 }
 
+.playAgainButton {
+    background-color: #003062 !important;
+    height: 5vh;
+    min-width: 30%;
+    float: right;
+    margin-bottom: 3vh !important;
+    margin-right: 20% !important;
+    color: white !important;
+
+}
 
 .playButtonMainGrey {
     background-color: darkgrey !important;
 }
-
 
 .logo {
     background-image: url("../img/mainmenu_logo.png");
@@ -168,6 +177,7 @@ body {
 .greyFont {
     color: grey;
 }
+
 .hide {
     display: none;
 }
@@ -217,7 +227,7 @@ body {
     z-index: 2;
 }
 
-#achievements{
+#achievements {
     background-image: url("../img/mainmenu_achievement_button.png");
     background-size: contain;
     width: 5.5%;
@@ -231,7 +241,7 @@ body {
 
 }
 
-#inApp{
+#inApp {
     background-image: url("../img/mainmenu_in-app-purchase_button.png");
     width: 9%;
     height: 9vh;
@@ -245,7 +255,7 @@ body {
 }
 
 .overlay {
-    background-color: rgba(255,255,255,0.95);
+    background-color: rgba(255, 255, 255, 0.95);
     height: 50vh;
     width: 80%;
     margin: 0 auto;
@@ -273,7 +283,6 @@ body {
     width: 70%;
     left: 8.5%;
 
-
 }
 
 #buyButtonOverlay h1 {
@@ -292,11 +301,17 @@ body {
     color: #613100;
     font-size: 12pt;
     position: fixed;
-    top: 14%;
-    left: 86%;
+    top: 20vh;
+    left: 83%;
     border: 2px solid #613100;
     padding: 2px;
 }
+
+.ui-input-text {
+    margin-top: 5vh;
+    margin-left: 2vh;
+}
+
 /*win loose page styles ############################################################################################*/
 
 #won, #lost {
@@ -333,7 +348,7 @@ body {
 
 /* battlefield styles #############################################################################################*/
 
-.battlefieldContainer{
+.battlefieldContainer {
     padding-left: 5%;
     padding-right: 5%;
 }
@@ -346,7 +361,7 @@ body {
     font-family: 'oswaldbold', sans-serif;
 }
 
-.battlefield{
+.battlefield {
     display: flex;
     flex-direction: column;
     margin: 0px;
@@ -356,22 +371,22 @@ body {
     border: 1px solid #000000;
 }
 
-.battlefieldRow{
+.battlefieldRow {
     display: flex;
     flex: 1;
-    padding:0px;
-    margin:0px;
+    padding: 0px;
+    margin: 0px;
     width: 100%;
 }
 
-.battlefieldField{
+.battlefieldField {
     flex: 1;
     margin: 0;
     padding: 0;
     border: 1px solid #000000;
 }
 
-.battlefieldText{
+.battlefieldText {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -381,7 +396,6 @@ body {
 }
 
 /* place ships  and battle page styles #########################################################################################*/
-
 
 #placeships .ui-navbar, #battle .ui-navbar {
     height: 13vh !important;
@@ -412,7 +426,7 @@ body {
     marign-top: 0 !important;
 }
 
-#placeships  .ui-content, #battle .ui-content {
+#placeships .ui-content, #battle .ui-content {
     height: 75vh;
 }
 
@@ -423,13 +437,13 @@ body {
 
 /* place ships page styles #########################################################################################*/
 
-.placeShipsContainer{
+.placeShipsContainer {
     display: flex;
     width: 100%;
     height: 100%;
 }
 
-.placeShipsContainerBF{
+.placeShipsContainerBF {
     display: flex;
     flex: 1;
     height: 100%;
@@ -437,24 +451,24 @@ body {
     justify-content: center;
 }
 
-.placeShipsContainerShips{
+.placeShipsContainerShips {
     display: flex;
     flex: 1;
     flex-direction: column;
     height: 100%;
 }
 
-.shipContainer{
-    height:70%;
+.shipContainer {
+    height: 70%;
     width: 100%;
 }
 
-.shipControls{
+.shipControls {
     display: flex;
     height: 10%;
 }
 
-.shipControl{
+.shipControl {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -470,11 +484,11 @@ body {
     letter-spacing: 0.1em;
 }
 
-.shipControl:Hover{
+.shipControl:Hover {
     background-color: #003062 !important;
 }
 
-.fightButton{
+.fightButton {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -491,20 +505,19 @@ body {
     letter-spacing: 0.1em;
 }
 
-.fightButton:Hover{
+.fightButton:Hover {
     background-color: #613100 !important;
 }
 
-
 /* battle page styles ##############################################################################################*/
 
-.battleContainer{
+.battleContainer {
     display: flex;
     width: 100%;
     height: 100%;
 }
 
-.battleContainerUser, .battleContainerEnemy{
+.battleContainerUser, .battleContainerEnemy {
     display: flex;
     flex: 3;
     height: 100%;
@@ -512,7 +525,7 @@ body {
     justify-content: center;
 }
 
-.battleContainerControls{
+.battleContainerControls {
     display: flex;
     flex: 1;
     height: 100%;
@@ -520,16 +533,16 @@ body {
     justify-content: center;
 }
 
-.shootButton{
+.shootButton {
     width: 100%;
     height: 25%;
     background-position: center;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-size: contain;
     background-image: url("../img/battle_shootButton.png");
 }
 
-.battleTime{
+.battleTime {
     margin-left: 5%;
     font-size: 13pt;
     text-transform: none;
@@ -537,7 +550,7 @@ body {
     letter-spacing: 0.06em;
 }
 
-.infoText{
+.infoText {
     margin-left: 5%;
     font-size: 13pt;
     font-style: italic;
