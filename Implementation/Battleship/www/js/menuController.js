@@ -104,8 +104,6 @@ BATTLESHIP.menuController = {
     },
 
     beforeStart: function () {
-         BATTLESHIP.gameManager = new BATTLESHIP.GameManager(); //create new game on loading menu page
-        
         //sets mainmenu back to default
         $('.brownButton').removeClass('brownButton');
         $('.playButtonMain').addClass('playButtonMainGrey');
