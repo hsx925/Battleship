@@ -25,7 +25,7 @@ BATTLESHIP.BattlefieldType = {
 };
 
 BATTLESHIP.InAppPurchase = {
-    BIGSHIPS: false,
+    BIGSHIPS: true,
     GFY: false,
     OSO: false,
     EASYFIELD: false,
