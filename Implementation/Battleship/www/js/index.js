@@ -18,7 +18,6 @@ BATTLESHIP.app = {
         BATTLESHIP.winLooseController.initialize();
 
         //TODO remove after implementing controller for placeships and battle pages
-        new BATTLESHIP.Battlefield($("#placeShipsBattlefield"), 10);
         new BATTLESHIP.Battlefield($("#battleBattlefieldUser"), 10);
         new BATTLESHIP.Battlefield($("#battleBattlefieldEnemy"), 20);
     },

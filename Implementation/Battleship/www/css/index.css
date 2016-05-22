@@ -386,6 +386,10 @@ body {
     border: 1px solid #000000;
 }
 
+.battlefieldFieldHovered{
+    background: #aaa;
+}
+
 .battlefieldText {
     display: flex;
     align-items: center;
@@ -459,8 +463,13 @@ body {
 }
 
 .shipContainer {
-    height: 70%;
+    margin-top: 15vh;
+    height: 50%;
     width: 100%;
+}
+
+.shipContainerRow {
+
 }
 
 .shipControls {
