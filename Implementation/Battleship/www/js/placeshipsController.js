@@ -22,8 +22,11 @@ BATTLESHIP.placeshipsController = {
         var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#placeShipsBattlefield"));
         $(".ship").each(function() {
             $(this).height(fieldSize-1);
+            var ship = BATTLESHIP.gameManager.humanPlayer.battlefield.getShipById($(this).attr("id"));
+            if(ship && ship.isSet){
+                $(this).position({ of: $('div[data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]'), my: 'left+1 top+1', at: 'left top' } );
+            }
         });
-        //TODO update position of ships on field
     },
 
     onPageBeforeShow: function() {
