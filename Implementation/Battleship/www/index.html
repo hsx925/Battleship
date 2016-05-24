@@ -198,10 +198,10 @@
                     &nbsp;
                 </div>
                 <div class="shipControls">
-                    <div class="shipControl">Auto</div>
-                    <div class="shipControl">Rotate</div>
+                    <div id="autoPlaceShips" class="shipControl">Auto</div>
+                    <div id="rotatePlaceShips" class="shipControl">Rotate</div>
                 </div>
-                <a class="fightButton" href="#battle">Fight</a>
+                <div id="fightButton" class="fightButton fightButtonDisabled">Fight</div>
 
             </div>
         </div>
@@ -225,20 +225,22 @@
 
     <div data-role="main" class="ui-content">
         <div class="battleContainer">
-            <div class="battleContainerUser">
+            <div class="battleContainerHuman">
                 <div class="battlefieldContainer">
-                    <div><span class="battlefieldHeadline">Your ships</span><span class="battleTime">Time: 25s</span>
+                    <div>
+                        <span class="battlefieldHeadline">Your ships</span><span class="battleTime">Time: 25s</span>
                     </div>
-                    <div class="battlefield" id="battleBattlefieldUser"></div>
+                    <div class="battlefield" id="battleBattlefieldHuman"></div>
                 </div>
             </div>
             <div class="battleContainerControls">
                 <a class="shootButton" href="#won">&nbsp;</a>
             </div>
             <div class="battleContainerEnemy">
-                        <span class="battlefieldContainer">
-                            <span class="battlefieldHeadline">Enemy ships</span>
-                            <div class="battlefield" id="battleBattlefieldEnemy"></div>
+                <div class="battlefieldContainer">
+                    <span class="battlefieldHeadline">Enemy ships</span>
+                    <div class="battlefield" id="battleBattlefieldEnemy"></div>
+                </div>
             </div>
         </div>
     </div>

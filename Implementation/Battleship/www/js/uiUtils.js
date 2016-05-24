@@ -31,31 +31,31 @@ BATTLESHIP.uiUtils = {
         return container.children().first().children().first().height();
     },
 
-    createFleet: function (container, fleet, height) {
+    createShips: function (container, ships, height) {
         container.empty();
         var arrX = new Array(), arrY = new Array();
         var x=0, y=0;
-        for(var i=0; i<fleet.length; i++){
-            switch (fleet[i]) {
+        for(var i=0; i<ships.length; i++){
+            switch (ships[i].size) {
                 case 1:
-                    arrX[x] = '<img src="img/battle_ship_1_blue.png" data-size="1" class="ship" height="' + height + '">';
+                    arrX[x] = '<img src="img/battle_ship_1_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
                     break;
                 case 2:
-                    arrX[x] = '<img src="img/battle_ship_2_blue.png" data-size="2" class="ship" height="' + height + '">';
+                    arrX[x] = '<img src="img/battle_ship_2_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
                     break;
                 case 3:
-                    arrX[x] = '<img src="img/battle_ship_3_blue.png" data-size="3" class="ship" height="' + height + '">';
+                    arrX[x] = '<img src="img/battle_ship_3_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
                     break;
                 case 4:
-                    arrX[x] = '<img src="img/battle_ship_4_blue.png" data-size="4" class="ship" height="' + height + '">';
+                    arrX[x] = '<img src="img/battle_ship_4_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
                     break;
                 case 5:
                     //TODO no ship image available yet
                     break;
             }
             ++x;
-            if(i===fleet.length-1||fleet[i+1]!==fleet[i]){
-                arrY[y]='<div class="shipRow">'+arrX.join("\r\n")+'</div>';
+            if(i===ships.length-1||ships[i+1].size!==ships[i].size){
+                arrY[y]='<div class="shipContainerRow">'+arrX.join("\r\n")+'</div>';
                 ++y;
                 x=0;
                 arrX = new Array();

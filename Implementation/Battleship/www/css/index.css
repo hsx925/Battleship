@@ -387,8 +387,13 @@ body {
 }
 
 .battlefieldFieldHovered{
-    background: #aaa;
+    background: #999;
 }
+
+.battlefieldFieldOccupied{
+    background: #bbb;
+}
+
 
 .battlefieldText {
     display: flex;
@@ -463,13 +468,21 @@ body {
 }
 
 .shipContainer {
-    margin-top: 15vh;
+    margin-top: 12vh;
     height: 50%;
     width: 100%;
 }
 
 .shipContainerRow {
+    height: 10vh;
+}
 
+.ship{
+    margin: 2%;
+}
+
+.shipRotated{
+    transform: rotate(90deg);
 }
 
 .shipControls {
@@ -493,7 +506,7 @@ body {
     letter-spacing: 0.1em;
 }
 
-.shipControl:Hover {
+.shipControlEnabled{
     background-color: #003062 !important;
 }
 
@@ -514,9 +527,10 @@ body {
     letter-spacing: 0.1em;
 }
 
-.fightButton:Hover {
-    background-color: #613100 !important;
+.fightButtonDisabled {
+    background-color: darkgrey !important;
 }
+
 
 /* battle page styles ##############################################################################################*/
 
@@ -526,7 +540,7 @@ body {
     height: 100%;
 }
 
-.battleContainerUser, .battleContainerEnemy {
+.battleContainerHuman, .battleContainerEnemy {
     display: flex;
     flex: 3;
     height: 100%;

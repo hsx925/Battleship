@@ -16,10 +16,6 @@ BATTLESHIP.app = {
         BATTLESHIP.placeshipsController.initialize();
         BATTLESHIP.battleController.initialize();
         BATTLESHIP.winLooseController.initialize();
-
-        //TODO remove after implementing controller for placeships and battle pages
-        new BATTLESHIP.Battlefield($("#battleBattlefieldUser"), 10);
-        new BATTLESHIP.Battlefield($("#battleBattlefieldEnemy"), 20);
     },
     onDeviceReady: function () { //trigger after document ready ;)
         // add stuff from cordova plugins
