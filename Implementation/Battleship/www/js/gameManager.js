@@ -12,10 +12,10 @@ BATTLESHIP.DifficultyAI = {
 };
 
 BATTLESHIP.FleetType = {
-    STANDARD: "standard",
-    BIGSHIPS: "bigships",
-    GOODFORYOU: "goodforyou",
-    ONESHIP: "oneship"
+    STANDARD: [4,3,3,2,2,2,1], //"standard",
+    BIGSHIPS: [5,4,4,3,3,3,2,2], //"bigships",
+    GOODFORYOU: [5], //"goodforyou",
+    ONESHIP: [1], //"oneship"
 };
 
 BATTLESHIP.BattlefieldType = {
@@ -40,7 +40,13 @@ BATTLESHIP.GameManager = function () {
 
     this.startGame = function () {
         console.log("gamemanager start game");
-        //TODO init players, battlefields and ships
+        if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER){
+            this.humanPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.HUMAN_LOCAL,this.battlefieldSize, this.fleet);
+            this.enemyPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.ENEMY_AI,this.battlefieldSize, this.fleet, this.difficultyAI);
+        }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
+            this.humanPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.HUMAN_NETWORK,this.battlefieldSize, this.fleet);
+            this.enemyPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.ENEMY_NETWORK,this.battlefieldSize, this.fleet);
+        }
     };
 
     this.startBattle = function () {
