@@ -1,0 +1,14 @@
+{
+  "name": "cpapi",
+  "version": "1.0.0",
+  "description": "Battleship API",
+  "main": "app.js",
+  "dependencies": {
+    "socket.io": "^1.4.6"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Konrad Deubler",
+  "license": "ISC"
+}
