@@ -57,6 +57,8 @@ BATTLESHIP.menuController = {
         $('.greyButtonBuy').removeClass('greyButton');
         $('.host').addClass('hide');
         $('.join').addClass('hide');
+        $('.network').addClass('hide');
+        $('.single').addClass('hide');
 
         $('.ui-block-b > .headlineMain').addClass('greyFont');
         $('.ui-block-c > .headlineMain').addClass('greyFont');
@@ -104,6 +106,10 @@ BATTLESHIP.menuController = {
     },
 
     beforeStart: function () {
+        BATTLESHIP.gameManager = new BATTLESHIP.GameManager(); //create new game on loading menu page
+
+     //TODO: show google login for authentification
+
         //sets mainmenu back to default
         $('.brownButton').removeClass('brownButton');
         $('.playButtonMain').addClass('playButtonMainGrey');
@@ -181,6 +187,16 @@ BATTLESHIP.menuController = {
 
         $('.playButtonMain').empty();
         $('.playButtonMain').html('Play');
+                
+                   $('.single > .mainButton').removeClass('brownButton');
+                
+         //checks the enabling of the play button
+           if( $('.single > .mainButton').hasClass('brownButton')) {
+                $('.playButtonMain').removeClass('playButtonMainGrey');
+                } else {
+                  $('.playButtonMain').addClass('playButtonMainGrey');   
+                                  }
+        
 
     },
     step1_network: function () {
@@ -200,8 +216,13 @@ BATTLESHIP.menuController = {
 
         $('.network > .mainButton').removeClass('brownButton');
 
-        //disable playButton
-        $('.playButtonMain').addClass('playButtonMainGrey');
+        //checks the enabling of the play button
+           if( $('.network > .mainButton').hasClass('brownButton')) {
+                $('.playButtonMain').removeClass('playButtonMainGrey');
+                } else {
+                  $('.playButtonMain').addClass('playButtonMainGrey');   
+                                  }
+        
 
     },
 
@@ -229,6 +250,13 @@ BATTLESHIP.menuController = {
         $('.playButtonMain').empty();
         $('.playButtonMain').html('Create Game');
 
+ //checks the enabling of the play button
+           if( $('.host > .mainButton').hasClass('brownButton')) {
+                $('.playButtonMain').removeClass('playButtonMainGrey');
+                } else {
+                  $('.playButtonMain').addClass('playButtonMainGrey');   
+                                  }
+
         if (inAppPurchaseDone === false) {
             $('.stdBtn').addClass('brownButton');
             $('.stdBtn').removeClass('greyButton');
@@ -240,6 +268,8 @@ BATTLESHIP.menuController = {
             //enable playButton
             $('.playButtonMain').removeClass('playButtonMainGrey');
         }
+        
+        
 
     },
 
@@ -255,6 +285,13 @@ BATTLESHIP.menuController = {
 
         $('.playButtonMain').empty();
         $('.playButtonMain').html('Join Game');
+        
+ //TODO: checks the ID and then enable the play button
+             // $('.playButtonMain').removeClass('playButtonMainGrey');   
+                               
+                  
+        //also for disabling the playButtonMain               
+$('.host > .mainButton').removeClass('brownButton');
 
 
     },
@@ -263,7 +300,7 @@ BATTLESHIP.menuController = {
     step2_easy: function () {
         if (!$('.easyBtn').hasClass('greyButton')) {
 
-            BATTLESHIP.DifficultyAI = "easy";
+         BATTLESHIP.gameManager.DifficultyAI = BATTLESHIP.DifficultyAI.EASY;
 
             $('.easyBtn').addClass('brownButton');
             $('.mediumBtn').removeClass('brownButton');
@@ -288,7 +325,7 @@ BATTLESHIP.menuController = {
 
         if (!$('.mediumBtn').hasClass('greyButton')) {
 
-            BATTLESHIP.DifficultyAI = "normal";
+         BATTLESHIP.gameManager.DifficultyAI = BATTLESHIP.DifficultyAI.NORMAL;
             $('.mediumBtn').addClass('brownButton');
             $('.easyBtn').removeClass('brownButton');
             $('.hardBtn').removeClass('brownButton');
@@ -315,7 +352,7 @@ BATTLESHIP.menuController = {
 
         if (!$('.hardBtn').hasClass('greyButton')) {
 
-            BATTLESHIP.DifficultyAI = "hard";
+          BATTLESHIP.gameManager.DifficultyAI = BATTLESHIP.DifficultyAI.HARD;
 
             $('.hardBtn').addClass('brownButton');
             $('.mediumBtn').removeClass('brownButton');
@@ -342,24 +379,26 @@ BATTLESHIP.menuController = {
 
     step3_input: function () {
         var filledInID;
+       
         if ($('input').val() != '') {
             filledInID = $('input').val();
 
             //check if id is correct!!!--------------------
 
             // -----------------
-
-            //if yes:
+//if yes:
             $('.playButtonMain').removeClass('playButtonMainGrey');
-        }
+       
+       }
+       
     },
 
 
     step3_std: function () {
         if (!$('.stdBtn').hasClass('greyButton')) {
 
-            BATTLESHIP.FleetType = "standard";
-
+             BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.STANDARD;
+             
             $('.stdBtn').addClass('brownButton');
 
             $('.osoBtn').removeClass('brownButton');
@@ -378,7 +417,7 @@ BATTLESHIP.menuController = {
     step3_bigShips: function () {
         if (BATTLESHIP.InAppPurchase.BIGSHIPS === true) {
             if (!$('.bigShipsBtn').hasClass('greyButton')) {
-                BATTLESHIP.FleetType = "bigships";
+             BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.BIGSHIPS;
 
                 $('.bigShipsBtn').addClass('brownButton');
 
@@ -390,7 +429,20 @@ BATTLESHIP.menuController = {
                 $('.ui-block-d > .headlineMain').removeClass('greyFont');
                 $('.ui-block-d > .mainButton').removeClass('greyButton');
                 $('.ui-block-d > .mainButton').addClass('blueButton');
-            }
+                
+                
+                //make easy field not possible
+                 $('.easyFieldBtn').removeClass('blueButton');
+                 $('.easyFieldBtn').addClass('greyButton');
+                   $('.easyFieldBtn').removeClass('brownButton');
+                
+                       //checks the enabling of the play button
+           if( $('.ui-block-d > .mainButton').hasClass('brownButton')) {
+                $('.playButtonMain').removeClass('playButtonMainGrey');
+                } else {
+                  $('.playButtonMain').addClass('playButtonMainGrey');   
+                                  }
+                            }
         } else {
             $('#buyButtonOverlay').show();
             $('#buyButtonOverlay > section').hide();
@@ -404,7 +456,7 @@ BATTLESHIP.menuController = {
     step3_gfy: function () {
         if (BATTLESHIP.InAppPurchase.GFY === true) {
             if (!$('.gfyBtn').hasClass('greyButton')) {
-                BATTLESHIP.FleetType = "goodforyou";
+            BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.GOODFORYOU;
 
                 $('.gfyBtn').addClass('brownButton');
 
@@ -416,7 +468,20 @@ BATTLESHIP.menuController = {
                 $('.ui-block-d > .headlineMain').removeClass('greyFont');
                 $('.ui-block-d > .mainButton').removeClass('greyButton');
                 $('.ui-block-d > .mainButton').addClass('blueButton');
-            }
+                
+                  //make easy field not possible
+                 $('.easyFieldBtn').removeClass('blueButton');
+                 $('.easyFieldBtn').addClass('greyButton');
+                 $('.easyFieldBtn').removeClass('brownButton');
+               
+                //checks the enabling of the play button
+           if( $('.ui-block-d > .mainButton').hasClass('brownButton')) {
+                $('.playButtonMain').removeClass('playButtonMainGrey');
+                } else {
+                  $('.playButtonMain').addClass('playButtonMainGrey');   
+                                  }
+               
+                         }
         } else {
 
             $('#buyButtonOverlay').show();
@@ -431,7 +496,7 @@ BATTLESHIP.menuController = {
     step3_oso: function () {
         if (BATTLESHIP.InAppPurchase.OSO === true) {
             if (!$('.osoBtn').hasClass('greyButton')) {
-                BATTLESHIP.FleetType = "goodforyou";
+                BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.ONESHIP;
 
                 $('.osoBtn').addClass('brownButton');
 
@@ -459,7 +524,7 @@ BATTLESHIP.menuController = {
     step4_stdField: function () {
         if (!$('.stdFieldBtn').hasClass('greyButton')) {
 
-            BATTLESHIP.BattlefieldType = 10;
+             BATTLESHIP.gameManager.BattlefieldType = BATTLESHIP.BattlefieldType.STANDARD;
 
             $('.stdFieldBtn').addClass('brownButton');
 
@@ -473,7 +538,7 @@ BATTLESHIP.menuController = {
         if (BATTLESHIP.InAppPurchase.EASYFIELD === true) {
             if (!$('.easyFieldBtn').hasClass('greyButton')) {
 
-                BATTLESHIP.BattlefieldType = 5;
+              BATTLESHIP.gameManager.BattlefieldType = BATTLESHIP.BattlefieldType.EASY;
                 $('.easyFieldBtn').addClass('brownButton');
 
                 $('.stdFieldBtn').removeClass('brownButton');
@@ -495,7 +560,7 @@ BATTLESHIP.menuController = {
     step4_evilField: function () {
         if (BATTLESHIP.InAppPurchase.EVILFIELD === true) {
             if (!$('.evilFieldBtn').hasClass('greyButton')) {
-                BATTLESHIP.BattlefieldType = 20;
+              BATTLESHIP.gameManager.BattlefieldType = BATTLESHIP.BattlefieldType.HARD;
                 $('.evilFieldBtn').addClass('brownButton');
 
                 $('.stdFieldBtn').removeClass('brownButton');
