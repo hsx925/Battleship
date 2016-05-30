@@ -72,9 +72,9 @@ BATTLESHIP.Battlefield = function (size, ships) {
         this.removeAllShips();
         var i = 0; //ship iterator
         var n = 0; //limiter iterator for tries
-        while (n < 1000) {
-            var coordinates = this._getRandomCoordinates();
-            var direction = this._getRandomDirection();
+        while (n < 1000) { //TODO remove magic numbers
+            var coordinates = this.getRandomCoordinates();
+            var direction = this._getRandomShipDirection();
             if (this.setShip(this.ships[i], coordinates, direction)) {
                 if (this.allShipsSet()) {
                     break;
@@ -90,7 +90,7 @@ BATTLESHIP.Battlefield = function (size, ships) {
         return false;
     };
 
-    this._getRandomCoordinates=function () {
+    this.getRandomCoordinates=function () {
         var x= this._getRandomCoordinate();
         var y= this._getRandomCoordinate();
         return {x:x, y:y};
@@ -100,7 +100,7 @@ BATTLESHIP.Battlefield = function (size, ships) {
         return Math.floor((Math.random() * this.size-1) + 1);
     }
 
-    this._getRandomDirection=function () {
+    this._getRandomShipDirection=function () {
         if(Math.random()<.5){
             return BATTLESHIP.ShipDirection.HORIZONTAL;
         }

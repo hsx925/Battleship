@@ -14,13 +14,53 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onPlaceShips
     this.onFieldFireCallback=onFieldFireCallback;
     this.onLooseCallback=onLooseCallback;
 
+    this._setShips();
+
+    //############################
+    // AI
+    //############################
+
+    this._setShips=function () {
+        for(var i=0; i<100; i++){ //TODO remove magic numbers
+            if(this.battlefield.autoSetShips()){
+                break;
+            }
+        }
+        if(this.battlefield.allShipsSet()){
+            this.placeShipsFinished();
+        }else{
+            console.log("AI: Error placing ships");
+        }
+    };
+
+    this._selectFields=function () {
+        var selectionCount = Math.floor((Math.random() * 5) + 1); //TODO remove magic numbers
+        for(var i=0; i<selectionCount; i++){
+            var timeout = (Math.floor((Math.random() * 2) + 1)+1)*1000; // 1-3 sec //TODO remove magic numbers
+            setTimeout(this._selectField, timeout);
+        }
+    };
+
+    //TODO difficulty
+    this._selectField=function () {
+        var result = false;
+        while(!result){ //TODO could be infinity
+            var coordinates = this.battlefieldEnemy.getRandomCoordinates();
+            this.selectFieldEnemy(coordinates);
+        }
+    };
+
+    this._fire=function () {
+        this.fireFieldEnemy();
+    };
+
     //############################
     // Placeships
     //############################
 
     this.placeShipsFinished=function () {
         this.onPlaceShipsFinishedCallback(this);
-    }
+    };
 
     //############################
     // Battle
@@ -28,39 +68,25 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onPlaceShips
 
     this.startTurn=function(){
         this.active=true;
-
-        //TODO ai
+        this._selectFields();
+        this._fire();
     };
 
     this.setTime=function (time) {
-        //TODO nothing
+        //not necessary in ai
     };
 
     this.endTurn=function () {
         this.active=false;
-        //TODO set message
     };
 
     this.selectFieldEnemy=function (position) {
         this.onFieldSelectedCallback(this, position);
-
-        var lastField=this.battlefieldEnemy.selectedField;
-        var result=this.battlefieldEnemy.selectField(position);
-
-        if(result){
-            var field=this.battlefieldEnemy.selectedField;
-        }
-        return result;
+        return this.battlefieldEnemy.selectField(position);
     };
 
     this.selectFieldHuman=function (position) {
-        var lastField=this.battlefield.selectedField;
-        var result=this.battlefield.selectField(position);
-
-        if(result){
-            var field=this.battlefield.selectedField;
-        }
-        return result;
+        return this.battlefield.selectField(position);
     };
 
     this.fireFieldEnemy=function(){
@@ -70,17 +96,10 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onPlaceShips
             return false;
         }
         var fireResult = this.onFieldFireCallback(this);
-        if(this.battlefieldEnemy.fireWithResult(fireResult)){
-            if(fireResult===BATTLESHIP.FireResult.SUNK){
-                //TODO draw ship
-            }
-            return true;
-        }
-        return false;
+        return this.battlefieldEnemy.fireWithResult(fireResult);
     };
 
     this.fireFieldHuman=function () {
-        var field = this.battlefield.selectedField;
         var result = this.battlefield.fire();
         if(this.battlefield.allShipsSunk()){
             this.onLooseCallback(this);
@@ -89,11 +108,11 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onPlaceShips
     };
 
     this.win=function () {
-        //TODO nothing
-    }
+        //nothing
+    };
 
     this.loose=function () {
-        //TODO nothing
-    }
+        //nothing
+    };
 
 };

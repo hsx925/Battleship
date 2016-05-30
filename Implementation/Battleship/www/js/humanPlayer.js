@@ -39,7 +39,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
 
     this.placeShipsFinished=function () {
         this.onPlaceShipsFinishedCallback(this);
-    }
+    };
 
     //############################
     // Battle
@@ -119,10 +119,10 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
 
     this.win=function () {
         BATTLESHIP.battleController.win();
-    }
+    };
 
     this.loose=function () {
         BATTLESHIP.battleController.loose();
-    }
+    };
 
 };
