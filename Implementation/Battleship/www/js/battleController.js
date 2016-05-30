@@ -8,6 +8,8 @@ BATTLESHIP.battleController = {
     bindEvents: function () {
         $(document).on("pagebeforeshow", "#battle", this.onPageBeforeShow); // Before entering battle page
         $(document).on("pageshow", "#battle", this.onPageShow); // When entering battle page
+        $(document).on("pagebeforehide","#battle", this.onPageBeforeHide); // When leave battle page
+
         $('#shootButton').click(this.onShootClick);
 
     },
@@ -16,11 +18,20 @@ BATTLESHIP.battleController = {
     },
     onPageShow: function () {
         console.log('battle pageshow');
+
+        $(window).on('resize', BATTLESHIP.battleController.onResize);
+
         if(BATTLESHIP.gameManager && BATTLESHIP.gameManager.placeShipsFinished) {
             console.log(BATTLESHIP.gameManager);
             BATTLESHIP.gameManager.startBattle();
             BATTLESHIP.uiUtils.createBattlefield($("#battleBattlefieldHuman"), BATTLESHIP.gameManager.humanPlayer.battlefield.size);
             BATTLESHIP.uiUtils.createBattlefield($("#battleBattlefieldEnemy"), BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy.size);
+
+            var ships = BATTLESHIP.gameManager.humanPlayer.battlefield.ships;
+            for(var i=0; i<ships.length; i++){
+                BATTLESHIP.battleController.addShipHuman(ships[i]);
+            }
+
 
             $("#battleBattlefieldEnemy .field").each(function () {
                 $(this).click(BATTLESHIP.battleController.onFieldClick)
@@ -29,6 +40,16 @@ BATTLESHIP.battleController = {
         }else{
             $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
         }
+    },
+
+    onPageBeforeHide:function () {
+        console.log('battle pagebeforehide');
+        $(window).off('resize', BATTLESHIP.battleController.onResize);
+    },
+
+    onResize: function () {
+        BATTLESHIP.battleController.updateAllShipsHuman(BATTLESHIP.gameManager.humanPlayer.battlefield.ships);
+        BATTLESHIP.battleController.updateAllShipsEnemy(BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy.ships);
     },
 
     onFieldClick: function (e) {
@@ -81,31 +102,67 @@ BATTLESHIP.battleController = {
         }
     },
 
-    addShipHuman:function (ship, field) {
-        this._updateField($('#battleBattlefieldHuman'), ship, $('#battleBattlefieldHuman [data-x="'+field.position.x+'"][data-y="'+field.position.y+'"]'));
+    addShipHuman:function (ship) {
+        var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#battleBattlefieldHuman"));
+        var fieldUi = $('#battleBattlefieldHuman [data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]');
+        this._addShip($('#battleBattlefieldHuman'), ship, fieldUi, fieldSize-1);
+        this.updateShipHuman(ship); //Do not remove, because of rotaion issues
     },
 
-    addShipEnemy:function (ship, field) {
-        this._updateField($('#battleBattlefieldEnemy'), ship, $('#battleBattlefieldEnemy [data-x="'+field.position.x+'"][data-y="'+field.position.y+'"]'));
+    addShipEnemy:function (ship) {
+        var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#battleBattlefieldEnemy"));
+        var fieldUi = $('#battleBattlefieldEnemy [data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]');
+        this._addShip($('#battleBattlefieldEnemy'), ship, fieldUi, fieldSize-1);
+        this.updateShipEnemy(ship); //Do not remove, because of rotaion issues
     },
 
-    _addShip:function (container, ship, fieldUi) {
-        var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#placeShipsBattlefield"));
-        var shipUi = BATTLESHIP.uiUtils.createShip(ship, fieldSize-1, "shipBattle");
+    _addShip:function (container, ship, fieldUi, height) {
+        if (ship && ship.isSet) {
+            var shipUi = $(BATTLESHIP.uiUtils.createShip(ship, height, "shipBattle"));
 
-        container.append(shipUi)
+            container.append(shipUi);
 
-        if(ship && ship.isSet){
-            $(shipUi).position({ of: fieldUi, my: 'left+1 top+1', at: 'left top' });
+            if (ship.direction === BATTLESHIP.ShipDirection.VERTICAL) {
+                shipUi.addClass("shipRotated");
+            }
+
+            shipUi.position({ of: fieldUi, my: 'left+1 top+1', at: 'left top' });
         }
     },
 
-    updateShip:function (ship) {
-        var shipUi = $("#"+ship.id);
-        var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#placeShipsBattlefield"));
-        shipUi.height(fieldSize-1);
+    updateShipHuman:function (ship) {
+        var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#battleBattlefieldHuman"));
+        var fieldUi = $('#battleBattlefieldHuman [data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]');
+        var shipUi = $('#battleBattlefieldHuman [data-id="'+ship.id+'"]');
+        this._updateShip(ship, shipUi, fieldUi, fieldSize-1);
+    },
+
+    updateShipEnemy:function (ship) {
+        var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#battleBattlefieldEnemy"));
+        var fieldUi = $('#battleBattlefieldEnemy [data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]');
+        var shipUi = $('#battleBattlefieldEnemy [data-id="'+ship.id+'"]');
+        this._updateShip(ship, shipUi, fieldUi, fieldSize-1);
+    },
+
+    _updateShip:function (ship, shipUi, fieldUi, height) {
         if(ship && ship.isSet){
-            shipUi.position({ of: $('div[data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]'), my: 'left+1 top+1', at: 'left top' });
+            //var offset = fieldUi.offset();
+            //shipUi.offset({left:offset.left+1, top:offset.top+1});
+            //var shipOffset = shipUi.offset();
+            shipUi.position({ of: fieldUi, my: 'left+1 top+1', at: 'left top' });
+            shipUi.height(height);
+        }
+    },
+
+    updateAllShipsHuman:function (ships) {
+        for(var i=0; i<ships.length; i++){
+            this.updateShipHuman(ships[i]);
+        }
+    },
+
+    updateAllShipsEnemy:function (ships) {
+        for(var i=0; i<ships.length; i++){
+            this.updateShipEnemy(ships[i]);
         }
     },
 

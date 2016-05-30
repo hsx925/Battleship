@@ -27,7 +27,7 @@ BATTLESHIP.uiUtils = {
         if(!$.trim(container.html())){ //isemtpy
             return 0;
         }
-        console.log(container.children().first().children().first().height());
+        //console.log(container.children().first().children().first().height());
         return container.children().first().children().first().height();
     },
 
@@ -38,19 +38,19 @@ BATTLESHIP.uiUtils = {
         var shipUi=null;
         switch (ship.size) {
             case 1:
-                shipUi = '<img src="img/battle_ship_1_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                shipUi = '<img src="img/battle_ship_1_blue.png" data-id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
                 break;
             case 2:
-                shipUi = '<img src="img/battle_ship_2_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                shipUi = '<img src="img/battle_ship_2_blue.png" data-id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
                 break;
             case 3:
-                shipUi = '<img src="img/battle_ship_3_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                shipUi = '<img src="img/battle_ship_3_blue.png" data-id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
                 break;
             case 4:
-                shipUi = '<img src="img/battle_ship_4_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                shipUi = '<img src="img/battle_ship_4_blue.png" data-id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
                 break;
             case 5:
-                shipUi = '<img src="img/battle_ship_5_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                shipUi = '<img src="img/battle_ship_5_blue.png" data-id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
                 break;
         }
         return shipUi;

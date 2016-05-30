@@ -378,6 +378,7 @@ body {
     padding: 0px;
     margin: 0px;
     width: 100%;
+    z-index: 5;
 }
 
 .battlefieldField {
@@ -385,6 +386,7 @@ body {
     margin: 0;
     padding: 0;
     border: 1px solid #000000;
+    z-index: 5;
 }
 
 .battlefieldFieldSelected {
@@ -482,7 +484,7 @@ body {
     height: 10vh;
 }
 
-.ship{
+.shipInBay{
     margin: 2%;
 }
 

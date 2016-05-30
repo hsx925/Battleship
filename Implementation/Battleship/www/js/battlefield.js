@@ -17,7 +17,12 @@ BATTLESHIP.Battlefield = function (size, ships) {
             this.fields[x][y]=new BATTLESHIP.Field(x, y);
         }
     }
-    this.ships = ships;
+    if(ships){
+        this.ships = ships;
+    }else {
+        this.ships = [];
+    }
+
 
     this.getShipById = function(shipId){
         for(var i=0; i<this.ships.length; ++i){
