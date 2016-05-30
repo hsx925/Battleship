@@ -39,7 +39,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
 
     this.startTurn=function(){
         this.active=true;
-        BATTLESHIP.battleController.enableListener=true;
+        BATTLESHIP.battleController.enableShootButton(true);
         //TODO set message
     };
 
@@ -49,11 +49,14 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
 
     this.endTurn=function () {
         this.active=false;
-        BATTLESHIP.battleController.enableListener=false;
+        BATTLESHIP.battleController.enableShootButton(false);
         //TODO set message
     };
 
     this.selectFieldEnemy=function (position) {
+        if(!this.active){
+            return false;
+        }
         this.onFieldSelectedCallback(this, position);
 
         var lastField=this.battlefieldEnemy.selectedField;
@@ -89,7 +92,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
         if(this.battlefieldEnemy.fireWithResult(fireResult)){
             BATTLESHIP.battleController.updateFieldEnemy(field);
             if(fireResult===BATTLESHIP.FireResult.SUNK){
-                //TODO draw ship
+                //TODO draw ship on field
             }
             return true;
         }
@@ -107,11 +110,11 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
     };
 
     this.win=function () {
-        //TODO set winscreen
+        BATTLESHIP.battleController.win();
     }
 
     this.loose=function () {
-        //TODO set loosescreen
+        BATTLESHIP.battleController.loose();
     }
 
 };

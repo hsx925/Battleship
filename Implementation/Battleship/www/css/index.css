@@ -369,6 +369,7 @@ body {
     width: 55vh;
     height: 55vh;
     border: 1px solid #000000;
+    z-index: 5;
 }
 
 .battlefieldRow {
@@ -491,6 +492,7 @@ body {
 
 .shipBattle{
     position: absolute;
+    z-index: 3;
 }
 
 .shipControls {
@@ -571,6 +573,10 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     background-image: url("../img/battle_shootButton.png");
+}
+
+.shootButtonDisabled {
+    background-image: url("../img/battle_shootButton_grey.png");
 }
 
 .battleTime {

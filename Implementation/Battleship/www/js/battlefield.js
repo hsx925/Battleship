@@ -185,7 +185,7 @@ BATTLESHIP.Battlefield = function (size, ships) {
         }
 
         if(fireResult===BATTLESHIP.FireResult.SUNK){
-            //TODO add ship
+            //TODO add ship model
         }
         return true;
     };

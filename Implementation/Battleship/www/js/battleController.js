@@ -1,7 +1,6 @@
 var BATTLESHIP = BATTLESHIP || {};
 
 BATTLESHIP.battleController = {
-    fireEnabled: true,
 
     initialize: function () {
         this.bindEvents();
@@ -9,7 +8,7 @@ BATTLESHIP.battleController = {
     bindEvents: function () {
         $(document).on("pagebeforeshow", "#battle", this.onPageBeforeShow); // Before entering battle page
         $(document).on("pageshow", "#battle", this.onPageShow); // When entering battle page
-        //add all listener function bindings for the battle itself
+        $('#shootButton').click(this.onShootClick);
 
     },
     onPageBeforeShow: function () {
@@ -33,13 +32,22 @@ BATTLESHIP.battleController = {
     },
 
     onFieldClick: function (e) {
-        //$("#battleBattlefieldEnemy .battlefieldFieldSelected").removeClass("battlefieldFieldSelected");
-        //$(this).addClass("battlefieldFieldSelected");
         var x = parseInt($(this).attr("data-x"));
         var y = parseInt($(this).attr("data-y"));
         BATTLESHIP.gameManager.humanPlayer.selectFieldEnemy({x:x, y:y});
-        //BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy.fields[x][y]
         
+    },
+
+    onShootClick: function (e) {
+        BATTLESHIP.gameManager.humanPlayer.fireFieldEnemy();
+    },
+
+    enableShootButton: function (enable) {
+      if(enable){
+          $("#shootButton").removeClass("shootButtonDisabled");
+      }else {
+          $("#shootButton").addClass("shootButtonDisabled");
+      }
     },
 
     updateFieldHuman: function (field) {
@@ -100,4 +108,12 @@ BATTLESHIP.battleController = {
             shipUi.position({ of: $('div[data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]'), my: 'left+1 top+1', at: 'left top' });
         }
     },
+
+    loose:function () {
+        location.href = "#won";
+    },
+
+    win:function () {
+        location.href = "#lost";
+    }
 };
