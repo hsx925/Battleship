@@ -386,6 +386,10 @@ body {
     border: 1px solid #000000;
 }
 
+.battlefieldFieldSelected {
+    border: 1px solid #FF0000;
+}
+
 .battlefieldFieldHovered{
     background: #999;
 }
@@ -483,6 +487,10 @@ body {
 
 .shipRotated{
     transform: rotate(90deg);
+}
+
+.shipBattle{
+    position: absolute;
 }
 
 .shipControls {

@@ -4,7 +4,7 @@ BATTLESHIP.FieldState = {
     DEFAULT: "default",
     SELECTED: "selected",
     HIT: "hit",
-    FIRE: "fire"
+    HIT_SHIP: "hitship"
 };
 
 BATTLESHIP.Field = function (x, y) {

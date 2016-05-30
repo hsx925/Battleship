@@ -20,6 +20,23 @@ BATTLESHIP.Ship = function (id, size) {
     this.fields = new Array();
     this.isSet = false;
 
-    
+    this.updateState=function () {
+        if(!fields){
+            return;
+        }
+        var hits = 0;
+        for(var i=0; i<fields.length; i++){
+            if(fields[i].state===BATTLESHIP.FieldState.HIT_SHIP){
+                hits++;
+            }
+        }
+        if(hits===0){
+            this.state=BATTLESHIP.ShipState.GOOD;
+        }else if(hits===this.size){
+            this.state=BATTLESHIP.ShipState.SUNK;
+        }else{
+            this.state=BATTLESHIP.ShipState.HIT;
+        }
+    }
 
 };

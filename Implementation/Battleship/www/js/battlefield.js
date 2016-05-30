@@ -1,15 +1,16 @@
 var BATTLESHIP = BATTLESHIP || {};
 
-BATTLESHIP.FieldState = {
-    DEFAULT: "default",
-    SELECTED: "selected",
-    HIT: "hit",
-    FIRE: "fire"
+BATTLESHIP.FireResult = {
+    NONE: "none",
+    HIT: "ship",
+    SUNK: "sunk",
+    ERROR: "error"
 };
 
 BATTLESHIP.Battlefield = function (size, ships) {
     this.size = size;
     this.fields = new Array(size);
+    this.selectedField = null;
     for(var x=0; x<size; x++){
         this.fields[x] = new Array(size);
         for(var y=0; y<size; y++){
@@ -36,7 +37,16 @@ BATTLESHIP.Battlefield = function (size, ships) {
         return true;
     };
 
-    this.trySetShip = function (ship, position, direction) {
+    this.allShipsSunk = function () {
+        for(var i=0; i<this.ships.length; i++) {
+            if (!(this.ships[i].state === BATTLESHIP.ShipState.SUNK)) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    this.setShip = function (ship, position, direction) {
         if(!ship || this.ships.indexOf(ship)<0){
             return false;
         }
@@ -135,4 +145,72 @@ BATTLESHIP.Battlefield = function (size, ships) {
             }
         }
     };
+
+    this.selectField=function (position) {
+        if(position.x >= this.size-1 || position.y >= this.size-1){
+            return false;
+        }
+        var field = this.fields[position.x][position.y];
+        var lastField = this.selectedField;
+        if(lastField && lastField.state === BATTLESHIP.FieldState.SELECTED) {
+            lastField.state = BATTLESHIP.FieldState.DEFAULT;
+        }
+        if(!(field.state === BATTLESHIP.FieldState.HIT || field.state === BATTLESHIP.FieldState.HIT_SHIP)){
+            field.state = BATTLESHIP.FieldState.SELECTED;
+            this.selectedField=field;
+            return true;
+        }
+        this.selectedField=null;
+        return false;
+    };
+
+    this.fireWithResult=function (fireResult) {
+        var field = this.selectedField;
+        this.selectedField=null;
+        if(!field){
+            return false;
+        }
+        switch(fireResult){
+            case BATTLESHIP.FireResult.NONE:
+                field.state=BATTLESHIP.FieldState.HIT;
+                break;
+            case BATTLESHIP.FireResult.HIT:
+            case BATTLESHIP.FireResult.SUNK:
+                field.state=BATTLESHIP.FieldState.HIT_SHIP;
+                break;
+            case BATTLESHIP.FireResult.ERROR:
+                console.log("Error shooting on field!");
+                return false;
+                break;
+        }
+
+        if(fireResult===BATTLESHIP.FireResult.SUNK){
+            //TODO add ship
+        }
+        return true;
+    };
+
+    this.fire=function () {
+        var field = this.selectedField;
+        this.selectedField=null;
+        if(!field){
+            return BATTLESHIP.FireResult.ERROR;
+        }
+        var ship = field.ship;
+        if(ship){
+            field.state = BATTLESHIP.FieldState.HIT_SHIP;
+            ship.updateState();
+            switch(ship.state){
+                case BATTLESHIP.ShipState.GOOD:
+                    return BATTLESHIP.FireResult.ERROR;
+                case BATTLESHIP.ShipState.HIT:
+                    return BATTLESHIP.FireResult.HIT;
+                case BATTLESHIP.ShipState.SUNK:
+                    return BATTLESHIP.FireResult.SUNK;
+            }
+        }else{
+            field.state = BATTLESHIP.FieldState.HIT;
+            return BATTLESHIP.FireResult.NONE;
+        }
+    }
 };

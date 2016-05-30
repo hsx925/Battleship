@@ -585,6 +585,7 @@ $('.host > .mainButton').removeClass('brownButton');
         if (!$('.playButtonMain').hasClass('playButtonMainGrey')) {
 
             if ($('.host').hasClass('hide')) {
+                BATTLESHIP.gameManager.menuFinished = true;
                 location.href = "#placeships";
 
             } else {

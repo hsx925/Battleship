@@ -3,7 +3,7 @@ var BATTLESHIP = BATTLESHIP || {};
 BATTLESHIP.GameType = {
     SINGLEPLAYER: "singleplayer",
     NETWORKPLAYER: "networkplayer"
-}
+};
 
 BATTLESHIP.DifficultyAI = {
     EASY: "easy",
@@ -37,19 +37,41 @@ BATTLESHIP.GameManager = function () {
     this.difficultyAI = BATTLESHIP.DifficultyAI.NORMAL;
     this.fleet = BATTLESHIP.FleetType.STANDARD;
     this.battlefieldSize = BATTLESHIP.BattlefieldType.STANDARD;
+    this.placeShipsFinished = false;
+    this.menuFinished = false;
 
     this.startGame = function () {
         console.log("gamemanager start game");
+        this.humanPlayer = new BATTLESHIP.HumanPlayer(this.battlefieldSize, this.fleet, this.onPlaceShipsFinished, this.onFieldSelected, this.onFieldFire, this.onLoose);
         if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER){
-            this.humanPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.HUMAN_LOCAL,this.battlefieldSize, this.fleet);
-            this.enemyPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.ENEMY_AI,this.battlefieldSize, this.fleet, this.difficultyAI);
+            //this.enemyPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.AI,this.battlefieldSize, this.fleet, this.difficultyAI);
+            this.enemyPlayer = new BATTLESHIP.AiPlayer(this.battlefieldSize, this.fleet, this.difficultyAI, this.onPlaceShipsFinished, this.onFieldSelected, this.onFieldFire, this.onLoose)
         }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
-            this.humanPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.HUMAN_NETWORK,this.battlefieldSize, this.fleet);
-            this.enemyPlayer = new BATTLESHIP.Player(BATTLESHIP.PlayerType.ENEMY_NETWORK,this.battlefieldSize, this.fleet);
+            //setup network connection?
+        }else{
+            //TODO error
         }
     };
 
     this.startBattle = function () {
         console.log("gamemanager start battle");
     };
+    
+    
+    this.onPlaceShipsFinished=function(player){
+        
+    };
+
+    this.onFieldSelected=function (player, position) {
+
+    };
+
+    this.onFieldFire=function (player) {
+
+    };
+
+    this.onLoose=function (player) {
+
+    };
+    
 };

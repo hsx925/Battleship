@@ -31,28 +31,37 @@ BATTLESHIP.uiUtils = {
         return container.children().first().children().first().height();
     },
 
-    createShips: function (container, ships, height) {
+    createShip: function (ship, height, additionalClasses) {
+        if(!additionalClasses){
+            additionalClasses="";
+        }
+        var shipUi=null;
+        switch (ship.size) {
+            case 1:
+                shipUi = '<img src="img/battle_ship_1_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                break;
+            case 2:
+                shipUi = '<img src="img/battle_ship_2_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                break;
+            case 3:
+                shipUi = '<img src="img/battle_ship_3_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                break;
+            case 4:
+                shipUi = '<img src="img/battle_ship_4_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                break;
+            case 5:
+                shipUi = '<img src="img/battle_ship_5_blue.png" id="'+ ship.id +'" class="ship '+additionalClasses+'" style="height: ' + height + 'px;">';
+                break;
+        }
+        return shipUi;
+    },
+
+    createShipsInBay: function (container, ships, height) {
         container.empty();
         var arrX = new Array(), arrY = new Array();
         var x=0, y=0;
         for(var i=0; i<ships.length; i++){
-            switch (ships[i].size) {
-                case 1:
-                    arrX[x] = '<img src="img/battle_ship_1_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
-                    break;
-                case 2:
-                    arrX[x] = '<img src="img/battle_ship_2_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
-                    break;
-                case 3:
-                    arrX[x] = '<img src="img/battle_ship_3_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
-                    break;
-                case 4:
-                    arrX[x] = '<img src="img/battle_ship_4_blue.png" id="'+ ships[i].id +'" class="ship shipInBay" style="height: ' + height + 'px;">';
-                    break;
-                case 5:
-                    //TODO no ship image available yet
-                    break;
-            }
+            arrX[x] = BATTLESHIP.uiUtils.createShip(ships[i], height, "shipInBay");
             ++x;
             if(i===ships.length-1||ships[i+1].size!==ships[i].size){
                 arrY[y]='<div class="shipContainerRow">'+arrX.join("\r\n")+'</div>';
