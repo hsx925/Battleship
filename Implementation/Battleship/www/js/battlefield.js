@@ -68,6 +68,45 @@ BATTLESHIP.Battlefield = function (size, ships) {
         return false;
     };
 
+    this.autoSetShips=function () {
+        this.removeAllShips();
+        var i = 0; //ship iterator
+        var n = 0; //limiter iterator for tries
+        while (n < 1000) {
+            var coordinates = this._getRandomCoordinates();
+            var direction = this._getRandomDirection();
+            if (this.setShip(this.ships[i], coordinates, direction)) {
+                if (this.allShipsSet()) {
+                    break;
+                }
+                i++;
+            }
+            n++;
+        }
+
+        if(this.allShipsSet()){
+            return true;
+        }
+        return false;
+    };
+
+    this._getRandomCoordinates=function () {
+        var x= this._getRandomCoordinate();
+        var y= this._getRandomCoordinate();
+        return {x:x, y:y};
+    };
+
+    this._getRandomCoordinate=function () {
+        return Math.floor((Math.random() * this.size-1) + 1);
+    }
+
+    this._getRandomDirection=function () {
+        if(Math.random()<.5){
+            return BATTLESHIP.ShipDirection.HORIZONTAL;
+        }
+        return BATTLESHIP.ShipDirection.VERTICAL;
+    }
+
     this._canPlaceShip=function(ship){
         var x = ship.position.x;
         var y = ship.position.y;
@@ -115,13 +154,22 @@ BATTLESHIP.Battlefield = function (size, ships) {
     };
 
     this.removeShip=function(ship){
-        this._setOccupied(ship, false);
-        for(var i=0; i<ship.fields.length; i++){
-            ship.fields[i].ship=null;
+        if(!ship || !ship.isSet || this.ships.indexOf(ship)<0) {
+            return;
         }
-        ship.fields=[];
-        ship.isSet=false;
+        this._setOccupied(ship, false);
+        for (var i = 0; i < ship.fields.length; i++) {
+            ship.fields[i].ship = null;
+        }
+        ship.fields = [];
+        ship.isSet = false;
     };
+
+    this.removeAllShips=function () {
+        for(var i=0; i<this.ships.length; i++){
+            this.removeShip(this.ships[i]);
+        }
+    }
 
     this._setOccupied=function (ship, occupied) {
         var x=ship.position.x;

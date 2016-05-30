@@ -29,6 +29,14 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
         return result;
     };
 
+    this.autoSetShips=function () {
+        if(!this.battlefield.autoSetShips()){
+            //TODO set message if fails
+        }
+        BATTLESHIP.placeshipsController.updateAllShips(this.battlefield.ships);
+        BATTLESHIP.placeshipsController.updateBattlefield();
+    };
+
     this.placeShipsFinished=function () {
         this.onPlaceShipsFinishedCallback(this);
     }

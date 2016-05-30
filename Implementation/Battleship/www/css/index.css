@@ -486,6 +486,7 @@ body {
 
 .shipInBay{
     margin: 2%;
+    z-index: 6;
 }
 
 .shipRotated{

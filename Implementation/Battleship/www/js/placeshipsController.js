@@ -166,6 +166,11 @@ BATTLESHIP.placeshipsController = {
         if(ship && ship.isSet){
             var shipUi = $('#placeShipsContainer [data-id="'+ship.id+'"]');
             var fieldSize = BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#placeShipsBattlefield"));
+            if(ship.direction===BATTLESHIP.ShipDirection.VERTICAL){
+                shipUi.addClass("shipRotated")
+            }else if(ship.direction===BATTLESHIP.ShipDirection.HORIZONTAL){
+                shipUi.removeClass("shipRotated")
+            }
             shipUi.height(fieldSize-1);
             shipUi.position({ of: $('div[data-x="'+ship.position.x+'"][data-y="'+ship.position.y+'"]'), my: 'left+1 top+1', at: 'left top' });
         }
@@ -181,7 +186,7 @@ BATTLESHIP.placeshipsController = {
     },
 
     onAutoPlaceShipsClick: function (e) {
-        alert("Not implemented yet!");
+        BATTLESHIP.gameManager.humanPlayer.autoSetShips();
     },
 
     onRotatePlaceShipsClick: function (e) {
