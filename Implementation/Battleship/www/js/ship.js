@@ -21,6 +21,7 @@ BATTLESHIP.Ship = function (id, size) {
     this.isSet = false;
 
     this.updateState=function () {
+        var fields = this.fields;
         if(!fields){
             return;
         }

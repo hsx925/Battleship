@@ -1,16 +1,17 @@
 var BATTLESHIP = BATTLESHIP || {};
 
-BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedCallback, onFieldSelectedCallback, onFieldFireCallback, onLooseCallback) {
+BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onFinishTurnCallback, onLooseCallback) {
     var ships = new Array(fleet.length);
     for(var i=0; i<fleet.length; ++i){
         ships[i]=new BATTLESHIP.Ship("ship"+(i+1), fleet[i]);
     }
-    this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, ships);
-    this.battlefieldEnemy = new BATTLESHIP.Battlefield(battlefieldSize);
+    this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, ships, "human");
+    this.battlefieldEnemy = new BATTLESHIP.Battlefield(battlefieldSize, [], "human-enemy");
     this.active = false;
-    this.onPlaceShipsFinishedCallback=onPlaceShipsFinishedCallback;
+    this.onReadyForBattle=onReadyForBattleCallback;
     this.onFieldSelectedCallback=onFieldSelectedCallback;
     this.onFieldFireCallback=onFieldFireCallback;
+    this.onFinishTurn=onFinishTurnCallback;
     this.onLooseCallback=onLooseCallback;
 
     //############################
@@ -37,8 +38,8 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
         BATTLESHIP.placeshipsController.updateBattlefield();
     };
 
-    this.placeShipsFinished=function () {
-        this.onPlaceShipsFinishedCallback(this);
+    this.readyForBattle=function () {
+        this.onReadyForBattle(this);
     };
 
     //############################
@@ -48,6 +49,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
     this.startTurn=function(){
         this.active=true;
         BATTLESHIP.battleController.enableShootButton(true);
+        //TODO remove selection
         //TODO set message
     };
 
@@ -58,6 +60,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
     this.endTurn=function () {
         this.active=false;
         BATTLESHIP.battleController.enableShootButton(false);
+        //TODO remove selection;
         //TODO set message
     };
 
@@ -75,6 +78,10 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
             var field=this.battlefieldEnemy.selectedField;
             BATTLESHIP.battleController.updateFieldEnemy(field);
         }
+
+        //console.log("human-enemy");
+        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy);
+
         return result;
     };
 
@@ -87,12 +94,17 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
             var field=this.battlefield.selectedField;
             BATTLESHIP.battleController.updateFieldHuman(field);
         }
+
+        //console.log("human");
+        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefield);
+
         return result;
     };
 
     this.fireFieldEnemy=function(){
+        //console.log("human-enemy");
+        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy);
         var field = this.battlefieldEnemy.selectedField;
-        this.battlefieldEnemy.selectedField=null;
         if(!field){
             return false;
         }
@@ -102,15 +114,22 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onPlaceShipsFinishedC
             if(fireResult===BATTLESHIP.FireResult.SUNK){
                 //TODO draw ship on field
             }
+            if(fireResult===BATTLESHIP.FireResult.NONE){
+                this.onFinishTurn(this);
+            }
             return true;
         }
         return false;
     };
 
     this.fireFieldHuman=function () {
+        //console.log("human");
+        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefield);
         var field = this.battlefield.selectedField;
         var result = this.battlefield.fire();
         BATTLESHIP.battleController.updateFieldHuman(field);
+        console.log("human");
+        console.log(this);
         if(this.battlefield.allShipsSunk()){
             this.onLooseCallback(this);
         }

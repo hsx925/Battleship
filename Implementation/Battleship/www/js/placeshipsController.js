@@ -33,9 +33,8 @@ BATTLESHIP.placeshipsController = {
         $(window).on('resize', BATTLESHIP.placeshipsController.onResize);
 
         //TODO use callback instead of bool for menu finished
-        if(BATTLESHIP.gameManager && BATTLESHIP.gameManager.menuFinished) {
+        if(BATTLESHIP.gameManager && BATTLESHIP.gameManager.gameStarted) {
             console.log(BATTLESHIP.gameManager);
-            BATTLESHIP.gameManager.startGame();
             BATTLESHIP.uiUtils.createBattlefield($("#placeShipsBattlefield"), BATTLESHIP.gameManager.humanPlayer.battlefield.size);
             BATTLESHIP.uiUtils.createShipsInBay($("#shipContainer"), BATTLESHIP.gameManager.humanPlayer.battlefield.ships, BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#placeShipsBattlefield"))-1);
             //Add draggable on ships
@@ -187,6 +186,9 @@ BATTLESHIP.placeshipsController = {
 
     onAutoPlaceShipsClick: function (e) {
         BATTLESHIP.gameManager.humanPlayer.autoSetShips();
+        if(BATTLESHIP.gameManager.humanPlayer.battlefield.allShipsSet()){
+            $("#fightButton").removeClass("fightButtonDisabled");
+        }
     },
 
     onRotatePlaceShipsClick: function (e) {
@@ -200,9 +202,6 @@ BATTLESHIP.placeshipsController = {
 
     onFightClick: function (e) {
         if(!$("#fightButton").hasClass("fightButtonDisabled")){
-            //TODO remove
-            BATTLESHIP.gameManager.placeShipsFinished = true;
-            BATTLESHIP.gameManager.humanPlayer.placeShipsFinished();
             location.href = "#battle";
         }
     }

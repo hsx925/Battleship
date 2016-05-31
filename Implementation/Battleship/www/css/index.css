@@ -390,7 +390,16 @@ body {
 }
 
 .battlefieldFieldSelected {
+    background: rgba(255, 0, 0, 0.5);
     border: 1px solid #FF0000;
+}
+
+.battlefieldFieldHit{
+    background: lightgrey;
+}
+
+.battlefieldFieldHitShip{
+    background: rgba(0, 70, 200, 0.5);
 }
 
 .battlefieldFieldHovered{

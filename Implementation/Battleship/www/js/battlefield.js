@@ -7,7 +7,8 @@ BATTLESHIP.FireResult = {
     ERROR: "error"
 };
 
-BATTLESHIP.Battlefield = function (size, ships) {
+BATTLESHIP.Battlefield = function (size, ships, id) {
+    this.id = id;
     this.size = size;
     this.fields = new Array(size);
     this.selectedField = null;
@@ -200,7 +201,7 @@ BATTLESHIP.Battlefield = function (size, ships) {
     };
 
     this.selectField=function (position) {
-        if(position.x >= this.size-1 || position.y >= this.size-1){
+        if(position.x >= this.size || position.y >= this.size){
             return false;
         }
         var field = this.fields[position.x][position.y];
@@ -238,10 +239,23 @@ BATTLESHIP.Battlefield = function (size, ships) {
         }
 
         if(fireResult===BATTLESHIP.FireResult.SUNK){
-            //TODO add ship model
+            this.addShipEnemyOnSunk(field);
         }
         return true;
     };
+
+    //TODO finish implementation
+    this.addShipEnemyOnSunk=function(field){
+        if(!field){
+            return false;
+        }
+        /*
+        var direction=BATTLESHIP.ShipDirection.HORIZONTAL;
+        if(this.fields[field.position.x+1][field.position.y].ship){
+            direction=BATTLESHIP.ShipDirection.HORIZONTAL;
+        }else if()
+        */
+    }
 
     this.fire=function () {
         var field = this.selectedField;

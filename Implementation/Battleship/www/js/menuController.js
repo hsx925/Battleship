@@ -300,7 +300,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step2_easy: function () {
         if (!$('.easyBtn').hasClass('greyButton')) {
 
-         BATTLESHIP.gameManager.DifficultyAI = BATTLESHIP.DifficultyAI.EASY;
+         BATTLESHIP.gameManager.difficultyAI = BATTLESHIP.DifficultyAI.EASY;
 
             $('.easyBtn').addClass('brownButton');
             $('.mediumBtn').removeClass('brownButton');
@@ -325,7 +325,7 @@ $('.host > .mainButton').removeClass('brownButton');
 
         if (!$('.mediumBtn').hasClass('greyButton')) {
 
-         BATTLESHIP.gameManager.DifficultyAI = BATTLESHIP.DifficultyAI.NORMAL;
+         BATTLESHIP.gameManager.difficultyAI = BATTLESHIP.DifficultyAI.NORMAL;
             $('.mediumBtn').addClass('brownButton');
             $('.easyBtn').removeClass('brownButton');
             $('.hardBtn').removeClass('brownButton');
@@ -352,7 +352,7 @@ $('.host > .mainButton').removeClass('brownButton');
 
         if (!$('.hardBtn').hasClass('greyButton')) {
 
-          BATTLESHIP.gameManager.DifficultyAI = BATTLESHIP.DifficultyAI.HARD;
+          BATTLESHIP.gameManager.difficultyAI = BATTLESHIP.DifficultyAI.HARD;
 
             $('.hardBtn').addClass('brownButton');
             $('.mediumBtn').removeClass('brownButton');
@@ -397,7 +397,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step3_std: function () {
         if (!$('.stdBtn').hasClass('greyButton')) {
 
-             BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.STANDARD;
+             BATTLESHIP.gameManager.fleet = BATTLESHIP.FleetType.STANDARD;
              
             $('.stdBtn').addClass('brownButton');
 
@@ -417,7 +417,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step3_bigShips: function () {
         if (BATTLESHIP.InAppPurchase.BIGSHIPS === true) {
             if (!$('.bigShipsBtn').hasClass('greyButton')) {
-             BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.BIGSHIPS;
+             BATTLESHIP.gameManager.fleet = BATTLESHIP.FleetType.BIGSHIPS;
 
                 $('.bigShipsBtn').addClass('brownButton');
 
@@ -456,7 +456,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step3_gfy: function () {
         if (BATTLESHIP.InAppPurchase.GFY === true) {
             if (!$('.gfyBtn').hasClass('greyButton')) {
-            BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.GOODFORYOU;
+            BATTLESHIP.gameManager.fleet = BATTLESHIP.FleetType.GOODFORYOU;
 
                 $('.gfyBtn').addClass('brownButton');
 
@@ -496,7 +496,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step3_oso: function () {
         if (BATTLESHIP.InAppPurchase.OSO === true) {
             if (!$('.osoBtn').hasClass('greyButton')) {
-                BATTLESHIP.gameManager.FleetType = BATTLESHIP.FleetType.ONESHIP;
+                BATTLESHIP.gameManager.fleet = BATTLESHIP.FleetType.ONESHIP;
 
                 $('.osoBtn').addClass('brownButton');
 
@@ -524,7 +524,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step4_stdField: function () {
         if (!$('.stdFieldBtn').hasClass('greyButton')) {
 
-             BATTLESHIP.gameManager.BattlefieldType = BATTLESHIP.BattlefieldType.STANDARD;
+             BATTLESHIP.gameManager.battlefieldSize = BATTLESHIP.BattlefieldType.STANDARD;
 
             $('.stdFieldBtn').addClass('brownButton');
 
@@ -538,7 +538,7 @@ $('.host > .mainButton').removeClass('brownButton');
         if (BATTLESHIP.InAppPurchase.EASYFIELD === true) {
             if (!$('.easyFieldBtn').hasClass('greyButton')) {
 
-              BATTLESHIP.gameManager.BattlefieldType = BATTLESHIP.BattlefieldType.EASY;
+              BATTLESHIP.gameManager.battlefieldSize = BATTLESHIP.BattlefieldType.EASY;
                 $('.easyFieldBtn').addClass('brownButton');
 
                 $('.stdFieldBtn').removeClass('brownButton');
@@ -560,7 +560,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step4_evilField: function () {
         if (BATTLESHIP.InAppPurchase.EVILFIELD === true) {
             if (!$('.evilFieldBtn').hasClass('greyButton')) {
-              BATTLESHIP.gameManager.BattlefieldType = BATTLESHIP.BattlefieldType.HARD;
+              BATTLESHIP.gameManager.battlefieldSize = BATTLESHIP.BattlefieldType.HARD;
                 $('.evilFieldBtn').addClass('brownButton');
 
                 $('.stdFieldBtn').removeClass('brownButton');
@@ -585,7 +585,7 @@ $('.host > .mainButton').removeClass('brownButton');
         if (!$('.playButtonMain').hasClass('playButtonMainGrey')) {
 
             if ($('.host').hasClass('hide')) {
-                BATTLESHIP.gameManager.menuFinished = true;
+                BATTLESHIP.gameManager.startGame();
                 location.href = "#placeships";
 
             } else {

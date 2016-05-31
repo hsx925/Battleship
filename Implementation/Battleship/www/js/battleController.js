@@ -21,9 +21,9 @@ BATTLESHIP.battleController = {
 
         $(window).on('resize', BATTLESHIP.battleController.onResize);
 
-        if(BATTLESHIP.gameManager && BATTLESHIP.gameManager.placeShipsFinished) {
+        if(BATTLESHIP.gameManager && BATTLESHIP.gameManager.humanPlayer && BATTLESHIP.gameManager.humanPlayer.battlefield.allShipsSet()) {
             console.log(BATTLESHIP.gameManager);
-            BATTLESHIP.gameManager.startBattle();
+
             BATTLESHIP.uiUtils.createBattlefield($("#battleBattlefieldHuman"), BATTLESHIP.gameManager.humanPlayer.battlefield.size);
             BATTLESHIP.uiUtils.createBattlefield($("#battleBattlefieldEnemy"), BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy.size);
 
@@ -32,10 +32,11 @@ BATTLESHIP.battleController = {
                 BATTLESHIP.battleController.addShipHuman(ships[i]);
             }
 
-
             $("#battleBattlefieldEnemy .field").each(function () {
                 $(this).click(BATTLESHIP.battleController.onFieldClick)
             });
+
+            BATTLESHIP.gameManager.humanPlayer.readyForBattle();
 
         }else{
             $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
@@ -84,20 +85,26 @@ BATTLESHIP.battleController = {
     },
 
     _updateField: function (field, uiField) {
-        uiField.removeClass("battlefieldFieldSelected");
-        //TODO add all other classes to remove later
         switch (field.state) {
             case BATTLESHIP.FieldState.DEFAULT:
-                //TODO
+                uiField.removeClass("battlefieldFieldSelected");
+                uiField.removeClass("battlefieldFieldHit");
+                uiField.removeClass("battlefieldFieldHitShip");
                 break;
             case BATTLESHIP.FieldState.HIT:
-                //TODO
+                uiField.removeClass("battlefieldFieldSelected");
+                uiField.addClass("battlefieldFieldHit");
+                uiField.removeClass("battlefieldFieldHitShip");
                 break;
             case BATTLESHIP.FieldState.HIT_SHIP:
-                //TODO
+                uiField.removeClass("battlefieldFieldSelected");
+                uiField.removeClass("battlefieldFieldHit");
+                uiField.addClass("battlefieldFieldHitShip");
                 break;
             case BATTLESHIP.FieldState.SELECTED:
                 uiField.addClass("battlefieldFieldSelected");
+                uiField.removeClass("battlefieldFieldHit");
+                uiField.removeClass("battlefieldFieldHitShip");
                 break;
         }
     },
@@ -167,10 +174,10 @@ BATTLESHIP.battleController = {
     },
 
     loose:function () {
-        location.href = "#won";
+        location.href = "#lost";
     },
 
     win:function () {
-        location.href = "#lost";
+        location.href = "#won";
     }
 };
