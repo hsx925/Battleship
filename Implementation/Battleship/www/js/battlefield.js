@@ -7,7 +7,7 @@ BATTLESHIP.FireResult = {
     ERROR: "error"
 };
 
-BATTLESHIP.Battlefield = function (size, ships, id) {
+BATTLESHIP.Battlefield = function (size, fleet, id) {
     this.id = id;
     this.size = size;
     this.fields = new Array(size);
@@ -18,12 +18,9 @@ BATTLESHIP.Battlefield = function (size, ships, id) {
             this.fields[x][y]=new BATTLESHIP.Field(x, y);
         }
     }
-    if(ships){
-        this.ships = ships;
-    }else {
-        this.ships = [];
-    }
+    this.ships = [];
 
+    //ships added on bottom of Ctor becauso fo function usage
 
     this.getShipById = function(shipId){
         for(var i=0; i<this.ships.length; ++i){
@@ -52,6 +49,19 @@ BATTLESHIP.Battlefield = function (size, ships, id) {
         return true;
     };
 
+    this.addShip=function(size){
+        var ship = new BATTLESHIP.Ship("ship"+this.ships.length, size);
+        this.ships.push(ship);
+        return ship;
+    };
+
+    this.addShips=function (fleet) {
+        for(var i=0; i<fleet.length; ++i){
+            this.addShip(fleet[i]);
+        }
+        return this.ships;
+    };
+
     this.setShip = function (ship, position, direction) {
         if(!ship || this.ships.indexOf(ship)<0){
             return false;
@@ -73,7 +83,7 @@ BATTLESHIP.Battlefield = function (size, ships, id) {
         this.removeAllShips();
         var i = 0; //ship iterator
         var n = 0; //limiter iterator for tries
-        while (n < 1000) { //TODO remove magic numbers
+        while (n < 1000 && i<this.ships.length) { //TODO remove magic numbers
             var coordinates = this.getRandomCoordinates();
             var direction = this._getRandomShipDirection();
             if (this.setShip(this.ships[i], coordinates, direction)) {
@@ -245,17 +255,45 @@ BATTLESHIP.Battlefield = function (size, ships, id) {
     };
 
     //TODO finish implementation
-    this.addShipEnemyOnSunk=function(field){
-        if(!field){
+    this.addShipEnemyOnSunk=function(field) {
+        if (!field) {
             return false;
         }
-        /*
-        var direction=BATTLESHIP.ShipDirection.HORIZONTAL;
-        if(this.fields[field.position.x+1][field.position.y].ship){
-            direction=BATTLESHIP.ShipDirection.HORIZONTAL;
-        }else if()
-        */
-    }
+
+        var x = field.position.x;
+        var y = field.position.y;
+        var size = 1;
+
+        var direction = BATTLESHIP.ShipDirection.HORIZONTAL;
+        if ((x+1) < this.size && this.fields[x+1][y].state.state===BATTLESHIP.FieldState.HIT_SHIP) {
+            direction = BATTLESHIP.ShipDirection.HORIZONTAL;
+        } else if ((x-1) >= 0 && this.fields[x-1][y].state===BATTLESHIP.FieldState.HIT_SHIP) {
+            direction = BATTLESHIP.ShipDirection.HORIZONTAL;
+        } else if ((y+1) < this.size && this.fields[x][y+1].state===BATTLESHIP.FieldState.HIT_SHIP) {
+            direction = BATTLESHIP.ShipDirection.VERTICAL;
+        } else if ((y-1) >= 0 && this.fields[x][y-1].state===BATTLESHIP.FieldState.HIT_SHIP) {
+            direction = BATTLESHIP.ShipDirection.VERTICAL;
+        }
+
+        if (direction === BATTLESHIP.ShipDirection.HORIZONTAL) {
+            while ((x+1) < this.size && this.fields[x+1][y].state===BATTLESHIP.FieldState.HIT_SHIP) {
+                x++;
+            }
+            while ((x-1) >= 0 && this.fields[x-1][y].state===BATTLESHIP.FieldState.HIT_SHIP) {
+                x--;
+                size++;
+            }
+        }else if(direction===BATTLESHIP.ShipDirection.VERTICAL){
+            while ((y+1) < this.size && this.fields[x][y+1].state===BATTLESHIP.FieldState.HIT_SHIP) {
+                y++;
+            }
+            while ((y-1) >= 0 && this.fields[x][y-1].state===BATTLESHIP.FieldState.HIT_SHIP) {
+                y--;
+                size++;
+            }
+        }
+        this.setShip(this.addShip(size), {x:x, y:y},direction);
+    };
 
     this.fire=function () {
         var field = this.selectedField;
@@ -279,5 +317,9 @@ BATTLESHIP.Battlefield = function (size, ships, id) {
             field.state = BATTLESHIP.FieldState.HIT;
             return BATTLESHIP.FireResult.NONE;
         }
+    };
+
+    if(fleet){
+        this.addShips(fleet);
     }
 };

@@ -1,11 +1,7 @@
 var BATTLESHIP = BATTLESHIP || {};
 
 BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onLooseCallback) {
-    var ships = new Array(fleet.length);
-    for(var i=0; i<fleet.length; ++i){
-        ships[i]=new BATTLESHIP.Ship("ship"+(i+1), fleet[i]);
-    }
-    this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, ships, "human");
+    this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, fleet, "human");
     this.battlefieldEnemy = new BATTLESHIP.Battlefield(battlefieldSize, [], "human-enemy");
     this.active = false;
     this.onReadyForBattle=onReadyForBattleCallback;
@@ -108,10 +104,15 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
         if(this.battlefieldEnemy.fireWithResult(result)){
             BATTLESHIP.battleController.updateFieldEnemy(field);
             if(result===BATTLESHIP.FireResult.SUNK){
-                //TODO draw ship on field
+                if(field.ship){
+                    BATTLESHIP.battleController.addShipEnemy(field.ship);
+                }else{
+                    console.log("Human: Error adding enmey ship!")
+                }
             }
         }
     };
+
 
     this.fireFieldHuman=function () {
         var field = this.battlefield.selectedField;

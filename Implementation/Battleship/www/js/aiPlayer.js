@@ -1,11 +1,7 @@
 var BATTLESHIP = BATTLESHIP || {};
 
 BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onLooseCallback) {
-    var ships = new Array(fleet.length);
-    for(var i=0; i<fleet.length; ++i){
-        ships[i]=new BATTLESHIP.Ship("ship"+(i+1), fleet[i]);
-    }
-    this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, ships, "ai");
+    this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, fleet, "ai");
     this.battlefieldEnemy = new BATTLESHIP.Battlefield(battlefieldSize, [], "ai-enemy");
     this.difficulty = difficulty;
     this.active = false;
@@ -34,9 +30,9 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     };
 
     this._selectFieldsAndFire=function () {
-        var selectionCount = Math.floor((Math.random() * 3) + 1); //TODO remove magic numbers
+        var selectionCount = 3 //TODO remove magic numbers
         console.log(selectionCount);
-        setTimeout(function(){this._selectFieldsAndFireHelper(selectionCount)}.bind(this), this._getTimeout(2,3));
+        setTimeout(function(){this._selectFieldsAndFireHelper(selectionCount)}.bind(this), 2000); //TODO remove magic numbers
     };
 
     this._getTimeout=function (min, max) {
@@ -48,9 +44,9 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     this._selectFieldsAndFireHelper=function (count) {
         this._selectField();
         if(count>1) {
-            setTimeout(function(){this._selectFieldsAndFireHelper(count - 1, this.battlefieldEnemy)}.bind(this), this._getTimeout(1, 2));
+            setTimeout(function(){this._selectFieldsAndFireHelper(count - 1, this.battlefieldEnemy)}.bind(this), 2000); //TODO remove magic numbers
         }else{
-            setTimeout(this._fire.bind(this), 1000);
+            setTimeout(this._fire.bind(this), 1000); //TODO remove magic numbers
         }
     };
 
@@ -119,8 +115,7 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
         if(!field){
             return false;
         }
-        var result = this.battlefieldEnemy.fireWithResult(fireResult);
-        return result;
+        return this.battlefieldEnemy.fireWithResult(fireResult);
     };
 
     this.fireFieldHuman=function () {
