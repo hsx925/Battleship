@@ -18,8 +18,18 @@ BATTLESHIP.app = {
         BATTLESHIP.winLooseController.initialize();
     },
     onDeviceReady: function () { //trigger after document ready ;)
-        // add stuff from cordova plugins
         console.log('deviceready');
+
+        document.addEventListener("backbutton", function(e){
+            if($.mobile.activePage.is('#main-menu')){
+                e.preventDefault();
+                navigator.app.exitApp();
+            }
+            else {
+                e.preventDefault();
+                $.mobile.changePage("#main-menu");
+            }
+        }, false);
     }
 
 };

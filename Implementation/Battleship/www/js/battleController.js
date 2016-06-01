@@ -39,7 +39,7 @@ BATTLESHIP.battleController = {
             BATTLESHIP.gameManager.humanPlayer.readyForBattle();
 
         }else{
-            $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
+            $.mobile.changePage("#main-menu");
         }
     },
 
@@ -64,7 +64,7 @@ BATTLESHIP.battleController = {
 
     onBackClick:function (e) {
         //TODO add are you sure dialog/overlay
-        $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
+        $.mobile.changePage("#main-menu");
     },
 
     onShootClick: function (e) {

@@ -59,7 +59,7 @@ BATTLESHIP.placeshipsController = {
             });
             $("#fightButton").addClass("fightButtonDisabled");
         }else {
-            $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
+            $.mobile.changePage("#main-menu");
         }
     },
 
@@ -72,7 +72,7 @@ BATTLESHIP.placeshipsController = {
 
     onBackClick:function (e) {
         //TODO add are you sure dialog/overlay
-        $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
+        $.mobile.changePage("#main-menu");
     },
 
     _handleRevert: function(event, ui) {
