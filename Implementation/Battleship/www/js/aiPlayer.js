@@ -1,6 +1,6 @@
 var BATTLESHIP = BATTLESHIP || {};
 
-BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onFinishTurnCallback, onLooseCallback) {
+BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onLooseCallback) {
     var ships = new Array(fleet.length);
     for(var i=0; i<fleet.length; ++i){
         ships[i]=new BATTLESHIP.Ship("ship"+(i+1), fleet[i]);
@@ -12,7 +12,6 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     this.onReadyForBattle=onReadyForBattleCallback;
     this.onFieldSelectedCallback=onFieldSelectedCallback;
     this.onFieldFireCallback=onFieldFireCallback;
-    this.onFinishTurn=onFinishTurnCallback;
     this.onLooseCallback=onLooseCallback;
 
     //this._setShips(); on bottom of class ;)
@@ -100,37 +99,31 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
 
     this.selectFieldEnemy=function (position) {
         this.onFieldSelectedCallback(this, position);
-        var result = this.battlefieldEnemy.selectField(position);
-        //console.log("ai-enemy");
-        //console.log(BATTLESHIP.gameManager.enemyPlayer.battlefieldEnemy);
-        return result;
+        return this.battlefieldEnemy.selectField(position);
     };
 
     this.selectFieldHuman=function (position) {
-        var result = this.battlefield.selectField(position);
-        //console.log("ai");
-        //console.log(BATTLESHIP.gameManager.enemyPlayer.battlefield);
-        return result;
+        return this.battlefield.selectField(position);
     };
 
     this.fireFieldEnemy=function(){
-        //console.log("ai-enemy");
-        //console.log(BATTLESHIP.gameManager.enemyPlayer.battlefieldEnemy);
+        var field = this.battlefieldEnemy.selectedField;
+        if(!field){
+            return;
+        }
+        var fireResult = this.onFieldFireCallback(this);
+    };
+
+    this.fireFieldEnemyResult=function (fireResult) {
         var field = this.battlefieldEnemy.selectedField;
         if(!field){
             return false;
         }
-        var fireResult = this.onFieldFireCallback(this);
         var result = this.battlefieldEnemy.fireWithResult(fireResult);
-        if(fireResult===BATTLESHIP.FireResult.NONE){
-            this.onFinishTurn(this);
-        }
         return result;
     };
 
     this.fireFieldHuman=function () {
-        //console.log("ai");
-        //console.log(BATTLESHIP.gameManager.enemyPlayer.battlefield);
         var result = this.battlefield.fire();
         if(this.battlefield.allShipsSunk()){
             this.onLooseCallback(this);

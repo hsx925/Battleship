@@ -1,6 +1,6 @@
 var BATTLESHIP = BATTLESHIP || {};
 
-BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onFinishTurnCallback, onLooseCallback) {
+BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onLooseCallback) {
     var ships = new Array(fleet.length);
     for(var i=0; i<fleet.length; ++i){
         ships[i]=new BATTLESHIP.Ship("ship"+(i+1), fleet[i]);
@@ -11,7 +11,6 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
     this.onReadyForBattle=onReadyForBattleCallback;
     this.onFieldSelectedCallback=onFieldSelectedCallback;
     this.onFieldFireCallback=onFieldFireCallback;
-    this.onFinishTurn=onFinishTurnCallback;
     this.onLooseCallback=onLooseCallback;
 
     //############################
@@ -78,10 +77,6 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
             var field=this.battlefieldEnemy.selectedField;
             BATTLESHIP.battleController.updateFieldEnemy(field);
         }
-
-        //console.log("human-enemy");
-        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy);
-
         return result;
     };
 
@@ -94,37 +89,31 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
             var field=this.battlefield.selectedField;
             BATTLESHIP.battleController.updateFieldHuman(field);
         }
-
-        //console.log("human");
-        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefield);
-
         return result;
     };
 
     this.fireFieldEnemy=function(){
-        //console.log("human-enemy");
-        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefieldEnemy);
         var field = this.battlefieldEnemy.selectedField;
         if(!field){
-            return false;
+            return;
         }
-        var fireResult = this.onFieldFireCallback(this);
-        if(this.battlefieldEnemy.fireWithResult(fireResult)){
+        this.onFieldFireCallback(this);
+    };
+
+    this.fireFieldEnemyResult=function (result) {
+        var field = this.battlefieldEnemy.selectedField;
+        if(!field){
+            return;
+        }
+        if(this.battlefieldEnemy.fireWithResult(result)){
             BATTLESHIP.battleController.updateFieldEnemy(field);
-            if(fireResult===BATTLESHIP.FireResult.SUNK){
+            if(result===BATTLESHIP.FireResult.SUNK){
                 //TODO draw ship on field
             }
-            if(fireResult===BATTLESHIP.FireResult.NONE){
-                this.onFinishTurn(this);
-            }
-            return true;
         }
-        return false;
     };
 
     this.fireFieldHuman=function () {
-        //console.log("human");
-        //console.log(BATTLESHIP.gameManager.humanPlayer.battlefield);
         var field = this.battlefield.selectedField;
         var result = this.battlefield.fire();
         BATTLESHIP.battleController.updateFieldHuman(field);

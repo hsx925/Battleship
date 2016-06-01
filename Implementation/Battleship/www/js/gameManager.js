@@ -5,6 +5,11 @@ BATTLESHIP.GameType = {
     NETWORKPLAYER: "networkplayer"
 };
 
+BATTLESHIP.NetworkType = {
+    HOST: "host",
+    JOIN: "join"
+};
+
 BATTLESHIP.DifficultyAI = {
     EASY: "easy",
     NORMAL: "normal",
@@ -34,6 +39,7 @@ BATTLESHIP.InAppPurchase = {
 
 BATTLESHIP.GameManager = function () {
     this.gameType = BATTLESHIP.GameType.SINGLEPLAYER;
+    this.networkType = BATTLESHIP.NetworkType.HOST; //TODO set in menucontroller
     this.difficultyAI = BATTLESHIP.DifficultyAI.NORMAL;
     this.fleet = BATTLESHIP.FleetType.STANDARD;
     this.battlefieldSize = BATTLESHIP.BattlefieldType.STANDARD;
@@ -44,11 +50,15 @@ BATTLESHIP.GameManager = function () {
     this.startGame = function () {
         console.log("gamemanager start game");
         this.gameStarted=true;
-        this.humanPlayer = new BATTLESHIP.HumanPlayer(this.battlefieldSize, this.fleet, this.onReadyForBattle, this.onFieldSelected, this.onFieldFire, this.onFinishTurn, this.onLoose);
+        this.humanPlayer = new BATTLESHIP.HumanPlayer(this.battlefieldSize, this.fleet, this.onReadyForBattle, this.onFieldSelected, this.onFieldFire, this.onLoose);
         if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER){
-            this.enemyPlayer = new BATTLESHIP.AiPlayer(this.battlefieldSize, this.fleet, this.difficultyAI, this.onReadyForBattle, this.onFieldSelected, this.onFieldFire, this.onFinishTurn, this.onLoose)
+            this.enemyPlayer = new BATTLESHIP.AiPlayer(this.battlefieldSize, this.fleet, this.difficultyAI, this.onReadyForBattle, this.onFieldSelected, this.onFieldFire, this.onLoose)
         }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
-            //TODO setup network connection?
+            if(this.networkType==BATTLESHIP.NetworkType.HOST){
+                //TODO host logic
+            }else if(this.networkType===BATTLESHIP.NetworkType.JOIN){
+                //TODO join logic
+            }
         }else{
             //TODO error
         }
@@ -61,12 +71,14 @@ BATTLESHIP.GameManager = function () {
         //TODO setup timer
         //TODO set texts
 
-        this.enemyPlayer.startTurn();
-
-        if(Math.random()<.5){
-            this.humanPlayer.startTurn();
-        }else{
-            this.enemyPlayer.startTurn();
+        if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER) {
+            if (Math.random() < .5) {
+                this.humanPlayer.startTurn();
+            } else {
+                this.enemyPlayer.startTurn();
+            }
+        }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
+            //TODO network stuff
         }
     }.bind(this);
     
@@ -79,41 +91,52 @@ BATTLESHIP.GameManager = function () {
     }.bind(this);
 
     this.onFieldSelected=function (player, position) {
-        if(player===this.humanPlayer){
-            return this.enemyPlayer.selectFieldHuman(position);
-        }else if(player===this.enemyPlayer){
-            return this.humanPlayer.selectFieldHuman(position);
+        if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER) {
+            if (player === this.humanPlayer) {
+                this.enemyPlayer.selectFieldHuman(position);
+            } else if (player === this.enemyPlayer) {
+                this.humanPlayer.selectFieldHuman(position);
+            }
+        }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
+            //TODO network stuff
         }
     }.bind(this);
 
     this.onFieldFire=function (player) {
-        var me = this; //TODO
-        if(player===this.humanPlayer){
-            return this.enemyPlayer.fireFieldHuman();
-        }else if(player===this.enemyPlayer){
-            return this.humanPlayer.fireFieldHuman();
-        }
-    }.bind(this);
-
-    this.onFinishTurn=function (player) {
-        if(player===this.humanPlayer){
-            this.humanPlayer.endTurn();
-            this.enemyPlayer.startTurn();
-        }else if(player===this.enemyPlayer){
-            this.enemyPlayer.endTurn();
-            this.humanPlayer.startTurn();
+        if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER) {
+            if (player === this.humanPlayer) {
+                var result = this.enemyPlayer.fireFieldHuman();
+                if (result === BATTLESHIP.FireResult.NONE) {
+                    this.humanPlayer.endTurn();
+                    this.enemyPlayer.startTurn();
+                }
+                this.humanPlayer.fireFieldEnemyResult(result);
+            } else if (player === this.enemyPlayer) {
+                var result = this.humanPlayer.fireFieldHuman();
+                if (result === BATTLESHIP.FireResult.NONE) {
+                    this.enemyPlayer.endTurn();
+                    this.humanPlayer.startTurn();
+                }
+                this.enemyPlayer.fireFieldEnemyResult(result);
+            }
+        }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
+            //TODO network stuff
         }
     }.bind(this);
 
     this.onLoose=function (player) {
-        if(player===this.humanPlayer){
-            this.humanPlayer.endTurn();
-            this.humanPlayer.loose();
-            this.enemyPlayer.win();
-        }else if(player===this.enemyPlayer){
-            this.enemyPlayer.endTurn();
-            this.enemyPlayer.loose();
-            this.humanPlayer.win();
+        if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER) {
+            if (player === this.humanPlayer) {
+                this.humanPlayer.endTurn();
+                this.humanPlayer.loose();
+                this.enemyPlayer.win();
+            } else if (player === this.enemyPlayer) {
+                this.enemyPlayer.endTurn();
+                this.enemyPlayer.loose();
+                this.humanPlayer.win();
+            }
+        }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
+            //TODO network stuff
         }
     }.bind(this);
     
