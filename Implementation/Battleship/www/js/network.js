@@ -18,8 +18,6 @@ BATTLESHIP.Network = function (connectionString) {
     this.errorCallback = null;
 
     this.hostGame = function (hostedCallback, gameStartCallback, otherPlayerRequestsConfigCallback, otherPlayerPlaceShipsFinishedCallback, otherPlayerFieldSelectedCallback, otherPlayerFiredCallback, otherPlayerFireResultReceivedCallback, otherPlayerGameEndedCallback, errorCallback) {
-        console.log("Create game");
-
         me.gameHostedCallback = hostedCallback;
         me.gameStartCallback = gameStartCallback;
         me.gameOtherPlayerPlaceShipsFinishedCallback = otherPlayerPlaceShipsFinishedCallback;
@@ -36,8 +34,6 @@ BATTLESHIP.Network = function (connectionString) {
 // Callback of hostGame()
 // Receive GameId of created game
     this.gameHosted = function (gameHostedData) {
-        console.log("Game " + gameHostedData.gameId + " created.");
-
         me.gameId = gameHostedData.gameId;
         me.gameHostedCallback(gameHostedData.gameId);
     };
@@ -65,13 +61,11 @@ BATTLESHIP.Network = function (connectionString) {
     };
 
     this.beginGame = function (gameData) {
-        console.log("Start game");
         me.gameStartCallback();
     };
 
     this.playerFire = function () {
         var fireData = {
-            // get gameId from some storage
             gameId: me.gameId,
             playerName: "Knusbert"
         };
@@ -122,43 +116,31 @@ BATTLESHIP.Network = function (connectionString) {
     };
 
     this.otherPlayerFired = function (fireData) {
-        console.log("Shot received at " + fireData.field);
-
         me.gameOtherPlayerFiredCallback();
     };
 
     this.otherPlayerRequestsConfig = function (data) {
-        console.log("Other player requested config");
         me.gameOtherPlayerRequestsConfigCallback(me.gameId);
     };
 
     this.otherPlayerSendsConfig = function (gameConfig) {
-        console.log("Host player sent config");
         me.gameConfigReceivedCallback(gameConfig);
         me.socket.emit('startGame', gameConfig.gameId);
     };
 
     this.otherPlayerFieldSelected = function (selectionData) {
-        console.log("Enemy selected Field " + selectionData.field);
-
         me.gameOtherPlayerFieldSelectedCallback(selectionData.field);
     };
 
     this.otherPlayerFireResultReceived = function (fireResultData) {
-        console.log("Result from our shot: " + fireResultData.result);
-
         me.gameOtherPlayerFireResultReceivedCallback(fireResultData.result);
     };
 
     this.otherPlayerPlaceShipsFinished = function (placeShipsFinishedData) {
-        console.log("Other player finished placing ships");
-
         me.gameOtherPlayerPlaceShipsFinishedCallback();
     };
 
     this.otherPlayerGameEnded = function (gameEndData) {
-        console.log('Game has ended. Player ' + gameEndData.winner + ' has won');
-
         me.gameOtherPlayerGameEndedCallback();
     };
 
