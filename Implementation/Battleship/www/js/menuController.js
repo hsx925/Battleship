@@ -587,11 +587,11 @@ BATTLESHIP.menuController = {
 
             } else if (!$('.host').hasClass('hide')) {
                 // Network host
-                BATTLESHIP.network.hostGame(BATTLESHIP.menuController.gameHostedCallback, BATTLESHIP.menuController.gameStartCallback, BATTLESHIP.menuController.otherPlayerRequestsConfigCallback, BATTLESHIP.menuController.errorCallback);
+                BATTLESHIP.network.hostGame(BATTLESHIP.gameManager.gameHostedCallback, BATTLESHIP.gameManager.gameStartCallback, BATTLESHIP.gameManager.otherPlayerRequestsConfigCallback, BATTLESHIP.gameManager.otherPlayerPlaceShipsFinishedCallback, BATTLESHIP.gameManager.otherPlayerFieldSelectedCallback, BATTLESHIP.gameManager.otherPlayerFiredCallback, BATTLESHIP.gameManager.otherPlayerFireResultReceivedCallback, BATTLESHIP.gameManager.otherPlayerGameEndedCallback, BATTLESHIP.gameManager.errorCallback);
             } else if (!$('.join').hasClass('hide')) {
                 // Network join
                 var gameId = $('input').val();
-                BATTLESHIP.network.joinGame(gameId, BATTLESHIP.menuController.gameConfigReceivedCallback, BATTLESHIP.menuController.gameStartCallback ,BATTLESHIP.menuController.errorCallback);
+                BATTLESHIP.network.joinGame(gameId, BATTLESHIP.gameManager.gameConfigReceivedCallback, BATTLESHIP.gameManager.gameStartCallback, BATTLESHIP.gameManager.otherPlayerPlaceShipsFinishedCallback, BATTLESHIP.gameManager.otherPlayerFieldSelectedCallback, BATTLESHIP.gameManager.otherPlayerFiredCallback, BATTLESHIP.gameManager.otherPlayerFireResultReceivedCallback, BATTLESHIP.gameManager.otherPlayerGameEndedCallback, BATTLESHIP.gameManager.errorCallback);
             }
         } else {
             //show and hide overlay
@@ -603,7 +603,6 @@ BATTLESHIP.menuController = {
             });
 
         }
-
     },
     inApp: function () {
 
@@ -624,32 +623,5 @@ BATTLESHIP.menuController = {
     },
     closeOverlay: function () {
         $('.overlay').hide();
-    },
-    gameHostedCallback: function (gameId) {
-        // show overlay
-        $('#idInfo ').show();
-
-        $('.idvalue').html(gameId);
-    },
-    gameStartCallback: function () {
-        $('#idInfo').hide();
-        BATTLESHIP.gameManager.startGame();
-        location.href = "#placeships";
-    },
-    otherPlayerRequestsConfigCallback: function (gameId) {
-        var gameConfig = {
-            fleet: BATTLESHIP.gameManager.fleet,
-            battlefieldSize: BATTLESHIP.gameManager.battlefieldSize,
-            gameId: gameId
-        };
-
-        BATTLESHIP.network.playerSendConfig(gameConfig);
-    },
-    gameConfigReceivedCallback: function (gameConfig) {
-        BATTLESHIP.gameManager.fleet = gameConfig.fleet;
-        BATTLESHIP.gameManager.battlefieldSize = gameConfig.battlefieldSize;
-    },
-    errorCallback: function (error) {
-        alert(error.message);
     }
 };

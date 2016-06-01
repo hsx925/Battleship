@@ -9,15 +9,25 @@ BATTLESHIP.Network = function (connectionString) {
     this.gameHostedCallback = null;
     this.gameStartCallback = null;
     this.gameOtherPlayerRequestsConfigCallback = null;
+    this.gameOtherPlayerPlaceShipsFinishedCallback = null;
+    this.gameOtherPlayerFieldSelectedCallback = null;
+    this.gameOtherPlayerFiredCallback = null;
+    this.gameOtherPlayerFireResultReceivedCallback = null;
     this.gameConfigReceivedCallback = null;
+    this.gameOtherPlayerGameEndedCallback = null;
     this.errorCallback = null;
 
-    this.hostGame = function (hostedCallback, gameStartCallback, otherPlayerRequestsConfigCallback, errorCallback) {
+    this.hostGame = function (hostedCallback, gameStartCallback, otherPlayerRequestsConfigCallback, otherPlayerPlaceShipsFinishedCallback, otherPlayerFieldSelectedCallback, otherPlayerFiredCallback, otherPlayerFireResultReceivedCallback, otherPlayerGameEndedCallback, errorCallback) {
         console.log("Create game");
 
         me.gameHostedCallback = hostedCallback;
         me.gameStartCallback = gameStartCallback;
+        me.gameOtherPlayerPlaceShipsFinishedCallback = otherPlayerPlaceShipsFinishedCallback;
         me.gameOtherPlayerRequestsConfigCallback = otherPlayerRequestsConfigCallback;
+        me.gameOtherPlayerFiredCallback = otherPlayerFiredCallback;
+        me.gameOtherPlayerFireResultReceivedCallback = otherPlayerFireResultReceivedCallback;
+        me.gameOtherPlayerFieldSelectedCallback = otherPlayerFieldSelectedCallback;
+        me.gameOtherPlayerGameEndedCallback = otherPlayerGameEndedCallback;
         me.errorCallback = errorCallback;
 
         me.socket.emit('hostCreateNewGame');
@@ -33,9 +43,14 @@ BATTLESHIP.Network = function (connectionString) {
     };
 
 // call with gameId
-    this.joinGame = function (gameId, gameConfigReceivedCallback, gameStartCallback,errorCallback) {
+    this.joinGame = function (gameId, gameConfigReceivedCallback, gameStartCallback, otherPlayerPlaceShipsFinishedCallback, otherPlayerFieldSelectedCallback, otherPlayerFiredCallback, otherPlayerFireResultReceivedCallback, otherPlayerGameEndedCallback, errorCallback) {
         console.log("Join game");
         me.gameConfigReceivedCallback = gameConfigReceivedCallback;
+        me.gameOtherPlayerPlaceShipsFinishedCallback = otherPlayerPlaceShipsFinishedCallback;
+        me.gameOtherPlayerFieldSelectedCallback = otherPlayerFieldSelectedCallback;
+        me.gameOtherPlayerFireResultReceivedCallback = otherPlayerFireResultReceivedCallback;
+        me.gameOtherPlayerFiredCallback = otherPlayerFiredCallback;
+        me.gameOtherPlayerGameEndedCallback = otherPlayerGameEndedCallback;
         me.gameStartCallback = gameStartCallback;
         me.errorCallback = errorCallback;
 
@@ -58,18 +73,27 @@ BATTLESHIP.Network = function (connectionString) {
         var fireData = {
             // get gameId from some storage
             gameId: me.gameId,
-            playerName: "Knusbert",
-            field: "A8"
+            playerName: "Knusbert"
         };
 
         me.socket.emit('playerFire', fireData);
     };
 
-    this.playerFieldSelection = function () {
+    this.playerFireResult = function (fireResult) {
+        var fireResultData = {
+            gameId: me.gameId,
+            playerName: "Knusbert",
+            result: fireResult
+        };
+
+        me.socket.emit('playerFireResult', fireResultData);
+    };
+
+    this.playerFieldSelection = function (position) {
         var selectionData = {
             gameId: me.gameId,
             playerName: "Knusbert",
-            field: "D3"
+            field: position
         };
 
         me.socket.emit('playerFieldSelection', selectionData);
@@ -89,19 +113,18 @@ BATTLESHIP.Network = function (connectionString) {
         me.socket.emit('playerSendConfig', gameConfig);
     };
 
+    this.playerFinishedPlacingShips = function () {
+        var data = {
+            gameId: me.gameId
+        };
+
+        me.socket.emit('playerPlaceShipsFinished', data);
+    };
+
     this.otherPlayerFired = function (fireData) {
         console.log("Shot received at " + fireData.field);
 
-        // handle incoming shot
-        // send back result
-
-        var fireResultData = {
-            gameId: me.gameId,
-            playerName: "Knusbert",
-            field: fireData.field,
-            result: "Hit"
-        };
-        me.socket.emit('playerFireResult', fireResultData);
+        me.gameOtherPlayerFiredCallback();
     };
 
     this.otherPlayerRequestsConfig = function (data) {
@@ -118,25 +141,25 @@ BATTLESHIP.Network = function (connectionString) {
     this.otherPlayerFieldSelected = function (selectionData) {
         console.log("Enemy selected Field " + selectionData.field);
 
-        // handle selection
+        me.gameOtherPlayerFieldSelectedCallback(selectionData.field);
     };
 
     this.otherPlayerFireResultReceived = function (fireResultData) {
         console.log("Result from our shot: " + fireResultData.result);
 
-        // handle hit, miss, sunk
+        me.gameOtherPlayerFireResultReceivedCallback(fireResultData.result);
     };
 
     this.otherPlayerPlaceShipsFinished = function (placeShipsFinishedData) {
         console.log("Other player finished placing ships");
 
-        // handle place ships finished
+        me.gameOtherPlayerPlaceShipsFinishedCallback();
     };
 
     this.otherPlayerGameEnded = function (gameEndData) {
         console.log('Game has ended. Player ' + gameEndData.winner + ' has won');
 
-        // handle game end
+        me.gameOtherPlayerGameEndedCallback();
     };
 
     this.onError = function (err) {
@@ -161,9 +184,11 @@ BATTLESHIP.Network = function (connectionString) {
         joinGame: this.joinGame,
         beginGame: this.beginGame,
         playerFire: this.playerFire,
+        playerFireResult: this.playerFireResult,
         playerSendConfig: this.playerSendConfig,
         playerFieldSelection: this.playerFieldSelection,
         playerGameEnded: this.playerGameEnded,
+        playerFinishedPlacingShips: this.playerFinishedPlacingShips,
         otherPlayerPlaceShipsFinished: this.otherPlayerPlaceShipsFinished,
         otherPlayerRequestsConfig: this.otherPlayerRequestsConfig,
         otherPlayerSendsConfig: this.otherPlayerSendsConfig,
