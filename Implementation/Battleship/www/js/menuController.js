@@ -58,7 +58,7 @@ BATTLESHIP.menuController = {
         $('.host').addClass('hide');
         $('.join').addClass('hide');
         $('.network').addClass('hide');
-        $('.single').addClass('hide');
+        //$('.single').addClass('hide');
 
         $('.ui-block-b > .headlineMain').addClass('greyFont');
         $('.ui-block-c > .headlineMain').addClass('greyFont');
