@@ -16,6 +16,7 @@ BATTLESHIP.app = {
         BATTLESHIP.placeshipsController.initialize();
         BATTLESHIP.battleController.initialize();
         BATTLESHIP.winLooseController.initialize();
+        BATTLESHIP.achievementsConrollter.initialize();
     },
     onDeviceReady: function () { //trigger after document ready ;)
         console.log('deviceready');

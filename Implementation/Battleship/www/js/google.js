@@ -55,26 +55,26 @@ var Google = function (id, secret) {
             + "client_secret=" + clientSecret + "&"
             + "redirect_uri=http://localhost&"
             + "grant_type=authorization_code";
-
         requestTokens("https://accounts.google.com/o/oauth2/token", dataQuery, callBackTokens);
     };
 
     var callBackTokens = function (resp) {
         var tokensResp = eval('(' + resp + ')');
-
         if (tokensResp.access_token) {
             localStorage["accessToken"] = tokensResp.access_token;
             localStorage["refreshToken"] = tokensResp.refresh_token;
             localStorage["refreshTime"] = (new Date()).getTime() + 1000 * tokensResp.expires_in;
 
             accessToken = tokensResp.access_token;
-            alert("Login Successful");
+            //alert("Login Successful");
             endSignin = accessToken;
+            //return 1;
         } else {
             accessToken = null;
             localStorage["accessToken"] = null;
             alert("Login Error");
             endSignin = -1;
+            //return -1;
         }
     };
 
@@ -132,13 +132,13 @@ var Google = function (id, secret) {
             var currentTime = (new Date()).getTime();
 
             if (currentTime < refreshTime) {
-                alert("Logged in");
+                //alert("Logged in");
                 endSignin(accessToken);
             } else {
                 getAccessToken(refreshToken);
             }
         } else {
-            alert("Not logged in yet");
+            //alert("Not logged in yet");
             endSignin(-1);
         }
     };
@@ -156,7 +156,7 @@ var Google = function (id, secret) {
     };
 
     // https://developers.google.com/games/services/web/api/achievements/list#http-request
-    var getAchievementsForMe = function () {
+    var getAchievementsForMe = function (callback) {
         var term = null;
         $.ajax({
             url: 'https://www.googleapis.com/games/v1/players/me/achievements?alt=json&access_token=' + localStorage["accessToken"],
@@ -167,7 +167,9 @@ var Google = function (id, secret) {
                 alert("Error retrieving Achievements. Are you logged in to Google?");
             },
             success: function (data) {
-                var allAchievements = JSON.parse(JSON.stringify(data));
+               // alert("Achivements downloaded");
+                callback(data);
+                //var allAchievements = JSON.parse(JSON.stringify(data));
                 /*for (var i in allAchievements.items) {
                     alert(allAchievements.items[i].id + ' : ' + allAchievements.items[i].achievementState);
                 }*/
@@ -176,7 +178,7 @@ var Google = function (id, secret) {
     };
 
     // https://developers.google.com/games/services/web/api/achievementDefinitions/list
-    var getAllAchievements = function () {
+    var getAllAchievements = function (callback) {
         var term = null;
         $.ajax({
             url: 'https://www.googleapis.com/games/v1/achievements?alt=json&access_token=' + localStorage["accessToken"],
@@ -187,6 +189,7 @@ var Google = function (id, secret) {
                 alert("Error retrieving Achievements. Are you logged in to Google?");
             },
             success: function (data) {
+                callback(data);
                 var allAchievements = JSON.parse(JSON.stringify(data));
 
                 /*for (var i in allAchievements.items) {

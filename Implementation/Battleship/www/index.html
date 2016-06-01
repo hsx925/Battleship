@@ -5,6 +5,7 @@
     <!-- <meta http-equiv="Content-Security-Policy"
           content="default-src 'self' data: gap: https://ssl.gstatic.com https://code.jquery.com 'unsafe-eval'; script-src 'self' https://code.jquery.com; style-src 'self' 'unsafe-inline' https://code.jquery.com; media-src *">
     -->
+
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport"
@@ -31,11 +32,13 @@
     <script type="text/javascript" src="js/field.js"></script>
     <script type="text/javascript" src="js/ship.js"></script>
     <script type="text/javascript" src="js/network.js"></script>
+    <script type="text/javascript" src="js/achievementsController.js"></script>
 
     <script type="text/javascript" src="js/uiUtils.js"></script>
     <script type="text/javascript" src="js/menuController.js"></script>
     <script type="text/javascript" src="js/placeshipsController.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/google.js"></script>
 
     <title>Battleship</title>
 
@@ -90,10 +93,13 @@
 
     </div>
 
-    <div id="achievementOverlay" class="overlay">
+   <!-- <div id="achievementOverlay" class="overlay">
         <div class="X">X</div>
         <h1>Your Achievements</h1>
-    </div>
+        <dif id  = "achievementsList">
+            <dif id = "ach1" class = achievementContainter> </dif>
+        </dif>
+    </div>-->
     <div id="inAppOverlay" class="overlay">
         <div class="X">X</div>
         <h1>Your Purchases</h1>
@@ -300,6 +306,25 @@
         <div class="ui-grid-c">
             <a class="playAgainButton winLooseButton ui-btn ui-btn-inline" href="#main-menu">PLAY AGAIN</a>
         </div>
+    </div>
+
+    <div data-role="footer"></div>
+</div>
+
+<!-- Achievements SCREEN ##############################################################################################-->
+
+<div data-role="page" id="achievementPage">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#main-menu"><img src="img/mainmenu_logo.png" height="20" ></a></li>
+            <li></li>
+            <li class="ad"> Place your ads here</li>
+        </ul>
+    </div>
+    <div data-role="header"></div>
+
+    <div data-role="main" class="ui-content" id="achievementList">
+
     </div>
 
     <div data-role="footer"></div>

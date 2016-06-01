@@ -2,6 +2,8 @@ var BATTLESHIP = BATTLESHIP || {};
 var inAppPurchaseDone = false; //checks if any item was bought in-app
 var id = 0;  //id of hosted game, should never be the same -> written into an array??
 
+
+
 BATTLESHIP.menuController = {
     initialize: function () {
         this.bindEvents();
@@ -38,6 +40,7 @@ BATTLESHIP.menuController = {
         $('.evilFieldBtn').click(this.step4_evilField);
 
         $('.playButtonMain').click(this.playbuttonClicked);
+        $('#googleLogin').click(this.googleLogin);
         $('#achievements').click(this.achievements);
         $('#inApp').click(this.inApp);
         $('.X').click(this.closeOverlay);
@@ -103,12 +106,11 @@ BATTLESHIP.menuController = {
     },
     onPageShow: function () {
         console.log('main-menu pageshow');
-
     },
 
     beforeStart: function () {
         BATTLESHIP.gameManager = new BATTLESHIP.GameManager(); //create new game on loading menu page
-
+        BATTLESHIP.google = new Google(
         // Create socket and listeners for network
         BATTLESHIP.network = new BATTLESHIP.Network('http://kdeubler.at:8082');
 
@@ -604,6 +606,7 @@ BATTLESHIP.menuController = {
             });
 
         }
+
     },
     inApp: function () {
 
@@ -616,12 +619,25 @@ BATTLESHIP.menuController = {
 
         console.log('achievement');
 
-        $('#achievementOverlay').show();
-        $('#achievementOverlay').on("vmouseout", function () {
-            $('#achievementOverlay').hide();
-        });
+        location.href = "#achievementPage";
 
     },
+    googleLogin: function () {
+        console.log('googleLogin');
+        
+        BATTLESHIP.google.isLoggedIn(function (result) {
+            if(result == -1){
+                BATTLESHIP.google.startSignin(function (result1) {
+                });
+            }
+        });
+    },
+
+    achievementsBack: function(){
+    console.log("achievementsBack");
+    location.href="#main-menu";
+    },
+
     closeOverlay: function () {
         $('.overlay').hide();
     }
