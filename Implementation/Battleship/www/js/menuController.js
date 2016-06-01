@@ -408,6 +408,11 @@ $('.host > .mainButton').removeClass('brownButton');
             $('.ui-block-d > .headlineMain').removeClass('greyFont');
             $('.ui-block-d > .mainButton').removeClass('greyButton').addClass('blueButton');
 
+            //make easy field not possible
+            $('.easyFieldBtn').removeClass('blueButton');
+            $('.easyFieldBtn').addClass('greyButton');
+            $('.easyFieldBtn').removeClass('brownButton');
+
             if (inAppPurchaseDone === false) {
                 $('.stdFieldBtn').addClass('brownButton');
                 $('.playButtonMain').removeClass('playButtonMainGrey');
@@ -430,11 +435,11 @@ $('.host > .mainButton').removeClass('brownButton');
                 $('.ui-block-d > .mainButton').removeClass('greyButton');
                 $('.ui-block-d > .mainButton').addClass('blueButton');
                 
-                
+
                 //make easy field not possible
-                 $('.easyFieldBtn').removeClass('blueButton');
-                 $('.easyFieldBtn').addClass('greyButton');
-                   $('.easyFieldBtn').removeClass('brownButton');
+                $('.easyFieldBtn').removeClass('blueButton');
+                $('.easyFieldBtn').addClass('greyButton');
+                $('.easyFieldBtn').removeClass('brownButton');
                 
                        //checks the enabling of the play button
            if( $('.ui-block-d > .mainButton').hasClass('brownButton')) {
@@ -456,7 +461,7 @@ $('.host > .mainButton').removeClass('brownButton');
     step3_gfy: function () {
         if (BATTLESHIP.InAppPurchase.GFY === true) {
             if (!$('.gfyBtn').hasClass('greyButton')) {
-            BATTLESHIP.gameManager.fleet = BATTLESHIP.FleetType.GOODFORYOU;
+            BATTLESHIP.gameManager.fleet = BATTLESHIP.FleetType.SMALLSHIPS;
 
                 $('.gfyBtn').addClass('brownButton');
 
@@ -468,11 +473,11 @@ $('.host > .mainButton').removeClass('brownButton');
                 $('.ui-block-d > .headlineMain').removeClass('greyFont');
                 $('.ui-block-d > .mainButton').removeClass('greyButton');
                 $('.ui-block-d > .mainButton').addClass('blueButton');
-                
-                  //make easy field not possible
-                 $('.easyFieldBtn').removeClass('blueButton');
-                 $('.easyFieldBtn').addClass('greyButton');
-                 $('.easyFieldBtn').removeClass('brownButton');
+
+                //make easy field not possible
+                $('.easyFieldBtn').removeClass('blueButton');
+                $('.easyFieldBtn').addClass('greyButton');
+                $('.easyFieldBtn').removeClass('brownButton');
                
                 //checks the enabling of the play button
            if( $('.ui-block-d > .mainButton').hasClass('brownButton')) {

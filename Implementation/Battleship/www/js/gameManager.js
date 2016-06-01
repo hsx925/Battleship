@@ -17,24 +17,25 @@ BATTLESHIP.DifficultyAI = {
 };
 
 BATTLESHIP.FleetType = {
-    STANDARD: [4,3,3,2,2,2,1], //"standard",
-    BIGSHIPS: [5,4,4,3,3,3,2,2], //"bigships",
-    GOODFORYOU: [5], //"goodforyou",
-    ONESHIP: [1], //"oneship"
+    //STANDARD: [4,3,3,2,2,2,1], //"standard",
+    STANDARD: [5,4,4,3,3,3,2,2,2,2], //"standard",
+    BIGSHIPS: [5,5,4,4,4,3,3], //"bigships",
+    SMALLSHIPS: [3,3,2,2,2,1,1,1,1,1,1], //"smallships",
+    ONESHIP: [3], //"oneship"
 };
 
 BATTLESHIP.BattlefieldType = {
     STANDARD: 10,
     EASY: 5,
-    HARD: 20
+    HARD: 15
 };
 
 BATTLESHIP.InAppPurchase = {
-    BIGSHIPS: false,
+    BIGSHIPS: true,
     GFY: true,
-    OSO: false,
+    OSO: true,
     EASYFIELD: true,
-    EVILFIELD: false
+    EVILFIELD: true
 };
 
 BATTLESHIP.GameManager = function () {
