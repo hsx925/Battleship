@@ -46,6 +46,8 @@ BATTLESHIP.battleController = {
     onPageBeforeHide:function () {
         console.log('battle pagebeforehide');
         $(window).off('resize', BATTLESHIP.battleController.onResize);
+        $("#battleBattlefieldHuman").empty();
+        $("#battleBattlefieldEnemy").empty();
     },
 
     onResize: function () {

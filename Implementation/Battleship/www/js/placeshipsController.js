@@ -65,6 +65,8 @@ BATTLESHIP.placeshipsController = {
     onPageBeforeHide:function () {
         console.log('placeships pagebeforehide');
         $(window).off('resize', BATTLESHIP.placeshipsController.onResize);
+        $("#placeShipsBattlefield").empty();
+        $("#shipContainer").empty();
     },
 
     _handleRevert: function(event, ui) {
