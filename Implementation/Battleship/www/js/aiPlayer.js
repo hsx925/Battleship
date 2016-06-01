@@ -84,8 +84,8 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
         this.active=true;
         this._selectFieldsAndFire();
     };
-
-    this.setTime=function (time) {
+    
+    this.setText=function (text) {
         //not necessary in ai
     };
 

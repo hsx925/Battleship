@@ -134,7 +134,7 @@ BATTLESHIP.battleController = {
             if (ship.direction === BATTLESHIP.ShipDirection.VERTICAL) {
                 shipUi.addClass("shipRotated");
             }
-
+            
             shipUi.position({ of: fieldUi, my: 'left+1 top+1', at: 'left top' });
         }
     },
@@ -155,9 +155,6 @@ BATTLESHIP.battleController = {
 
     _updateShip:function (ship, shipUi, fieldUi, height) {
         if(ship && ship.isSet){
-            //var offset = fieldUi.offset();
-            //shipUi.offset({left:offset.left+1, top:offset.top+1});
-            //var shipOffset = shipUi.offset();
             shipUi.position({ of: fieldUi, my: 'left+1 top+1', at: 'left top' });
             shipUi.height(height);
         }
@@ -173,6 +170,12 @@ BATTLESHIP.battleController = {
         for(var i=0; i<ships.length; i++){
             this.updateShipEnemy(ships[i]);
         }
+    },
+
+    updateText:function (text) {
+        var textUi = $("#battleText");
+        textUi.empty();
+        textUi.append(text);
     },
 
     loose:function () {

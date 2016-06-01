@@ -40,23 +40,24 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
     //############################
     // Battle
     //############################
-
+    
     this.startTurn=function(){
         this.active=true;
         BATTLESHIP.battleController.enableShootButton(true);
+        this.setText("Your turn");
         //TODO remove selection
-        //TODO set message
     };
 
-    this.setTime=function (time) {
-        //TODO set timer
+    
+    this.setText=function (text) {
+        BATTLESHIP.battleController.updateText(text);
     };
 
     this.endTurn=function () {
         this.active=false;
         BATTLESHIP.battleController.enableShootButton(false);
+        this.setText("Enemy turn");
         //TODO remove selection;
-        //TODO set message
     };
 
     this.selectFieldEnemy=function (position) {
@@ -112,8 +113,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
             }
         }
     };
-
-
+    
     this.fireFieldHuman=function () {
         var field = this.battlefield.selectedField;
         var result = this.battlefield.fire();
@@ -134,4 +134,5 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
         BATTLESHIP.battleController.loose();
     };
 
+    this.setText("Wait for enemy finish placing ships!");
 };

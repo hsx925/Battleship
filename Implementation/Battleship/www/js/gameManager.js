@@ -68,20 +68,18 @@ BATTLESHIP.GameManager = function () {
         console.log("gamemanager start battle");
         this.battleStarted=true;
 
-        //TODO setup timer
-        //TODO set texts
-
         if(this.gameType === BATTLESHIP.GameType.SINGLEPLAYER) {
             if (Math.random() < .5) {
+                this.enemyPlayer.endTurn(); //because of set text
                 this.humanPlayer.startTurn();
             } else {
+                this.humanPlayer.endTurn()//because of set text
                 this.enemyPlayer.startTurn();
             }
         }else if(this.gameType === BATTLESHIP.GameType.NETWORKPLAYER){
             //TODO network stuff
         }
     }.bind(this);
-    
     
     this.onReadyForBattle=function(player){
         this.readyForBattleCount++;
