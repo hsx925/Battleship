@@ -10,8 +10,8 @@ BATTLESHIP.battleController = {
         $(document).on("pageshow", "#battle", this.onPageShow); // When entering battle page
         $(document).on("pagebeforehide","#battle", this.onPageBeforeHide); // When leave battle page
 
+        $('#battleBackButton').click(this.onBackClick);
         $('#shootButton').click(this.onShootClick);
-
     },
     onPageBeforeShow: function () {
         console.log('battle pagebeforeshow');
@@ -60,6 +60,11 @@ BATTLESHIP.battleController = {
         var y = parseInt($(this).attr("data-y"));
         BATTLESHIP.gameManager.humanPlayer.selectFieldEnemy({x:x, y:y});
         
+    },
+
+    onBackClick:function (e) {
+        //TODO add are you sure dialog/overlay
+        $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
     },
 
     onShootClick: function (e) {

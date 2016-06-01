@@ -13,6 +13,7 @@ BATTLESHIP.placeshipsController = {
         $(document).on("pageshow","#placeships", this.onPageShow); // When entering placeships page
         $(document).on("pagebeforehide","#placeships", this.onPageBeforeHide); // When left placeships page
 
+        $('#placeShipsBackButton').click(this.onBackClick);
         $('#autoPlaceShips').click(this.onAutoPlaceShipsClick);
         $('#rotatePlaceShips').click(this.onRotatePlaceShipsClick);
         $('#fightButton').click(this.onFightClick);
@@ -67,6 +68,11 @@ BATTLESHIP.placeshipsController = {
         $(window).off('resize', BATTLESHIP.placeshipsController.onResize);
         $("#placeShipsBattlefield").empty();
         $("#shipContainer").empty();
+    },
+
+    onBackClick:function (e) {
+        //TODO add are you sure dialog/overlay
+        $(':mobile-pagecontainer').pagecontainer('change', '#main-menu');
     },
 
     _handleRevert: function(event, ui) {

@@ -427,11 +427,26 @@ body {
     width: 100%;
 }
 
+.logoContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.logoBackButton{
+    flex: 1;
+    background-image: url("../img/menu_backButton.png");
+    height: 5vh;
+    margin: 4vh 0 4vh 4vh;
+    width: 100%;
+}
+
 .logoSubSite {
+    flex: 10;
     background-image: url("../img/battle_logo.png");
     height: 5vh;
-    margin: 4vh !important;
-    width: 27.3% !important;
+    margin: 4vh;
+    width: 100%;
 }
 
 .ad {
