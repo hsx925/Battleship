@@ -662,12 +662,15 @@ body {
 .titleAch{
     padding-top: 1%;
     margin-bottom: 1%;
+    color: #613100 !important;
+    font-size: 15pt;
     text-transform: none;
     font-family: 'oswaldregular', sans-serif;
     letter-spacing: 0.06em;
 }
 .descriptionAch{
     padding-top: 1%;
+    color: #003062 !important;
     margin-bottom: 1%;
     font-size: 11pt;
     text-transform: none;
@@ -675,6 +678,8 @@ body {
     letter-spacing: 0.06em;
 }
 .imageAch{
-    margin-left: 2%;
+    margin-left: 3%;
+    max-height: 20%;
     margin-top: 1%;
+    margin-bottom: 1%;
 }

@@ -7,7 +7,6 @@ var BATTLESHIP = BATTLESHIP || {};
 BATTLESHIP.achievementsConrollter = {
     initialize: function () {
         this.bindEvents();
-        //this.beforeStart();
     },
     bindEvents: function () {
         $(document).on("pagebeforeshow", "#achievementPage", this.onPageBeforeShow); // Before entering main-menu
@@ -18,38 +17,59 @@ BATTLESHIP.achievementsConrollter = {
         console.log("onBeforePageShow");
         var google = BATTLESHIP.google;
 
-        var achievementsList = $('#achievementList');
-
-        google.isLoggedIn(function (result){
-            if (result != -1) {
+       google.isLoggedIn(function (result){
+            if (result !== -1) {
                 google.getAllAchievements(function (data) {
-                    var allAchievements = JSON.parse(JSON.stringify(data));
-                    alert(JSON.stringify(allAchievements.items[0]));
-                    /*alert(allAchievements.items[0].id);
-                    alert(allAchievements.items[0].name);
-                    alert(allAchievements.items[0].description);
-                    alert(allAchievements.items[0].revealedIconUrl);
-                    alert(allAchievements.items[0].initialState);
-                    */
-                    for (var i in allAchievements.items) {
-                        var divListItem = createListItem(allAchievements.items[i].id,"Image",allAchievements.items[i].name,allAchievements.items[i].description);
-
-                        achievementsList.append(divListItem);
-                    }
+                    createList(data,function (result) {
+                        if (result===1){
+                            google.getAchievementsForMe(function (data){
+                                var myAchievements = JSON.parse(JSON.stringify(data));
+                                //alert(JSON.stringify(myAchievements));
+                                for(var i in myAchievements.items){ //myAchievements.items[i].id
+                                    var div = $("#"+myAchievements.items[i].id);
+                                    if(myAchievements.items[i].achievementState =="UNLOCKED"){
+                                        div.removeClass();
+                                        div.addClass("unlocked");
+                                    }
+                                    var stepsDiv = $("#Steps"+myAchievements.items[i].id);
+                                    var text = stepsDiv.text();
+                                    if(myAchievements.items[i].currentSteps){
+                                        stepsDiv.text(myAchievements.items[i].currentSteps+text);
+                                    }else{
+                                        stepsDiv.text(0+text);
+                                    }
+                                }
+                            });
+                        }
+                    })
                 });
             }
         });
+    },
+    var: createList = function (data,callback) {
+        var achievementsList = $('#achievementList');
+        var allAchievements = JSON.parse(JSON.stringify(data));
 
-
-
-
-        
+        for (var i in allAchievements.items) {
+            if(allAchievements.items[i].achievementType === "INCREMENTAL"){
+                var divListItem = createListItem(allAchievements.items[i].id,allAchievements.items[i].revealedIconUrl,allAchievements.items[i].name,allAchievements.items[i].description,allAchievements.items[i].achievementType,allAchievements.items[i].totalSteps);
+            }else{
+                var divListItem = createListItem(allAchievements.items[i].id,allAchievements.items[i].revealedIconUrl,allAchievements.items[i].name,allAchievements.items[i].description);
+            }
+            achievementsList.append(divListItem);
+        }
+        callback(1);
     },
 
-    var: createListItem = function (id,image,title,description){
+    var: createListItem = function (id,image,title,description,type,totalCount) {
         var divListItem = $('<div>');
-        divListItem.attr("id",id);
-        divListItem.addClass("locked");
+        divListItem.attr("id", id);
+
+        if (type === "INCREMENTAL") {
+            divListItem.addClass("unlocked");
+        } else {
+            divListItem.addClass("locked");
+        }
 
         var divGrid = $('<div>');
         divGrid.addClass("ui-grid-a");
@@ -60,9 +80,9 @@ BATTLESHIP.achievementsConrollter = {
         var divBlockB = $('<div>');
         divBlockB.addClass("ui-block-b");
 
-        var divImage = $("<div>");
-        divImage.addClass("imageAch");
-        divImage.text(image);
+        var imgImage = $('<img src="dynamic">');
+        imgImage.addClass("imageAch");
+        imgImage.attr('src', image);
 
         var divTitle = $('<div>');
         divTitle.addClass("titleAch");
@@ -72,13 +92,24 @@ BATTLESHIP.achievementsConrollter = {
         divDescription.addClass("descriptionAch");
         divDescription.text(description);
 
-        divBlockA.append(divImage);
+
+        divBlockA.append(imgImage);
 
         divBlockB.append(divTitle);
         divBlockB.append(divDescription);
 
+        if (type === "INCREMENTAL") {
+
+            var divSteps = $('<div>');
+            divSteps.attr("id","Steps"+id);
+            divSteps.addClass("descriptionAch");
+            divSteps.text(" of " + totalCount + " reached");
+            divBlockB.append(divSteps);
+        }
+
         divGrid.append(divBlockA);
         divGrid.append(divBlockB);
+
         divListItem.append(divGrid);
 
         return divListItem;

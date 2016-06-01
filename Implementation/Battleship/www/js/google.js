@@ -242,10 +242,40 @@ var Google = function (id, secret) {
             success: function (data) {
                 var response = JSON.parse(JSON.stringify(data));
                 var newlyUnlocked = response.newlyUnlocked;
-                alert(newlyUnlocked);
+                //alert(newlyUnlocked);
             }
         });
     };
+    var onGameStart = function (multiplayer) {
+        //multiplayer true for multiplayer false for singleplayer
+        if(multiplayer){
+            unlockAchievement("CgkIsvTWj9AUEAIQAg");
+        }else{
+            unlockAchievement("CgkIsvTWj9AUEAIQAQ");
+        }
+        incrementAchievement("CgkIsvTWj9AUEAIQAw");
+
+    };
+    var onGameGameFinished = function (multiplayer,win) {
+        // win true for win false for lose
+        //multiplayer true for multiplayer false for singleplayer
+        if(multiplayer){
+            if(win){ // multiplayer game won
+                incrementAchievement("CgkIsvTWj9AUEAIQBg");
+            }else{ // multiplayer lose
+                incrementAchievement("CgkIsvTWj9AUEAIQBA");
+            }
+        }else{
+            if(!win){ // singleplayer game won
+                incrementAchievement("CgkIsvTWj9AUEAIQBA");
+            }
+        }
+
+
+
+    };
+
+
 
     return {
         startSignin: startSignin,
@@ -254,6 +284,8 @@ var Google = function (id, secret) {
         getAchievementsForMe: getAchievementsForMe,
         getAllAchievements: getAllAchievements,
         incrementAchievement: incrementAchievement,
-        unlockAchievement: unlockAchievement
+        unlockAchievement: unlockAchievement,
+        onGameStart:onGameStart,
+        onGameFinished:onGameGameFinished
     };
 };

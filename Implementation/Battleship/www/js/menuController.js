@@ -626,7 +626,7 @@ BATTLESHIP.menuController = {
         console.log('googleLogin');
         
         BATTLESHIP.google.isLoggedIn(function (result) {
-            if(result == -1){
+            if(result === -1){
                 BATTLESHIP.google.startSignin(function (result1) {
                 });
             }
