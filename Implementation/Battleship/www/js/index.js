@@ -19,7 +19,7 @@ BATTLESHIP.app = {
     },
     onDeviceReady: function () { //trigger after document ready ;)
         // add stuff from cordova plugins
-        console.log('deviceready_test');
+        console.log('deviceready');
     }
 
 };

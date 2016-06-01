@@ -118,8 +118,6 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
         var field = this.battlefield.selectedField;
         var result = this.battlefield.fire();
         BATTLESHIP.battleController.updateFieldHuman(field);
-        console.log("human");
-        console.log(this);
         if(this.battlefield.allShipsSunk()){
             this.onLooseCallback(this);
         }

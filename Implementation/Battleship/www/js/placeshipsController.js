@@ -34,7 +34,7 @@ BATTLESHIP.placeshipsController = {
 
         //TODO use callback instead of bool for menu finished
         if(BATTLESHIP.gameManager && BATTLESHIP.gameManager.gameStarted) {
-            console.log(BATTLESHIP.gameManager);
+            //console.log(BATTLESHIP.gameManager);
             BATTLESHIP.uiUtils.createBattlefield($("#placeShipsBattlefield"), BATTLESHIP.gameManager.humanPlayer.battlefield.size);
             BATTLESHIP.uiUtils.createShipsInBay($("#shipContainer"), BATTLESHIP.gameManager.humanPlayer.battlefield.ships, BATTLESHIP.uiUtils.getBattlefieldFieldSize($("#placeShipsBattlefield"))-1);
             //Add draggable on ships

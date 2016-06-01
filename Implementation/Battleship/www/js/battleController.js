@@ -155,7 +155,9 @@ BATTLESHIP.battleController = {
 
     _updateShip:function (ship, shipUi, fieldUi, height) {
         if(ship && ship.isSet){
-            shipUi.position({ of: fieldUi, my: 'left+1 top+1', at: 'left top' });
+            //shipUi.position({ of: fieldUi, my: 'left+1 top+1', at: 'left top' }); //does not work in every case
+            var offset = fieldUi.offset();
+            shipUi.offset({left:offset.left+1, top:offset.top+1});
             shipUi.height(height);
         }
     },

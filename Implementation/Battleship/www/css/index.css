@@ -395,7 +395,7 @@ body {
 }
 
 .battlefieldFieldHit{
-    background: lightgrey;
+    background: rgb(171, 171, 171)
 }
 
 .battlefieldFieldHitShip{
@@ -564,7 +564,7 @@ body {
 
 .battleContainerHuman, .battleContainerEnemy {
     display: flex;
-    flex: 10;
+    flex: 3;
     height: 100%;
     align-items: center;
     justify-content: center;
@@ -572,7 +572,7 @@ body {
 
 .battleContainerControls {
     display: flex;
-    flex: 2;
+    flex: 1;
     height: 100%;
     align-items: center;
     justify-content: center;

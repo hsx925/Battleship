@@ -1,6 +1,11 @@
 var BATTLESHIP = BATTLESHIP || {};
 
 BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBattleCallback, onFieldSelectedCallback, onFieldFireCallback, onLooseCallback) {
+    this.selectCountMin = 2;
+    this.selectCountMax = 4;
+    this.selectTimeoutMin = 500;
+    this.selectTimeoutMax = 1500
+    this.fireTimeout = 500;
     this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, fleet, "ai");
     this.battlefieldEnemy = new BATTLESHIP.Battlefield(battlefieldSize, [], "ai-enemy");
     this.difficulty = difficulty;
@@ -30,40 +35,50 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     };
 
     this._selectFieldsAndFire=function () {
-        var selectionCount = 3 //TODO remove magic numbers
-        console.log(selectionCount);
-        setTimeout(function(){this._selectFieldsAndFireHelper(selectionCount)}.bind(this), 2000); //TODO remove magic numbers
+        setTimeout(function(){this._selectFieldsAndFireHelper(this.getSelectionCount())}.bind(this), this.getSelectionTimeout());
     };
 
-    this._getTimeout=function (min, max) {
-        var timeout = (Math.floor((Math.random() * max-min)+1)+min)*1000;
-        console.log(timeout);
-        return timeout;
+    this.getSelectionCount=function () {
+      var result = this.getRandomNumber(this.selectCountMin, this.selectCountMax);
+        console.log(result);
+        return result;
+    };
+
+    this.getRandomNumber=function randomIntFromInterval(min,max) {
+        return Math.floor(Math.random()*(max-min+1)+min);
+    };
+
+    this.getSelectionTimeout=function () {
+        var result = this.getRandomNumber(this.selectTimeoutMin, this.selectTimeoutMax);
+        console.log(result);
+        return result;
     };
 
     this._selectFieldsAndFireHelper=function (count) {
         this._selectField();
         if(count>1) {
-            setTimeout(function(){this._selectFieldsAndFireHelper(count - 1, this.battlefieldEnemy)}.bind(this), 2000); //TODO remove magic numbers
+            setTimeout(function(){this._selectFieldsAndFireHelper(count - 1, this.battlefieldEnemy)}.bind(this), this.getSelectionTimeout());
         }else{
-            setTimeout(this._fire.bind(this), 1000); //TODO remove magic numbers
+            setTimeout(this._fire.bind(this), this.fireTimeout);
         }
     };
 
     //TODO difficulty
     this._selectField=function () {
         var result = false;
+        var count=0;
         while(!result){ //TODO could be infinity
             var coordinates = this.battlefieldEnemy.getRandomCoordinates();
+            //console.log(coordinates);
             result = this.selectFieldEnemy(coordinates);
+            count++;
         }
-
+        //console.log(count);
     };
 
     this._fire=function () {
         this.fireFieldEnemy();
         if(this.active){
-            console.log("extra fire");
             this._selectFieldsAndFire();
         }
     };
