@@ -574,7 +574,7 @@ body {
 .battleContainer {
     display: flex;
     width: 100%;
-    height: 95%;
+    height: 94%;
 }
 
 .battleContainerHuman, .battleContainerEnemy {
