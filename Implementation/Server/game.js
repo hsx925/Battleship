@@ -19,7 +19,8 @@ exports.initGame = function(sio, socket){
 	gameSocket.on('playerFire', playerFire);
 	gameSocket.on('playerFireResult', playerFireResult);
 	gameSocket.on('playerFieldSelection', playerFieldSelection);
-	gameSocket.on('playerGameEnded', playerGameEnded)
+	gameSocket.on('playerGameEnded', playerGameEnded);
+	gameSocket.on('playerSendConfig', playerSendConfig);
 }
 
 /**
@@ -78,8 +79,11 @@ function playerJoinGame(data) {
 		
 			console.log('Player ' + data.playerName + ' joined game: ' + data.gameId );
 			
+			// after join, request config for the game
+			this.broadcast.to(data.gameId).emit('otherPlayerRequestsConfig', data);
+			
 			// Directly start game
-			startGame(data.gameId);
+			//startGame(data.gameId);
 		} else {
 			console.log('Room does not exist');
 			this.emit('onError',{message: "This room does not exist."} );
@@ -89,6 +93,12 @@ function playerJoinGame(data) {
 		console.log('Room does not exist');
         this.emit('onError',{message: "This room does not exist."} );
     }
+}
+
+function playerSendConfig(gameConfig) {
+	console.log('Hosts ' + gameConfig.playerName + ' sends config with size ' + gameConfig.boardSize + ' and shipmode ' + gameConfig.shipMode);
+	
+	this.broadcast.to(gameConfig.gameId).emit('otherPlayerSendsConfig', gameConfig);
 }
 
 function playerFire(fireData) {
@@ -115,7 +125,9 @@ function playerFieldSelection(fieldSelectionData) {
 }
 
 function playerPlaceShipsFinished(placeShipsFinishedData) {
+	console.log('Player ' + placeShipsFinishedData.playerName + ' has finished placing ships');
 	
+	this.broadcast.to(placeShipsFinishedData.gameId).emit('otherPlayerPlaceShipsFinished', placeShipsFinishedData);
 }
 
 function playerGameEnded(gameEndData) {

@@ -84,6 +84,25 @@ var Network = function (connectionString) {
         };
         socket.emit('playerFireResult', fireResultData);
     };
+    
+    var otherPlayerRequestsConfig = function (data) {
+        console.log("Other player requested config");
+
+        // get config
+        var gameConfig = {
+            gameId: data.gameId
+        };
+
+        socket.emit('playerSendConfig', gameConfig);
+    };
+
+    var otherPlayerSendsConfig = function (gameConfig) {
+        console.log("Host player sent config");
+
+        // build game manager
+
+        socket.emit('startGame', gameConfig.gameId);
+    }
 
     var otherPlayerFieldSelected = function (selectionData) {
         console.log("Enemy selected Field " + selectionData.field);
@@ -96,6 +115,12 @@ var Network = function (connectionString) {
 
         // handle hit, miss, sunk
     };
+
+    var otherPlayerPlaceShipsFinished = function (placeShipsFinishedData) {
+        console.log("Other player finished placing ships");
+
+        // handle place ships finished
+    }
 
     var otherPlayerGameEnded = function (gameEndData) {
         console.log('Game has ended. Player ' + gameEndData.winner + ' has won');
@@ -115,6 +140,9 @@ var Network = function (connectionString) {
         playerFire: playerFire,
         playerFieldSelection: playerFieldSelection,
         playerGameEnded: playerGameEnded,
+        otherPlayerPlaceShipsFinished: otherPlayerPlaceShipsFinished,
+        otherPlayerRequestsConfig: otherPlayerRequestsConfig,
+        otherPlayerSendsConfig: otherPlayerSendsConfig,
         otherPlayerFired: otherPlayerFired,
         otherPlayerFieldSelected: otherPlayerFieldSelected,
         otherPlayerFireResultReceived: otherPlayerFireResultReceived,
