@@ -316,7 +316,7 @@
 <div data-role="page" id="achievementPage">
     <div data-role="navbar">
         <ul>
-            <li><a href="#main-menu"><img src="img/mainmenu_logo.png" height="40" ></a></li>
+            <li class="logoContainer"><div id="achievementsBackButton" class="logo logoBackButton"></div><div class="logo logoSubSite"></div></li>
             <li></li>
             <li class="ad"> Place your ads here</li>
         </ul>
@@ -324,7 +324,7 @@
     <div data-role="header"></div>
 
     <div data-role="main" class="ui-content">
-        <button class = "buttonLogout" id="buttonId" onclick="BATTLESHIP.achievementsConrollter.loginOutAchievements"> LOGOUT </button>
+        <button class = "buttonLogout" id="buttonId" onclick="BATTLESHIP.achievementsConrollter.loginOutAchievements()"> LOGOUT </button>
 
         <div class="achievementsList" id="achievementList">
 

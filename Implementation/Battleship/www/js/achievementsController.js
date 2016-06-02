@@ -10,6 +10,7 @@ BATTLESHIP.achievementsConrollter = {
     },
     bindEvents: function () {
         $(document).on("pagebeforeshow", "#achievementPage", this.onPageBeforeShow); // Before entering main-menu
+        $('#achievementsBackButton').click(this.onBackClick);
         console.log("Achievements Controller triggered");
 
     },
@@ -49,7 +50,10 @@ BATTLESHIP.achievementsConrollter = {
         });
 
     },
-
+    onBackClick:function (e) {
+        //TODO add are you sure dialog/overlay
+        $.mobile.changePage("#main-menu");
+    },
     loginOutAchievements: function () {
         var button = $("#buttonId");
         var gl = BATTLESHIP.google;

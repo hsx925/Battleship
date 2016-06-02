@@ -113,8 +113,6 @@ BATTLESHIP.menuController = {
         // Create socket and listeners for network
         BATTLESHIP.network = new BATTLESHIP.Network('http://kdeubler.at:8082');
 
-        //TODO: show google login for authentification
-
         //sets mainmenu back to default
         $('.brownButton').removeClass('brownButton');
         $('.playButtonMain').addClass('playButtonMainGrey');
