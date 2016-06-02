@@ -45,6 +45,7 @@ BATTLESHIP.achievementsConrollter = {
             }else{
                 var button = $("#buttonId");
                 button.html("LOGIN");
+                $('#achievementList').empty();
                 alert("Please login to Google if you want tu use Achievements.");
             }
         });
