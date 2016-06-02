@@ -14,7 +14,7 @@ BATTLESHIP.google = function (id, secret) {
     this.clientSecret = secret;
     this.accessToken = {};
     this.authWindow = null;
-    this.endSignin = {};
+    this.endSignin = function(){};
     this.inAppBrowser = window;
 
     this.openAuthWindow = function () {
@@ -24,7 +24,7 @@ BATTLESHIP.google = function (id, secret) {
             + "response_type=code&"
             + "client_id=" + me.clientId;
 
-        me.authWindow = me.inAppBrowser.open(urlAuth, '_blank', 'location=yes,toolbar=no');
+        me.authWindow = me.inAppBrowser.open(urlAuth, '_blank', 'location=yes,toolbar=yes');
         me.authWindow.addEventListener('loadstart', me.parseRedirectUrl);
 
     };
@@ -46,7 +46,7 @@ BATTLESHIP.google = function (id, secret) {
         } else if (thereIsError != -1) {
             me.authWindow.close();
             localStorage["accessToken"] = null;
-            me.endSignin = -1;
+            me.endSignin(-1);
             alert("Login Error")
         }
     };
@@ -69,12 +69,13 @@ BATTLESHIP.google = function (id, secret) {
 
             me.accessToken = tokensResp.access_token;
             //alert("Login Successful");
-            me.endSignin = accessToken;
+            me.endSignin(me.accessToken);
         } else {
             me.accessToken = null;
             localStorage["accessToken"] = null;
             alert("Login Error");
-            me.endSignin = -1;
+            me.endSignin(-1);
+
         }
     };
 
@@ -96,12 +97,12 @@ BATTLESHIP.google = function (id, secret) {
 
             me.accessToken = tokensResp.access_token;
             //alert("Login successful");
-            me.endSignin = me.accessToken;
+            me.endSignin(me.accessToken);
         } else {
             me.accessToken = null;
             localStorage["accessToken"] = null;
             alert("Login Error");
-            me.endSignin = -1;
+            me.endSignin(-1);
         }
     };
 
@@ -132,16 +133,19 @@ BATTLESHIP.google = function (id, secret) {
 
             if (currentTime < refreshTime) {
                 me.endSignin(me.accessToken);
+                return 1;
             } else {
                 me.getAccessToken(refreshToken);
             }
         } else {
-            alert("Not logged in yet");
+            //alert("Not logged in yet");
             me.endSignin(-1);
+            return -1;
         }
     };
 
     this.startSignin = function (callbackEnd) {
+
         me.endSignin = callbackEnd;
         me.openAuthWindow();
     };
@@ -165,12 +169,7 @@ BATTLESHIP.google = function (id, secret) {
                 alert("Error retrieving Achievements. Are you logged in to Google?");
             },
             success: function (data) {
-               // alert("Achivements downloaded");
                 callback(data);
-                //var allAchievements = JSON.parse(JSON.stringify(data));
-                /*for (var i in allAchievements.items) {
-                    alert(allAchievements.items[i].id + ' : ' + allAchievements.items[i].achievementState);
-                }*/
             }
         });
     };
@@ -188,11 +187,6 @@ BATTLESHIP.google = function (id, secret) {
             },
             success: function (data) {
                 callback(data);
-                //var allAchievements = JSON.parse(JSON.stringify(data));
-
-                /*for (var i in allAchievements.items) {
-                    alert(allAchievements.items[i].name);
-                }*/
             }
         });
     };
@@ -217,7 +211,6 @@ BATTLESHIP.google = function (id, secret) {
                 var response = JSON.parse(JSON.stringify(data));
                 var steps = response.currentSteps;
                 var newlyUnlocked = response.newlyUnlocked;
-                //alert(steps);
             }
         });
     };

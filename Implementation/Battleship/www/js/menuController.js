@@ -39,7 +39,6 @@ BATTLESHIP.menuController = {
         $('.evilFieldBtn').click(this.step4_evilField);
 
         $('.playButtonMain').click(this.playbuttonClicked);
-        //$('#googleLogin').click(this.loginOutAchievements);
         $('#achievements').click(this.achievements);
         $('#inApp').click(this.inApp);
         $('.X').click(this.closeOverlay);

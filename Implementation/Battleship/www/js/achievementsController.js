@@ -17,13 +17,12 @@ BATTLESHIP.achievementsConrollter = {
         console.log("onBeforePageShow");
         var google = BATTLESHIP.google;
         google.isLoggedIn(function (result){
-             if (result !== -1) {
+            if (result !== -1) {
                 google.getAllAchievements(function (data) {
                     createList(data,function (result1) {
                         if (result1===1){
                             google.getAchievementsForMe(function (data){
                                 var myAchievements = JSON.parse(JSON.stringify(data));
-                                //alert(JSON.stringify(myAchievements));
                                 for(var i in myAchievements.items){ //myAchievements.items[i].id
                                     var div = $("#"+myAchievements.items[i].id);
                                     if(myAchievements.items[i].achievementState =="UNLOCKED"){
@@ -42,21 +41,58 @@ BATTLESHIP.achievementsConrollter = {
                         }
                     })
                 });
-             }
-         });
-    },
-    /*loginOutAchievements: function () {
-        alert("loginOutClicked");
-        BATTLESHIP.google.isLoggedIn(function (result) {
-            if(result === -1){
-                BATTLESHIP.google.startSignin(function (result1) {
-                });
             }else{
-                BATTLESHIP.google.logOut()
-                BATTLESHIP.achievementsConrollter.dropAchievements()
+                var button = $("#buttonId");
+                button.html("LOGIN");
+                alert("Please login to Google if you want tu use Achievements.");
             }
         });
-    },*/
+
+    },
+
+    loginOutAchievements: function () {
+        var button = $("#buttonId");
+        var gl = BATTLESHIP.google;
+
+        gl.isLoggedIn(function (result) {
+            if(result===-1){
+                gl.startSignin(function (result1) {
+                    if (result1 !== -1) {
+                        button.html("LOGOUT");
+                        gl.getAllAchievements(function (data) {
+                            createList(data, function (result1) {
+                                if (result1 === 1) {
+                                    gl.getAchievementsForMe(function (data) {
+                                        var myAchievements = JSON.parse(JSON.stringify(data));
+                                        for (var i in myAchievements.items) { //myAchievements.items[i].id
+                                            var div = $("#" + myAchievements.items[i].id);
+                                            if (myAchievements.items[i].achievementState == "UNLOCKED") {
+                                                div.removeClass();
+                                                div.addClass("unlocked");
+                                            }
+                                            var stepsDiv = $("#Steps" + myAchievements.items[i].id);
+                                            var text = stepsDiv.text();
+                                            if (myAchievements.items[i].currentSteps) {
+                                                stepsDiv.text(myAchievements.items[i].currentSteps + text);
+                                            } else {
+                                                stepsDiv.text(0 + text);
+                                            }
+                                        }
+                                    });
+                                }
+                            })
+                        });
+                    }
+                });
+            }else{
+
+                BATTLESHIP.google.logOut()
+                BATTLESHIP.achievementsConrollter.dropAchievements()
+                button.html("LOGIN");
+            }
+        });
+    },
+
     var: createList = function (data,callback) {
         var achievementsList = $('#achievementList');
         var allAchievements = JSON.parse(JSON.stringify(data));
@@ -126,9 +162,10 @@ BATTLESHIP.achievementsConrollter = {
         return divListItem;
 
     },
+
     dropAchievements: function () {
         $('#achievementList').empty();
     }
 
 
-}
+};
