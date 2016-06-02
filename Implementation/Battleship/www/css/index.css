@@ -642,7 +642,6 @@ body {
 .unlocked{
     /*background-color: #E4E4E4;*/
     max-width: 95%;
-
     border-width: 3px;
     border-radius: 20px;
     border-style: solid;
@@ -667,9 +666,9 @@ body {
     letter-spacing: 0.06em;
 }
 .imageAch{
-    margin-left: 3%;
-    max-height: 20%;
     margin-top: 1%;
+    margin-left: 5%;
+    max-height: 30%;
     margin-bottom: 1%;
 }
 .achievementsList{
