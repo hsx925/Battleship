@@ -227,18 +227,10 @@ body {
     z-index: 2;
 }
 
-#googleLogin{
-    /* TODOO  Change image          */
-    background-image: url("../img/mainmenu_achievement_button.png");
-    background-size: contain;
-    width: 5.5%;
-    height: 9vh;
-    background-repeat: no-repeat;
-    margin-right: 5%;
-    position: absolute;
-    bottom: 6%;
-    left: 4%;
-    z-index: 6;
+#logoutAchievements{
+    /*background-size: contain;
+    background-color: grey;
+    height: 80px;*/
 }
 
 #achievements {
@@ -250,11 +242,8 @@ body {
     margin-right: 5%;
     position: absolute;
     bottom: 6%;
-    left: 10%;
+    left: 4%;
     z-index: 6;
-
-}
-#achievementsBack{
 
 }
 
@@ -267,7 +256,7 @@ body {
     position: absolute;
     z-index: 3;
     bottom: 6%;
-    left: 16%;
+    left: 10%;
 
 }
 

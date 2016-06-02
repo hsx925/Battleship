@@ -3,7 +3,6 @@ var inAppPurchaseDone = false; //checks if any item was bought in-app
 var id = 0;  //id of hosted game, should never be the same -> written into an array??
 
 
-
 BATTLESHIP.menuController = {
     initialize: function () {
         this.bindEvents();
@@ -40,7 +39,7 @@ BATTLESHIP.menuController = {
         $('.evilFieldBtn').click(this.step4_evilField);
 
         $('.playButtonMain').click(this.playbuttonClicked);
-        $('#googleLogin').click(this.googleLogin);
+        //$('#googleLogin').click(this.loginOutAchievements);
         $('#achievements').click(this.achievements);
         $('#inApp').click(this.inApp);
         $('.X').click(this.closeOverlay);
@@ -50,7 +49,6 @@ BATTLESHIP.menuController = {
     onPageBeforeShow: function () {
         console.log('main-menu pagebeforeshow');
         BATTLESHIP.gameManager = new BATTLESHIP.GameManager(); //create new game on loading menu page
-
         //sets mainmenu back to default
         $('.brownButton').removeClass('brownButton');
         $('.ui-block-b > .mainButton').addClass('greyButton').removeClass('blueButton');
@@ -104,15 +102,10 @@ BATTLESHIP.menuController = {
         }
 
     },
-    onPageShow: function () {
-        console.log('main-menu pageshow');
-    },
 
     beforeStart: function () {
         BATTLESHIP.gameManager = new BATTLESHIP.GameManager(); //create new game on loading menu page
-        BATTLESHIP.google = new Google(
-        // Create socket and listeners for network
-        BATTLESHIP.network = new BATTLESHIP.Network('http://kdeubler.at:8082');
+
 
 
         //TODO: show google login for authentification
@@ -621,21 +614,6 @@ BATTLESHIP.menuController = {
 
         location.href = "#achievementPage";
 
-    },
-    googleLogin: function () {
-        console.log('googleLogin');
-        
-        BATTLESHIP.google.isLoggedIn(function (result) {
-            if(result === -1){
-                BATTLESHIP.google.startSignin(function (result1) {
-                });
-            }
-        });
-    },
-
-    achievementsBack: function(){
-    console.log("achievementsBack");
-    location.href="#main-menu";
     },
 
     closeOverlay: function () {

@@ -16,12 +16,11 @@ BATTLESHIP.achievementsConrollter = {
     onPageBeforeShow:function () {
         console.log("onBeforePageShow");
         var google = BATTLESHIP.google;
-
-       google.isLoggedIn(function (result){
-            if (result !== -1) {
+        google.isLoggedIn(function (result){
+             if (result !== -1) {
                 google.getAllAchievements(function (data) {
-                    createList(data,function (result) {
-                        if (result===1){
+                    createList(data,function (result1) {
+                        if (result1===1){
                             google.getAchievementsForMe(function (data){
                                 var myAchievements = JSON.parse(JSON.stringify(data));
                                 //alert(JSON.stringify(myAchievements));
@@ -43,9 +42,21 @@ BATTLESHIP.achievementsConrollter = {
                         }
                     })
                 });
+             }
+         });
+    },
+    /*loginOutAchievements: function () {
+        alert("loginOutClicked");
+        BATTLESHIP.google.isLoggedIn(function (result) {
+            if(result === -1){
+                BATTLESHIP.google.startSignin(function (result1) {
+                });
+            }else{
+                BATTLESHIP.google.logOut()
+                BATTLESHIP.achievementsConrollter.dropAchievements()
             }
         });
-    },
+    },*/
     var: createList = function (data,callback) {
         var achievementsList = $('#achievementList');
         var allAchievements = JSON.parse(JSON.stringify(data));
@@ -114,6 +125,10 @@ BATTLESHIP.achievementsConrollter = {
 
         return divListItem;
 
+    },
+    dropAchievements: function () {
+        $('#achievementList').empty();
     }
+
 
 }
