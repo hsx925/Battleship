@@ -6,106 +6,106 @@
 // ID: 708702485042-s11v7gp2s8uhbs7fksveljn6ijspmknc.apps.googleusercontent.com
 // Secret: 5byGeQmZ9cOa4NuL_4lQmisQ
 
-var Google = function (id, secret) {
-    var clientId = id;
-    var clientSecret = secret;
-    var accessToken = {};
-    var authWindow = null;
-    var endSignin = {};
+var BATTLESHIP = BATTLESHIP || {};
 
-    var openAuthWindow = function () {
+BATTLESHIP.google = function (id, secret) {
+    var me  = this;
+    this.clientId = id;
+    this.clientSecret = secret;
+    this.accessToken = {};
+    this.authWindow = null;
+    this.endSignin = {};
+    this.inAppBrowser = window;
+
+    this.openAuthWindow = function () {
         var urlAuth = "https://accounts.google.com/o/oauth2/auth?"
             + "scope=https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/games&"
             + "redirect_uri=http://localhost&"
             + "response_type=code&"
-            + "client_id=" + clientId;
+            + "client_id=" + me.clientId;
 
-
-        // Open InAppBrowser to get authorization code
-        authWindow = window.open(urlAuth, '_blank', 'location=yes,toolbar=no');
-        authWindow.addEventListener('loadstart', parseRedirectUrl);
+        me.authWindow = me.inAppBrowser.open(urlAuth, '_blank', 'location=yes,toolbar=no');
+        me.authWindow.addEventListener('loadstart', me.parseRedirectUrl);
 
     };
 
-    var parseRedirectUrl = function (e) {
+    this.parseRedirectUrl = function (e) {
         var url = e.url;
         var thereIsCode = url.indexOf("code=");
         var thereIsError = url.indexOf("error=");
 
         if (thereIsCode != -1) {
-            authWindow.close();
+            me.authWindow.close();
             var toMatch = "code=([^&#]*)";
             var regex = new RegExp(toMatch);
             var result = regex.exec(url);
             if (result != null) {
                 var code = result[1];
-                exchangeCodeForTokens(code);
+                me.exchangeCodeForTokens(code);
             }
         } else if (thereIsError != -1) {
-            authWindow.close();
+            me.authWindow.close();
             localStorage["accessToken"] = null;
-            endSignin = -1;
+            me.endSignin = -1;
             alert("Login Error")
         }
     };
 
-    var exchangeCodeForTokens = function (code) {
+    this.exchangeCodeForTokens = function (code) {
         var dataQuery = "code=" + code + "&"
-            + "client_id=" + clientId + "&"
-            + "client_secret=" + clientSecret + "&"
+            + "client_id=" + me.clientId + "&"
+            + "client_secret=" + me.clientSecret + "&"
             + "redirect_uri=http://localhost&"
             + "grant_type=authorization_code";
-        requestTokens("https://accounts.google.com/o/oauth2/token", dataQuery, callBackTokens);
+        me.requestTokens("https://accounts.google.com/o/oauth2/token", dataQuery, me.callBackTokens);
     };
 
-    var callBackTokens = function (resp) {
+    this.callBackTokens = function (resp) {
         var tokensResp = eval('(' + resp + ')');
         if (tokensResp.access_token) {
             localStorage["accessToken"] = tokensResp.access_token;
             localStorage["refreshToken"] = tokensResp.refresh_token;
             localStorage["refreshTime"] = (new Date()).getTime() + 1000 * tokensResp.expires_in;
 
-            accessToken = tokensResp.access_token;
+            me.accessToken = tokensResp.access_token;
             //alert("Login Successful");
-            endSignin = accessToken;
-            //return 1;
+            me.endSignin = accessToken;
         } else {
-            accessToken = null;
+            me.accessToken = null;
             localStorage["accessToken"] = null;
             alert("Login Error");
-            endSignin = -1;
-            //return -1;
+            me.endSignin = -1;
         }
     };
 
-    var getAccessToken = function (refreshToken) {
-        var dataQuery = "client_id=" + clientId + "&"
-            + "client_secret=" + clientSecret + "&"
+    this.getAccessToken = function (refreshToken) {
+        var dataQuery = "client_id=" + me.clientId + "&"
+            + "client_secret=" + me.clientSecret + "&"
             + "refresh_token=" + refreshToken + "&"
             + "grant_type=refresh_token";
 
-        requestTokens("https://accounts.google.com/o/oauth2/token", dataQuery, callBackRefreshToken);
+        me.requestTokens("https://accounts.google.com/o/oauth2/token", dataQuery, me.callBackRefreshToken);
     };
 
-    var callBackRefreshToken = function (resp) {
+    this.callBackRefreshToken = function (resp) {
         var tokensResp = eval('(' + resp + ')');
 
         if (tokensResp.access_token) {
             localStorage["accessToken"] = tokensResp.access_token;
             localStorage["refreshTime"] = (new Date()).getTime() + 1000 * tokensResp.expires_in;
 
-            accessToken = tokensResp.access_token;
-            alert("Login successful");
-            endSignin = accessToken;
+            me.accessToken = tokensResp.access_token;
+            //alert("Login successful");
+            me.endSignin = me.accessToken;
         } else {
-            accessToken = null;
+            me.accessToken = null;
             localStorage["accessToken"] = null;
             alert("Login Error");
-            endSignin = -1;
+            me.endSignin = -1;
         }
     };
 
-    var requestTokens = function (url, data, callback) {
+    this.requestTokens = function (url, data, callback) {
         var xmlreq = new XMLHttpRequest();
 
         xmlreq.onreadystatechange = function () {
@@ -118,45 +118,43 @@ var Google = function (id, secret) {
         xmlreq.send(data);
     };
 
-    var isLoggedIn = function (callback) {
-        endSignin = callback;
-        accessToken = localStorage["accessToken"];
+    this.isLoggedIn = function (callback) {
+        me.endSignin = callback;
+        me.accessToken = localStorage["accessToken"];
 
-        if (accessToken == "null") {
-            accessToken = null;
+        if (me.accessToken == "null") {
+            me.accessToken = null;
         }
-
-        if (accessToken !== null && typeof(accessToken) !== 'undefined') {
+        if (me.accessToken !== null && typeof(me.accessToken) !== 'undefined') {
             var refreshTime = localStorage["refreshTime"];
             var refreshToken = localStorage["refreshToken"];
             var currentTime = (new Date()).getTime();
 
             if (currentTime < refreshTime) {
-                //alert("Logged in");
-                endSignin(accessToken);
+                me.endSignin(me.accessToken);
             } else {
-                getAccessToken(refreshToken);
+                me.getAccessToken(refreshToken);
             }
         } else {
-            //alert("Not logged in yet");
-            endSignin(-1);
+            alert("Not logged in yet");
+            me.endSignin(-1);
         }
     };
 
-    var startSignin = function (callbackEnd) {
-        endSignin = callbackEnd;
-        openAuthWindow();
+    this.startSignin = function (callbackEnd) {
+        me.endSignin = callbackEnd;
+        me.openAuthWindow();
     };
 
-    var logOut = function () {
-        accessToken = null;
+    this.logOut = function () {
+        me.accessToken = null;
         localStorage["accessToken"] = null;
         localStorage["refreshToken"] = null;
         alert("Logged out");
     };
 
     // https://developers.google.com/games/services/web/api/achievements/list#http-request
-    var getAchievementsForMe = function (callback) {
+    this.getAchievementsForMe = function (callback) {
         var term = null;
         $.ajax({
             url: 'https://www.googleapis.com/games/v1/players/me/achievements?alt=json&access_token=' + localStorage["accessToken"],
@@ -178,7 +176,7 @@ var Google = function (id, secret) {
     };
 
     // https://developers.google.com/games/services/web/api/achievementDefinitions/list
-    var getAllAchievements = function (callback) {
+    this.getAllAchievements = function (callback) {
         var term = null;
         $.ajax({
             url: 'https://www.googleapis.com/games/v1/achievements?alt=json&access_token=' + localStorage["accessToken"],
@@ -190,7 +188,7 @@ var Google = function (id, secret) {
             },
             success: function (data) {
                 callback(data);
-                var allAchievements = JSON.parse(JSON.stringify(data));
+                //var allAchievements = JSON.parse(JSON.stringify(data));
 
                 /*for (var i in allAchievements.items) {
                     alert(allAchievements.items[i].name);
@@ -204,7 +202,7 @@ var Google = function (id, secret) {
     // Fleet Admiral - CgkIsvTWj9AUEAIQAw - Play 50 Games
     // Captain Jack Sparrow - CgkIsvTWj9AUEAIQBA - Lose 20 Games
     // Multiplayer Master - CgkIsvTWj9AUEAIQBg - Win 30 Multiplayer Games
-    var incrementAchievement = function (achievementId) {
+    this.incrementAchievement = function (achievementId) {
         //var achievementId = 'CgkIsvTWj9AUEAIQBg';
         var term = null;
         $.ajax({
@@ -228,7 +226,7 @@ var Google = function (id, secret) {
     // https://play.google.com/apps/publish/?dev_acc=17036200129010867503#AchievementsPlace:gt=708702485042
     // Beginner - CgkIsvTWj9AUEAIQAQ - Finish first game
     // Multiplayer - CgkIsvTWj9AUEAIQAg - Finish first multiplayer game
-    var unlockAchievement = function (achievementId) {
+    this.unlockAchievement = function (achievementId) {
         //var achievementId = 'CgkIsvTWj9AUEAIQAQ';
         var term = null;
         $.ajax({
@@ -246,46 +244,51 @@ var Google = function (id, secret) {
             }
         });
     };
-    var onGameStart = function (multiplayer) {
+
+    this.onGameStart = function (multiplayer) {
         //multiplayer true for multiplayer false for singleplayer
         if(multiplayer){
-            unlockAchievement("CgkIsvTWj9AUEAIQAg");
+            me.unlockAchievement("CgkIsvTWj9AUEAIQAg");
         }else{
-            unlockAchievement("CgkIsvTWj9AUEAIQAQ");
+            me.unlockAchievement("CgkIsvTWj9AUEAIQAQ");
         }
-        incrementAchievement("CgkIsvTWj9AUEAIQAw");
+        me.incrementAchievement("CgkIsvTWj9AUEAIQAw");
 
     };
-    var onGameGameFinished = function (multiplayer,win) {
+    this.onGameGameFinished = function (multiplayer,win) {
         // win true for win false for lose
         //multiplayer true for multiplayer false for singleplayer
         if(multiplayer){
             if(win){ // multiplayer game won
-                incrementAchievement("CgkIsvTWj9AUEAIQBg");
+                me.incrementAchievement("CgkIsvTWj9AUEAIQBg");
             }else{ // multiplayer lose
-                incrementAchievement("CgkIsvTWj9AUEAIQBA");
+                me.incrementAchievement("CgkIsvTWj9AUEAIQBA");
             }
         }else{
             if(!win){ // singleplayer game won
-                incrementAchievement("CgkIsvTWj9AUEAIQBA");
+                me.incrementAchievement("CgkIsvTWj9AUEAIQBA");
             }
         }
 
-
-
     };
-
-
-
+    this.initialLogin = function () {
+        me.isLoggedIn(function (result) {
+            if(result === -1){
+                me.startSignin(function (result1) {
+                });
+            }
+        });
+    };
     return {
-        startSignin: startSignin,
-        isLoggedIn: isLoggedIn,
-        logOut: logOut,
-        getAchievementsForMe: getAchievementsForMe,
-        getAllAchievements: getAllAchievements,
-        incrementAchievement: incrementAchievement,
-        unlockAchievement: unlockAchievement,
-        onGameStart:onGameStart,
-        onGameFinished:onGameGameFinished
+        startSignin: this.startSignin,
+        isLoggedIn: this.isLoggedIn,
+        logOut: this.logOut,
+        getAchievementsForMe: this.getAchievementsForMe,
+        getAllAchievements: this.getAllAchievements,
+        incrementAchievement: this.incrementAchievement,
+        unlockAchievement: this.unlockAchievement,
+        onGameStart:this.onGameStart,
+        onGameFinished:this.onGameGameFinished,
+        initialLogin:this.initialLogin
     };
 };
