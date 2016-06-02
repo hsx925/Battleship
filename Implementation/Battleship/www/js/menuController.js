@@ -102,10 +102,16 @@ BATTLESHIP.menuController = {
 
     },
 
+    onPageShow: function () {
+        console.log('main-menu pageshow');
+
+    },
+
     beforeStart: function () {
         BATTLESHIP.gameManager = new BATTLESHIP.GameManager(); //create new game on loading menu page
 
-
+        // Create socket and listeners for network
+        BATTLESHIP.network = new BATTLESHIP.Network('http://kdeubler.at:8082');
 
         //TODO: show google login for authentification
 
