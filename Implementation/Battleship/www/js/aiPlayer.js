@@ -122,12 +122,12 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     };
 
     this.fireFieldEnemy=function(){
-        this.fireActive=true;
         var field = this.battlefieldEnemy.selectedField;
         if(!field){
             return;
         }
-        var fireResult = this.onFieldFireCallback(this);
+        this.fireActive=true;
+        this.onFieldFireCallback(this);
     };
 
     this.fireFieldEnemyResult=function (fireResult) {

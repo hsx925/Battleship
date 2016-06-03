@@ -91,11 +91,11 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
     };
 
     this.fireFieldEnemy=function(){
-        this.fireActive=true;
         var field = this.battlefieldEnemy.selectedField;
         if(!field){
             return;
         }
+        this.fireActive=true;
         this.onFieldFireCallback(this);
     };
 
