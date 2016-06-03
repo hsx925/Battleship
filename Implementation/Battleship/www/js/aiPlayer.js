@@ -10,6 +10,7 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     this.battlefieldEnemy = new BATTLESHIP.Battlefield(battlefieldSize, [], "ai-enemy");
     this.difficulty = difficulty;
     this.active = false;
+    this.fireActive = false;
     this.onReadyForBattle=onReadyForBattleCallback;
     this.onFieldSelectedCallback=onFieldSelectedCallback;
     this.onFieldFireCallback=onFieldFireCallback;
@@ -109,6 +110,9 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     };
 
     this.selectFieldEnemy=function (position) {
+        if(!this.active || this.fireActive){
+            return false;
+        }
         this.onFieldSelectedCallback(this, position);
         return this.battlefieldEnemy.selectField(position);
     };
@@ -118,6 +122,7 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
     };
 
     this.fireFieldEnemy=function(){
+        this.fireActive=true;
         var field = this.battlefieldEnemy.selectedField;
         if(!field){
             return;
@@ -130,7 +135,9 @@ BATTLESHIP.AiPlayer = function (battlefieldSize, fleet, difficulty, onReadyForBa
         if(!field){
             return false;
         }
-        return this.battlefieldEnemy.fireWithResult(fireResult);
+        var result = this.battlefieldEnemy.fireWithResult(fireResult);
+        this.fireActive=false;
+        return result;
     };
 
     this.fireFieldHuman=function () {

@@ -4,6 +4,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
     this.battlefield = new BATTLESHIP.Battlefield(battlefieldSize, fleet, "human");
     this.battlefieldEnemy = new BATTLESHIP.Battlefield(battlefieldSize, [], "human-enemy");
     this.active = false;
+    this.fireActive=false;
     this.onReadyForBattle=onReadyForBattleCallback;
     this.onFieldSelectedCallback=onFieldSelectedCallback;
     this.onFieldFireCallback=onFieldFireCallback;
@@ -61,7 +62,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
     };
 
     this.selectFieldEnemy=function (position) {
-        if(!this.active){
+        if(!this.active || this.fireActive){
             return false;
         }
         this.onFieldSelectedCallback(this, position);
@@ -90,6 +91,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
     };
 
     this.fireFieldEnemy=function(){
+        this.fireActive=true;
         var field = this.battlefieldEnemy.selectedField;
         if(!field){
             return;
@@ -112,6 +114,7 @@ BATTLESHIP.HumanPlayer = function (battlefieldSize, fleet, onReadyForBattleCallb
                 }
             }
         }
+        this.fireActive=false;
     };
     
     this.fireFieldHuman=function () {
