@@ -151,6 +151,7 @@ BATTLESHIP.google = function (id, secret) {
     };
 
     this.logOut = function () {
+        window.open('https://accounts.google.com/logout?hl=en', '_blank', 'hidden=yes');
         me.accessToken = null;
         localStorage["accessToken"] = null;
         localStorage["refreshToken"] = null;
