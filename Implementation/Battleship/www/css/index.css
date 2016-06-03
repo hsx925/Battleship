@@ -359,6 +359,16 @@ body {
     padding-right: 5%;
 }
 
+.battleContainerHuman .battlefieldContainer {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.battleContainerEnemy .battlefieldContainer {
+    padding-left: 5% !important;
+    padding-right: 15% !important;
+}
+
 .battlefieldHeadline {
     color: #003062;
     font-size: 15pt;
@@ -372,8 +382,8 @@ body {
     flex-direction: column;
     margin: 0px;
     padding: 0px;
-    width: 55vh;
-    height: 55vh;
+    width: 53vh;
+    height: 53vh;
     border: 1px solid #000000;
     z-index: 5;
 }
