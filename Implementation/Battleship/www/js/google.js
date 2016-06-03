@@ -246,8 +246,6 @@ BATTLESHIP.google = function (id, secret) {
         }else{
             me.unlockAchievement("CgkIsvTWj9AUEAIQAQ");
         }
-        me.incrementAchievement("CgkIsvTWj9AUEAIQAw");
-
     };
     this.onGameGameFinished = function (multiplayer,win) {
         // win true for win false for lose
@@ -263,15 +261,34 @@ BATTLESHIP.google = function (id, secret) {
                 me.incrementAchievement("CgkIsvTWj9AUEAIQBA");
             }
         }
+        me.incrementAchievement("CgkIsvTWj9AUEAIQAw");
 
     };
     this.initialLogin = function () {
-        me.isLoggedIn(function (result) {
-            if(result === -1){
-                me.startSignin(function (result1) {
+        if(localStorage["wantsToUseGoogle"]==undefined){
+            if(confirm("Do you want so sign in to Google to be able to use Achievements?") == true ){
+                localStorage["wantsToUseGoogle"]=true;
+
+                me.isLoggedIn(function (result) {
+                    if(result === -1){
+                        me.startSignin(function (result1) {
+                        });
+                    }
                 });
+
+            }else{
+                localStorage["wantsToUseGoogle"]=false;
             }
-        });
+        } else if(localStorage["wantsToUseGoogle"]==true){
+            me.isLoggedIn(function (result) {
+                if(result === -1){
+                    me.startSignin(function (result1) {
+                    });
+                }else{
+                    //hidden login
+                }
+            });
+        }
     };
     return {
         startSignin: this.startSignin,

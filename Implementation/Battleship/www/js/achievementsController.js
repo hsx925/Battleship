@@ -59,6 +59,7 @@ BATTLESHIP.achievementsConrollter = {
     loginOutAchievements: function () {
         var button = $("#buttonId");
         var gl = BATTLESHIP.google;
+        localStorage["wantsToUseGoogle"] = true;
         gl.isLoggedIn(function (result) {
             if(result===-1){
                 gl.startSignin(function (result1) {
@@ -90,7 +91,6 @@ BATTLESHIP.achievementsConrollter = {
                     }
                 });
             }else{
-
                 BATTLESHIP.google.logOut()
                 BATTLESHIP.achievementsConrollter.dropAchievements()
                 button.html("LOGIN");
