@@ -17,6 +17,7 @@ BATTLESHIP.achievementsConrollter = {
     onPageBeforeShow:function () {
         console.log("onBeforePageShow");
         var google = BATTLESHIP.google;
+        $('#achievementList').empty();
         google.isLoggedIn(function (result){
             if (result !== -1) {
                 google.getAllAchievements(function (data) {
@@ -58,7 +59,6 @@ BATTLESHIP.achievementsConrollter = {
     loginOutAchievements: function () {
         var button = $("#buttonId");
         var gl = BATTLESHIP.google;
-
         gl.isLoggedIn(function (result) {
             if(result===-1){
                 gl.startSignin(function (result1) {
