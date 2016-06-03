@@ -258,7 +258,7 @@ BATTLESHIP.google = function (id, secret) {
                 me.incrementAchievement("CgkIsvTWj9AUEAIQBA");
             }
         }else{
-            if(!win){ // singleplayer game won
+            if(!win){ // singleplayer game lost
                 me.incrementAchievement("CgkIsvTWj9AUEAIQBA");
             }
         }

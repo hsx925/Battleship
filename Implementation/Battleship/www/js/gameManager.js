@@ -67,6 +67,9 @@ BATTLESHIP.GameManager = function () {
         this.battleStarted = true;
 
         if (this.gameType === BATTLESHIP.GameType.SINGLEPLAYER) {
+            // unlock achievement
+            BATTLESHIP.google.onGameStart(false);
+
             if (Math.random() < .5) {
                 this.enemyPlayer.endTurn(); //because of set text
                 this.humanPlayer.startTurn();
@@ -75,6 +78,9 @@ BATTLESHIP.GameManager = function () {
                 this.enemyPlayer.startTurn();
             }
         } else if (this.gameType === BATTLESHIP.GameType.NETWORKPLAYER) {
+            // unlock achievement
+            BATTLESHIP.google.onGameStart(true);
+
             if (this.networkType === BATTLESHIP.NetworkType.HOST) {
                 this.humanPlayer.startTurn();
             } else {
@@ -143,15 +149,21 @@ BATTLESHIP.GameManager = function () {
     this.onLoose = function (player) {
         if (this.gameType === BATTLESHIP.GameType.SINGLEPLAYER) {
             if (player === this.humanPlayer) {
+                BATTLESHIP.google.onGameFinished(false, false);
+
                 this.humanPlayer.endTurn();
                 this.humanPlayer.loose();
                 this.enemyPlayer.win();
             } else if (player === this.enemyPlayer) {
+                BATTLESHIP.google.onGameFinished(false, true);
+
                 this.enemyPlayer.endTurn();
                 this.enemyPlayer.loose();
                 this.humanPlayer.win();
             }
         } else if (this.gameType === BATTLESHIP.GameType.NETWORKPLAYER) {
+            BATTLESHIP.google.onGameFinished(true, false);
+
             this.humanPlayer.endTurn();
             this.humanPlayer.loose();
             BATTLESHIP.network.playerGameEnded();
@@ -215,6 +227,8 @@ BATTLESHIP.GameManager = function () {
     }.bind(this);
 
     this.otherPlayerGameEndedCallback = function () {
+        BATTLESHIP.google.onGameFinished(true, true);
+
         this.humanPlayer.win();
     }.bind(this);
 
