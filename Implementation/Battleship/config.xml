@@ -24,8 +24,8 @@
         <icon src="icons/android/mdpi.png" density="mdpi" />
         <icon src="icons/android/hdpi.png" density="hdpi" />
         <icon src="icons/android/xhdpi.png" density="xhdpi" />
-        <icon src="icons/android/xhdpi.png" density="xxhdpi" />
-        <icon src="icons/android/xhdpi.png" density="xxxhdpi" />
+        <icon src="icons/android/xxhdpi.png" density="xxhdpi" />
+        <icon src="icons/android/xxxhdpi.png" density="xxxhdpi" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
